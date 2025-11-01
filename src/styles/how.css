@@ -1,0 +1,41 @@
+.how {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: white; /* soft beige like your theme */
+  font-family: 'Quicksand', sans-serif;
+}
+
+.how h2 {
+  font-family: 'Vibur', cursive;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #1b0000;
+}
+
+.how-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 4rem;
+  flex-wrap: wrap;
+}
+
+.how-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 180px;
+}
+
+.how-icon {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 1rem;
+}
+
+.how-item p {
+  font-size: 1.1rem;
+  color: #1b0000;
+  font-weight: 600;
+  line-height: 1.4;
+}

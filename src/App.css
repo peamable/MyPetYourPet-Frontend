@@ -1,0 +1,300 @@
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+:root {
+  --bg: #f5e8da;          /* warm sand */
+  --ink: #1e2b23;         /* deep green */
+  --muted: #6d6d6d;
+  --accent: #2d6e75;      /* teal for outline btn */
+  --primary: #ff8b3d;     /* orange CTA */
+  --card: #fffaf4;
+  --radius: 14px;
+}
+
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  font-family: Inter, system-ui, Arial, sans-serif;
+  color: var(--ink);
+}
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;     /* centers horizontally */
+  padding-inline: 24px;    /* comfy side padding on small screens */
+  width: 100%;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f5e8da;
+}
+
+/* ---------------- HEADER ---------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12%;
+  background: #fff;
+  border-bottom: 1px solid #ece6dd;
+  width: 100vw;
+}
+/* Brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+.brand-link { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+.brand-logo { width: 22px; height: 22px; display: block;}
+.brand-name { font-weight: 800; color: #1b0000; }
+
+.brand-mark {
+  font-size: 22px;
+}
+
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav a {
+  color: #222;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.btn {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-outline {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(255, 139, 61, .25);
+}
+
+/* ---------------- HERO ---------------- */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 80px 8%;
+  background-color: var(--bg);
+  width: 100vw;   /* full width */
+  box-sizing: border-box;
+}
+
+.hero-left {
+  flex: 1;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.hero-right {
+  flex: 1;
+  text-align: center;
+}
+
+.hero-right img {
+  max-width: 420px;
+  width: 100%;
+  border-radius: 16px;
+}
+
+/* ---------------- HOW IT WORKS ---------------- */
+.how {
+  background: #fff;
+  text-align: center;
+  padding: 60px 8%;
+  width: 100vw;
+  box-sizing: border-box;
+}
+
+.how h2 {
+  margin-bottom: 20px;
+}
+
+.how-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.how-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+  text-align: center;
+}
+
+.how-emoji {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+/* ---------------- WHY CHOOSE US ---------------- */
+.why {
+  background: var(--bg);
+  padding: 60px 8%;
+  width: 100vw;
+  box-sizing: border-box;
+}
+
+.why h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.why-list {
+  list-style: disc;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-left: 20px;
+  text-align: left;
+}
+
+/* ---------------- CTA ---------------- */
+.cta {
+  background: #fff;
+  border-top: 1px solid #ece6dd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 8%;
+  width: 100vw;
+  box-sizing: border-box;
+  margin-top: auto;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 860px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+  .hero-left {
+    margin-bottom: 20px;
+  }
+  .how-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  .cta {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+}
+
+/* Container */
+/* General container style (optional baseline) */
+.container {
+  display: flex;
+  padding: 10px;
+  gap: 10px;               /* space between children */
+}
+/* Horizontal container: children align in a row */
+
+.horizontalContainer{
+  display: flex;
+  width: 100%;
+  flex-direction: row;     /* items side-by-side */
+  align-items: center;     /* vertically align items */
+  justify-content: centewr ; /* keep items in the middle */
+}
+
+/* Vertical container: children stack top-to-bottom */
+.verticalContainer {
+  display: flex;
+  flex-direction: column;  /* items stacked vertically */
+  align-items: flex-start; /* align to left by default */
+  justify-content: flex-start;
+}
+
+/* Optional: make them responsive */
+@media (max-width: 768px) {
+  .horizontal {
+    flex-direction: column; /* stack on small screens */
+    align-items: stretch;
+  }
+}
+
+/* Row */
+.header-row {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+}
+
+
+/* Desktop nav (hidden on mobile) */
+.desktop-nav { display: none; gap: 10px; align-items: center; }
+.link {
+  text-decoration: none; color: #333; font-weight: 700;
+  padding: 6px 10px; border: 1px solid #ddd; border-radius: 8px; background: #fff;
+}
+.link.active { background: #f1741e; color: #fff; border-color: #f1741e; }
+.btn { font-weight: 800; border-radius: 10px; padding: 6px 12px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+.btn-outline { background: transparent; border: 2px solid #45818e; color: #45818e; }
+
+/* Hamburger */
+.hamburger { background: none; border: 0; padding: 6px; cursor: pointer; display: inline-flex; }
+
+/* Mobile nav */
+.mobile-nav {
+  display: none; flex-direction: column; gap: 0;
+  background: #fff; border-top: 1px solid rgba(0,0,0,.08);
+  box-shadow: 0 12px 30px rgba(0,0,0,.08);
+}
+.mobile-nav.open { display: grid; }
+.mobile-nav .link, .mobile-nav .btn {
+  border: 0; border-bottom: 1px solid #f2f2f2; border-radius: 0;
+  padding: 14px 16px; background: transparent;
+}
+.mobile-nav .link.active { background: #fff6ee; color: #f1741e; }
+.menu-sep { border: 0; border-top: 1px solid #f0f0f0; margin: 4px 0; }
+
+/* ≥768px: show desktop nav, hide mobile */
+@media (min-width: 768px) {
+  .desktop-nav { display: flex; }
+  .hamburger, .mobile-nav { display: none !important; }
+}
