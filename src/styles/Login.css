@@ -1,0 +1,132 @@
+:root {
+  --bg: #f5e8da;
+  --primary: #ff8b3d;
+  --accent: #2d6e75;
+  --ink: #1e2b23;
+}
+
+/* Whole page layout */
+.login-page {
+  background-color: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Section that wraps the hero + form */
+.login-hero {
+  text-align: center;
+  margin-top: 50px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.login-hero h1 {
+  font-size: 2rem;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.login-hero ul {
+  list-style-type: disc;
+  text-align: left;
+  margin: 0 auto 20px;
+  padding-left: 40px;
+  max-width: 380px;
+  color: var(--ink);
+}
+
+/* Card styling */
+.login-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 30px 40px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.login-card h2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.welcome-text {
+  color: var(--accent);
+  font-size: 1rem;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-form label {
+  text-align: left;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.login-form input {
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  background-color: #f5f5f5;
+  font-size: 0.95rem;
+}
+
+.login-form input:focus {
+  border-color: var(--accent);
+}
+
+/* Forgot password link */
+.forgot-link {
+  text-align: right;
+  color: var(--accent);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+/* Sign in button */
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.btn-primary:hover {
+  background: #ff7a1c;
+}
+
+/* Create account */
+.create-account {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+
+.create-account a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .login-card {
+    width: 90%;
+    padding: 25px;
+  }
+}
