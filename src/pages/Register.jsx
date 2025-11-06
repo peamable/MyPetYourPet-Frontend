@@ -15,10 +15,12 @@ export default function Register() {
     email: "",
     phone: "",
     idType: "",
-    idNumber: "",
-    address: "",
+    governmentId: "",
+    location: "",
+    gender:"",
     password: "",
     confirmPassword: "",
+    age:0,
   });
 
   const [error, setError] = useState("");
@@ -40,16 +42,20 @@ export default function Register() {
       const firebaseUID = user.uid;
       setFormData(prev => ({ ...prev, uid: firebaseUID }));
 
-      //payload will hold the data we want to send
+     
+       //payload will hold the data we want to send
       const payload = {
-      uid: firebaseUID,             // from Firebase
+      //uid: firebaseUID,             // from Firebase
       fullName: formData.fullName,
       role: formData.role,
       email: formData.email,        // could also use user.email
-      phone: formData.phone,
-      idType: formData.idType,
-      idNumber: formData.idNumber,
-      address: formData.address,
+      
+      profilePic: formData.idType,
+      governmentId: formData.idNumber,
+      location: formData.address,
+      gender: formData.address,
+      age:formData.age,
+ 
     
       };
 
@@ -60,11 +66,12 @@ export default function Register() {
 
       if (formData.role == "owner")
       {
-        apiURL = "/api/PetOwnerUser/createAccount"
+        //apiURL = "/api/PetOwnerUser/createAccount"
+         apiURL = "/api/register/petOwner"
       }
       else if (formData.role == "seeker")
       {
-        apiURL = "/api/PetSeekerUser/createAccount"
+        apiURL = "/api/register/petSeeker"
       }
       alert(apiURL)
     
