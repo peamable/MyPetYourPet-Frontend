@@ -9,6 +9,20 @@ const axiosClient = Axios.create({
 //Add authenticator token
 axiosClient.interceptors.request.use(
     (config) => {
+      const username = "user";
+  const password = "3abd3ee0-75b8-4970-8dee-bb34d18c1b18"; // same one that worked
+
+  const basicToken = btoa(`${username}:${password}`);
+  config.headers.Authorization = `Basic ${basicToken}`;
+
+  //not necessary unless we use maybe JWT token later
+//   if (!config.headers) {
+//   config.headers = {};
+// }
+
+// if (!config.headers.Authorization) {
+//   config.headers.Authorization = `Basic ${basicToken}`;
+// }
         return config;
     },
     (error) => Promise.reject(error)
