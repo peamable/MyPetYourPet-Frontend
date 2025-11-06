@@ -1,0 +1,145 @@
+.owner-listings-page {
+  background: #f5e8da;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+/* Layout */
+.owner-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 30px;
+  padding: 30px 60px;
+}
+
+.owner-sidebar {
+  background: #f3e3cb;
+  padding: 20px;
+  border-radius: 16px;
+  height: fit-content;
+}
+
+.owner-card {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.owner-avatar {
+  width: 70px;
+  height: 70px;
+  background: #d5c1ad;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+}
+
+.owner-buttons button {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.sidebar-menu button {
+  display: block;
+  padding: 12px;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.menu-active {
+  background: white !important;
+  border-left: 4px solid #ff8b3d;
+}
+
+/* Pet Cards */
+.pet-listings {
+  display: grid;
+  gap: 24px;
+}
+
+.pet-card {
+  display: flex;
+  gap: 20px;
+  background: #fff;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.pet-card img {
+  width: 240px;
+  border-radius: 12px;
+}
+
+.pet-info h2 {
+  margin-bottom: 4px;
+}
+
+.status-tag {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.status-tag.active {
+  background: #d4ffd9;
+  color: #298f44;
+}
+
+.status-tag.hidden {
+  background: #f0e6d6;
+  color: #6f5b45;
+}
+
+.pet-breed {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.pet-desc {
+  color: #444;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.tags .tag {
+  background: #eee;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  display: inline-block;
+}
+
+.pet-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-primary {
+  background: #ff8b3d;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-outline,
+.btn-secondary {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: none;
+  border: 2px solid #2d6e75;
+  color: #2d6e75;
+  cursor: pointer;
+}
