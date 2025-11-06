@@ -7,6 +7,8 @@ import Register from "./pages/Register";
 import AboutUs from "./pages/AboutUs"
 import HowItWorks from "./pages/HowItWorks"
 import Header from "./components/Header";
+import OwnerDashboard from "./pages/OwnerDashboard";
+import SeekerDashboard from "./pages/SeekerDashboard";
 
 
 
@@ -38,11 +40,12 @@ export default function App() {
         {/* How it works route */}
         <Route path="/howItWorks" element={<HowItWorks />} />
 
-      {/*Here we add all the routes that we create for all the pages*/}
-  
+     
+        {/*Role specific routes*/}
+        <Route path="/owner/dashboard" element={<OwnerDashboard />} />
+        <Route path="/seeker/dashboard" element={<SeekerDashboard />} />
 
-
-
+     {/*Here we add all the routes that we create for all the pages*/}
       </Routes>
       
   );
