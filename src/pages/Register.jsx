@@ -140,10 +140,20 @@ export default function Register() {
             </p>
           </div>
 
-          <label>Address</label>
+          <label>location</label>
           <input name="address" onChange={handleChange} />
 
-          <label>Password</label>
+          <label>age</label>
+          <input type="number" name="age" onChange={handleChange}/>
+
+          <label>Gender</label>
+          <select name="gender" onChange={handleChange}>
+            <option value="">Select</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+
+          <label>Password</label> 
           <input type="password" name="password" onChange={handleChange} required />
 
           <label>Confirm Password</label>
