@@ -64,6 +64,7 @@ const Home = () => {
         <div className="cta-buttons">
           <Link to="/register" className="btn-primary">Sign Up</Link>
           <Link to="/login" className="btn-outline">Login</Link>
+          <Link to="/owner/dashboard" className="btn-outline">Pet Owner</Link>
         </div>
       </section>
       <Footer />

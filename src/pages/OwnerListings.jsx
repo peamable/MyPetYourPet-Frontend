@@ -48,7 +48,7 @@ export default function OwnerListings() {
               Listings : {owner.listings} &nbsp;&nbsp; Ratings : {owner.rating} ★
             </p>
             <div className="owner-buttons">
-              <button className="btn-secondary">Edit Profile</button>
+              <button className="btn-secondary" onClick={() => window.location.href = "/owner/petprofileview"}>Edit Profile</button>
               <button className="btn-secondary">Account Settings</button>
             </div>
           </div>

@@ -9,8 +9,9 @@ import HowItWorks from "./pages/HowItWorks"
 import Header from "./components/Header";
 import OwnerDashboard from "./pages/OwnerDashboard";
 import SeekerDashboard from "./pages/SeekerDashboard";
-
-
+import CreateAPet from "./pages/CreateAPet";
+import OwnerListings from "./pages/OwnerListings";
+import PetProfileView from "./pages/PetProfileView";
 
 // const App = () => {
 //   return <Home />;
@@ -44,6 +45,9 @@ export default function App() {
         {/*Role specific routes*/}
         <Route path="/owner/dashboard" element={<OwnerDashboard />} />
         <Route path="/seeker/dashboard" element={<SeekerDashboard />} />
+        <Route path="/owner/createapet" element={<CreateAPet />} />
+        <Route path="/owner/ownerlistings" element={<OwnerListings />} />
+        <Route path="/owner/petprofileview" element={<PetProfileView />} />
 
      {/*Here we add all the routes that we create for all the pages*/}
       </Routes>
