@@ -17,10 +17,11 @@ export default function Register() {
     idType: "",
     governmentId: "",
     location: "",
-    gender:"",
+    gender:"female", //hardcoded
     password: "",
     confirmPassword: "",
-    age:0,
+    profilePic:"",
+    age:24, //hardcoded
   });
 
   const [error, setError] = useState("");
@@ -50,10 +51,10 @@ export default function Register() {
       role: formData.role,
       email: formData.email,        // could also use user.email
       
-      profilePic: formData.idType,
+      profilePic: formData.profilePic,
       governmentId: formData.idNumber,
       location: formData.address,
-      gender: formData.address,
+      gender: formData.gender,
       age:formData.age,
  
     
@@ -67,11 +68,11 @@ export default function Register() {
       if (formData.role == "owner")
       {
         //apiURL = "/api/PetOwnerUser/createAccount"
-         apiURL = "/api/register/petOwner"
+         apiURL = "/api/registration/petOwner"
       }
       else if (formData.role == "seeker")
       {
-        apiURL = "/api/register/petSeeker"
+        apiURL = "/api/registration/petSeeker"
       }
       alert(apiURL)
     

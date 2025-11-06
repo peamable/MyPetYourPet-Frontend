@@ -10,11 +10,38 @@ export default function AboutUs() {
     e.preventDefault();
     setError("");
 
+    // try {
+    //   const response = await axiosClient.get("/api/v1/testing");
+    //   //for now we need to update the password in axiosClient.js
+
+    //   console.log(response.data); // should be { status: "OK", version: "v1" }
+    //   alert("Test created successfully! 🎉");
+    // } catch (err) {
+    //   console.error(err);
+    //   setError(
+    //     err.response?.data?.message ||
+    //     err.message ||
+    //     "Something went wrong"
+    //   );
+    // }
+
+    let postObject = {
+  "fullName": "Phoebe Amable",
+  "email": "phoebe2569@example.com",
+  "address": "Vancouver",
+  "customerInfo": {
+    "governmentID": "ABC123",
+    "age": 25,
+    "gender": "Female",
+    "location": "Canada",
+    "profileStatus": "Pending Verification"
+  }
+}
     try {
-      const response = await axiosClient.get("/api/v1/testing");
+      const response = await axiosClient.post("/api/registration/petOwner", postObject);
       //for now we need to update the password in axiosClient.js
 
-      console.log(response.data); // should be { status: "OK", version: "v1" }
+      
       alert("Test created successfully! 🎉");
     } catch (err) {
       console.error(err);
