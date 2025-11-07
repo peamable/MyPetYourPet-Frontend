@@ -10,9 +10,8 @@ import Header from "./components/Header";
 import OwnerDashboard from "./pages/OwnerDashboard";
 import SeekerDashboard from "./pages/SeekerDashboard";
 import CreateAPet from "./pages/CreateAPet";
-import OwnerListings from "./pages/OwnerListings"
-
-
+import OwnerListings from "./pages/OwnerListings";
+import PetProfileView from "./pages/PetProfileView";
 
 // const App = () => {
 //   return <Home />;
@@ -46,6 +45,9 @@ export default function App() {
         {/*Role specific routes*/}
         <Route path="/owner/dashboard" element={<OwnerDashboard />} />
         <Route path="/seeker/dashboard" element={<SeekerDashboard />} />
+        <Route path="/owner/createapet" element={<CreateAPet />} />
+        <Route path="/owner/ownerlistings" element={<OwnerListings />} />
+        <Route path="/owner/petprofileview" element={<PetProfileView />} />
 
         <Route path="/viewListings" element={<OwnerListings />} /> 
         //using the ContactUs button to test the pages

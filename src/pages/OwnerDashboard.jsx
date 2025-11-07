@@ -37,14 +37,14 @@ export default function OwnerDashboard() {
         <section className="dashboard-actions">
           <button 
             className="btn-primary"
-            onClick={() => window.location.href = "/create-pet"}
+            onClick={() => window.location.href = "/owner/createapet"}
           >
             + Create Pet Listing
           </button>
 
           <button 
             className="btn-secondary"
-            onClick={() => window.location.href = "/owner/listings"}
+            onClick={() => window.location.href = "/owner/ownerlistings"}
           >
             View My Listings
           </button>
