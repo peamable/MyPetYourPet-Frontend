@@ -9,6 +9,8 @@ import HowItWorks from "./pages/HowItWorks"
 import Header from "./components/Header";
 import OwnerDashboard from "./pages/OwnerDashboard";
 import SeekerDashboard from "./pages/SeekerDashboard";
+import CreateAPet from "./pages/CreateAPet";
+import OwnerListings from "./pages/OwnerListings"
 
 
 
@@ -44,6 +46,9 @@ export default function App() {
         {/*Role specific routes*/}
         <Route path="/owner/dashboard" element={<OwnerDashboard />} />
         <Route path="/seeker/dashboard" element={<SeekerDashboard />} />
+
+        <Route path="/viewListings" element={<OwnerListings />} /> 
+        //using the ContactUs button to test the pages
 
      {/*Here we add all the routes that we create for all the pages*/}
       </Routes>
