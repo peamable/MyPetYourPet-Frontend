@@ -4,57 +4,55 @@ import Footer from "../components/Footer";
 import "../styles/SeekerDashboard.css";
 
 export default function PetSeekerDashboard() {
-
   const [activeTab, setActiveTab] = useState("browse");
 
   return (
     <div className="seeker-dashboard">
       <Header />
 
-      {/* Top Navigation for Seeker */}
-      <div className="dashboard-nav">
-        <button className={activeTab === "browse" ? "active" : ""} onClick={() => setActiveTab("browse")}>
-          Browse Pets
-        </button>
-        <button className={activeTab === "reservations" ? "active" : ""} onClick={() => setActiveTab("reservations")}>
-          Reservations
-        </button>
-        <button className={activeTab === "messages" ? "active" : ""} onClick={() => setActiveTab("messages")}>
-          Messages
-        </button>
-        <button className={activeTab === "reviews" ? "active" : ""} onClick={() => setActiveTab("reviews")}>
-          Reviews
-        </button>
-      </div>
+      {/* Seeker Navigation Tabs */}
+      <nav className="dashboard-nav">
+        {["browse", "reservations", "messages", "reviews"].map(tab => (
+          <button
+            key={tab}
+            className={activeTab === tab ? "active" : ""}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+          </button>
+        ))}
+      </nav>
 
-      {/* ----------- CONTENT AREAS ----------- */}
-
+      {/* ---------------- BROWSE PETS ---------------- */}
       {activeTab === "browse" && (
-        <section className="browse-section">
+        <section className="browse-section wrap">
           <h2>Browse Pets</h2>
           <p>Find pets available near you and request a hangout.</p>
 
           <div className="pet-grid">
-            {/* Example cards - later will map from backend */}
-            <div className="pet-card">
-              <img src="/example-pet-1.jpg" alt="Buddy" />
-              <h3>Buddy</h3>
-              <p>Golden Retriever • 3 yrs</p>
-              <button className="btn-primary">View Profile</button>
-            </div>
+          {[
+            { name: "Buddy", breed: "Golden Retriever", age: "3 yrs", img: "https://placedog.net/450/450" },
+            { name: "Luna", breed: "French Bulldog", age: "1 yr", img: "https://placedog.net/451/451" }
+          ].map(pet => (
+            <div className="pet-card" key={pet.name}>
+              <img src={pet.img} alt={pet.name} />
 
-            <div className="pet-card">
-              <img src="/example-pet-2.jpg" alt="Luna" />
-              <h3>Luna</h3>
-              <p>French Bulldog • 1 yr</p>
-              <button className="btn-primary">View Profile</button>
+              <div className="pet-info">
+                <h3>{pet.name}</h3>
+                <p>{pet.breed}</p>
+                <p className="age">{pet.age}</p>
+              </div>
+
+              <button className="btn-primary view-btn">View Profile</button>
             </div>
-          </div>
+          ))}
+        </div>
         </section>
       )}
 
+      {/* ---------------- RESERVATIONS ---------------- */}
       {activeTab === "reservations" && (
-        <section className="reservations-section">
+        <section className="reservations-section wrap">
           <h2>Your Reservations</h2>
 
           <div className="reservation-block">
@@ -76,16 +74,17 @@ export default function PetSeekerDashboard() {
         </section>
       )}
 
+      {/* ---------------- MESSAGES ---------------- */}
       {activeTab === "messages" && (
-        <section className="messages-section">
+        <section className="messages-section wrap">
           <h2>Messages</h2>
           <p>Select a conversation to start.</p>
-          {/* Chat UI later */}
         </section>
       )}
 
+      {/* ---------------- REVIEWS ---------------- */}
       {activeTab === "reviews" && (
-        <section className="reviews-section">
+        <section className="reviews-section wrap">
           <h2>Your Reviews</h2>
           <p>You haven't left any reviews yet.</p>
         </section>

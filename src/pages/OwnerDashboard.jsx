@@ -58,7 +58,7 @@ export default function OwnerDashboard() {
 
           <button 
             className="btn-secondary"
-            onClick={() => window.location.href = "/reservations"}
+            onClick={() => window.location.href = "/owner/reservations"}
           >
             Reservations
           </button>
