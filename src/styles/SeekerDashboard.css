@@ -145,3 +145,94 @@
 .reviews-section {
   padding: 40px 0;
 }
+
+/* ---------- MAKE A PAYMENT UI ---------- */
+
+.payment-section {
+  padding: 40px 0;
+}
+
+.payment-grid {
+  display: flex;
+  gap: 30px;
+  margin-top: 25px;
+}
+
+.payment-left {
+  flex: 2;
+  background: #fff;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 6px 14px rgba(0,0,0,.1);
+}
+
+.payment-left input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1.4px solid #ccc;
+  background: #fafafa;
+  margin-bottom: 12px;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+}
+
+.terms {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: .9rem;
+}
+
+.total {
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
+
+.pay-btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.payment-summary {
+  flex: 1;
+  background: #fffaf3;
+  border: 1px solid #e7dcc6;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.summary-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.summary-header img {
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.payment-summary table {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.payment-summary td {
+  padding: 6px 0;
+}
+
+.total-row td {
+  font-weight: bold;
+}
+
+/* ----------END OF  MAKE A PAYMENT UI ---------- */
