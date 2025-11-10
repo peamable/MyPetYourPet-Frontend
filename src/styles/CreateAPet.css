@@ -1,0 +1,115 @@
+.create-pet-page {
+  background: #f5e8da;
+  min-height: 100vh;
+  padding: 30px 0;
+}
+
+.create-pet-container {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.create-pet-form {
+  background: white;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+}
+
+.create-pet-form h1 {
+  margin-bottom: 20px;
+}
+
+.grid-2, .grid-3 {
+  display: grid;
+  gap: 12px;
+}
+
+.grid-2 { grid-template-columns: 1fr 1fr; }
+.grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  background: #fafafa;
+}
+
+textarea {
+  min-height: 70px;
+}
+
+.checkbox-row label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.btn-save {
+  background: #ff8b3d;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+
+.btn-reset, .btn-back {
+  background: #ddd;
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+
+.pet-preview .preview-card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.preview-card img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.img-placeholder {
+  background: #eee;
+  border-radius: 12px;
+  height: 240px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #777;
+}
+
+.tag {
+  display: inline-block;
+  background: #eef;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+}
+
+.behavior-text {
+  color: #555;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 900px) {
+  .create-pet-container {
+    grid-template-columns: 1fr;
+  }
+}

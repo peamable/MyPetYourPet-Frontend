@@ -1,0 +1,67 @@
+:root {
+  --bg: #f5e8da;
+  --ink: #1e2b23;
+  --accent: #2d6e75;
+  --primary: #ff8b3d;
+}
+
+.footer {
+  background-color: #fff;
+  border-top: 1px solid #e6ddd3;
+  padding: 30px 16px;
+  text-align: center;
+  margin-top: auto;
+  width: 100%;
+}
+
+.footer-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.footer-brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-brand h3 {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.footer-tagline {
+  margin-top: 4px;
+  color: var(--ink);
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+
+.footer-links {
+  margin: 18px 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-links a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  color: var(--ink);
+  opacity: 0.7;
+}
+
+.paw {
+  font-size: 1.3rem;
+}

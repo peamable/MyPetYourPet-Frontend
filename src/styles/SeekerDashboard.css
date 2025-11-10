@@ -1,0 +1,101 @@
+:root {
+  --bg: #f5e8da;
+  --primary: #ff8b3d;
+  --accent: #2d6e75;
+  --ink: #1e2b23;
+  --card: #fff;
+}
+
+.seeker-dashboard {
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+/* Top Navigation */
+.dashboard-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 20px 0;
+  background: #fff;
+  border-bottom: 1px solid #e2d6c6;
+}
+
+.dashboard-nav button {
+  background: transparent;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: var(--ink);
+}
+
+.dashboard-nav button.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Browse Pets Section */
+.browse-section {
+  padding: 40px 10%;
+  text-align: center;
+}
+
+.pet-grid {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.pet-card {
+  background: #fff;
+  padding: 14px;
+  border-radius: 12px;
+  width: 220px;
+  text-align: center;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.pet-card img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Reservations */
+.reservations-section {
+  padding: 40px 10%;
+}
+
+.reservation-block {
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+/* Stats Row */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 30px;
+}
+
+/* Simple sections */
+.messages-section,
+.reviews-section {
+  padding: 40px 10%;
+}

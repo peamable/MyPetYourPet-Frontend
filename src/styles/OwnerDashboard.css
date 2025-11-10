@@ -1,0 +1,56 @@
+.dashboard-page {
+  background: #f5e8da;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+.dashboard-wrapper {
+  max-width: 1100px;
+  margin: 40px auto;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.owner-info-card {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  width: 300px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+.owner-info-card h3 {
+  margin-bottom: 5px;
+  font-size: 1.4rem;
+}
+
+.dashboard-actions {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.btn-primary, .btn-secondary, .btn-danger {
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #ff8b3d;
+  color: #fff;
+}
+
+.btn-secondary {
+  background: #2d6e75;
+  color: #fff;
+}
+
+.btn-danger {
+  background: #b33a3a;
+  color: #fff;
+}
