@@ -51,30 +51,15 @@ export default function App() {
         <Route path="/owner/petprofileview" element={<PetProfileView />} />
 
         <Route path="/viewListings" element={<OwnerListings />} /> 
-         <Route path="/owner/reservations" element={<ReservationsView />} />
+         <Route path="/admin/reservation" element={<ReservationsView />} />
         {/*using the ContactUs button to test the pages*}
 
      {/*Here we add all the routes that we create for all the pages*/}
       </Routes>
+     
       
   );
-  //  (
-
-    // <div>
-    //   {/* Navigation bar or menu */}
-    //   <nav style={{ padding: "1rem", background: "#eee" }}>
-    //     <Link to="/" style={{ marginRight: "1rem" }}>Home</Link>
-    //     <Link to="/login">Login</Link>
-    //   </nav>
-
-    //   {/* Define the routes */}
-    //   <Routes>
-    //     <Route path="/" element={<h1>Welcome to My Pet, Your Pet 🐾</h1>} />
-    //     <Route path="/login" element={<Login />} />
-    //   </Routes>
-   // </div>
-  // );
-
+  
 
 }
 

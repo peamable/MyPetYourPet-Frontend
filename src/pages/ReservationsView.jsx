@@ -67,6 +67,7 @@ export default function ReservationsView() {
         </div>
 
       </div>
+       <Footer />
     </div>
   );
 }

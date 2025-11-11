@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../styles/OwnerListings.css";
 
-export default function OwnerListings() {
+export default function OwnerListings({ embedded }) {
   // Example data (Later replace with API data)
   const owner = {
     name: "Scarlet Hansen",
@@ -35,7 +35,7 @@ export default function OwnerListings() {
 
   return (
     <div className="owner-listings-page">
-      <Header />
+      {!embedded && <Header />}
 
       <div className="owner-layout">
         {/* LEFT SIDEBAR */}
@@ -92,7 +92,7 @@ export default function OwnerListings() {
         </main>
       </div>
 
-      <Footer />
+     {!embedded && <Footer />}
     </div>
   );
 }
