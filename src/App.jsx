@@ -12,6 +12,8 @@ import SeekerDashboard from "./pages/SeekerDashboard";
 import CreateAPet from "./pages/CreateAPet";
 import OwnerListings from "./pages/OwnerListings";
 import PetProfileView from "./pages/PetProfileView";
+import ProfileView from "./pages/ProfileView"
+import PetListings from "./pages/PetList"
 
 // const App = () => {
 //   return <Home />;
@@ -49,7 +51,9 @@ export default function App() {
         <Route path="/owner/ownerlistings" element={<OwnerListings />} />
         <Route path="/owner/petprofileview" element={<PetProfileView />} />
 
-        <Route path="/viewListings" element={<OwnerListings />} /> 
+        <Route path="/allListings" element={<PetListings />} />
+
+         <Route path="/seeker/viewProfile" element={< ProfileView/>} />
         //using the ContactUs button to test the pages
 
      {/*Here we add all the routes that we create for all the pages*/}

@@ -1,56 +1,166 @@
 .dashboard-page {
-  background: #f5e8da;
-  min-height: 100vh;
-  padding-bottom: 60px;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  height: 100vh;
+  background: #f8efe5;
 }
 
-.dashboard-wrapper {
-  max-width: 1100px;
-  margin: 40px auto;
-  display: flex;
-  gap: 30px;
-  flex-wrap: wrap;
-}
-
-.owner-info-card {
-  background: white;
-  padding: 25px;
-  border-radius: 14px;
-  width: 300px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-}
-
-.owner-info-card h3 {
-  margin-bottom: 5px;
-  font-size: 1.4rem;
-}
-
-.dashboard-actions {
-  flex: 1;
+/* Sidebar */
+.dashboard-sidebar {
+  background: #eddcc9;
+  padding: 20px;
+  border-radius: 0 20px 20px 0;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 24px;
 }
 
-.btn-primary, .btn-secondary, .btn-danger {
-  padding: 14px;
-  border-radius: 8px;
-  font-weight: bold;
+.dashboard-profile {
+  background: #fdfaf6;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.dashboard-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nav-item {
+  text-align: left;
+  padding: 10px 14px;
   border: none;
+  background: none;
+  font-weight: 600;
+  color: #2b2b2b;
+  border-radius: 10px;
   cursor: pointer;
 }
 
-.btn-primary {
-  background: #ff8b3d;
-  color: #fff;
+.nav-item.active,
+.nav-item:hover {
+  background: #fff;
 }
 
-.btn-secondary {
-  background: #2d6e75;
-  color: #fff;
+/* Right content */
+.dashboard-content {
+  overflow-y: auto;
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.btn-danger {
-  background: #b33a3a;
-  color: #fff;
+/* Pet cards */
+.pet-card {
+  display: flex;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+  overflow: hidden;
+  max-width: 640px;
 }
+
+.pet-img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.pet-details {
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pet-type {
+  font-weight: 600;
+  color: #6b4e16;
+}
+
+.status {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.status.active {
+  background: #e0ffe0;
+  color: #2f8a2f;
+}
+
+.status.hidden {
+  background: #fff3cc;
+  color: #b37d00;
+}
+
+/* Tags */
+.tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 8px 0;
+}
+
+.tags span {
+  background: #f4f0e1;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}
+
+/* Buttons */
+.pet-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn.outline {
+  background: #fff;
+  border: 2px solid #15403b;
+  color: #15403b;
+}
+
+.btn.orange {
+  background: #ff9933;
+  color: #fff;
+  border: none;
+}
+
+/* outer layout for this page */
+.owner-page {
+  display: flex;
+  gap: 24px;
+  padding: 24px 40px;
+  background: #f8efe5; /* your beige */
+}
+
+/* left column – profile + menu */
+.owner-profile-column {
+  width: 320px;    /* fixed-ish width */
+  flex-shrink: 0;  /* don’t let it get squished */
+}
+
+/* right column – all pet cards */
+.owner-pets-column {
+  flex: 1;                /* take up the remaining space */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  /* optional: make it scroll if there are many pets */
+   max-height: calc(100vh - 120px);
+     overflow-y: auto; 
+}
+
