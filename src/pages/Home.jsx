@@ -7,8 +7,17 @@ import heart from "../assets/heart.png";
 import calendar from "../assets/calendar.png";
 import "../styles/Home.css";
 import Footer from "../components/Footer";
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 const Home = () => {
+
+  const navigate = useNavigate();
+const handleFind = () => {
+  navigate("/allListings");
+}
   return (
     <div className="home-page">
       <Header />
@@ -20,7 +29,7 @@ const Home = () => {
             <h1>
               Find a furry friend<br />for the moments<br />that matter
             </h1>
-            <button className="btn-primary">Find A Pet</button>
+            <button className="btn-primary" onClick={handleFind}>Find A Pet</button>
           </div>
 
           <div className="hero-right">
@@ -64,6 +73,7 @@ const Home = () => {
         <div className="cta-buttons">
           <Link to="/register" className="btn-primary">Sign Up</Link>
           <Link to="/login" className="btn-outline">Login</Link>
+          <Link to="/seeker/dashboard" className="btn-outline">Pet Seeker</Link>
           <Link to="/owner/dashboard" className="btn-outline">Pet Owner</Link>
         </div>
       </section>

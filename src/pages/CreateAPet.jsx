@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
 import "../styles/CreateAPet.css";
 
 export default function CreateAPet() {
@@ -12,12 +13,53 @@ export default function CreateAPet() {
     behavior: "",
     fee: "",
     status: "Draft",
+    imageUrl:"",
+    // vaccinationStatus:"",
+    // dewormingStatus: "", have been apparently set below
+
   });
 
-  const [parasite, setParasite] = useState(false);
+  const [dewormed, setDeworm] = useState(false);
   const [vaccinated, setVaccinated] = useState(false);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+
+  const handleSave = async (e) => {  // what to do when the user clicks submit
+    e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    try{
+      //get firebase key to add to the request header
+
+     
+       //payload will hold the data we want to send
+      const payload = {
+      petName: formData.petName,
+      age: formData.age,
+      gender: formData.gender, 
+      breed: formData.breed,
+      behavior: formData.behavior,
+      fee: formData.fee,
+      status:formData.status,  // stored in the backend as int/boolean
+      imageUrl:formData.imageUrl,
+      //customerId get this somehow,
+      dewormed, //true or false
+      vaccinated, //true or false
+ 
+      };
+      let apiURL = "the api endpoint here"
+    
+      await axiosClient.post(apiURL, payload);
+
+        alert("Pet created successfully! 🎉");
+
+    } 
+    catch (err) {
+        setError(err.message || "Something went wrong");
+      }
+};
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -42,7 +84,7 @@ export default function CreateAPet() {
       fee: "",
       status: "Draft",
     });
-    setParasite(false);
+    setDeworm(false);
     setVaccinated(false);
     setPreview(null);
   };
@@ -96,8 +138,8 @@ export default function CreateAPet() {
 
           <div className="grid-2 checkbox-row">
             <label>
-              <input type="checkbox" checked={parasite} onChange={() => setParasite(!parasite)} />
-              Parasitation up to date
+              <input type="checkbox" checked={dewormed} onChange={() => setDeworm(!dewormed)} />
+              Deworming up to date
             </label>
 
             <label>
@@ -127,9 +169,9 @@ export default function CreateAPet() {
           </label>
 
           <div className="button-row">
-            <button className="btn-save">Save Listing</button>
+             <button className="btn-save" onClick={handleSave}>Save Listing</button>  {/*Add data to db and go back to listings */}
             <button className="btn-reset" onClick={handleReset}>Reset</button>
-            <button className="btn-back">Back to My Listings</button>
+            <Link className="btn-back" to= "/owner/ownerlistings">Back to My Listings</Link>
           </div>
         </div>
 

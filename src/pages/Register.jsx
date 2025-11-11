@@ -50,14 +50,13 @@ export default function Register() {
       fullName: formData.fullName,
       role: formData.role,
       email: formData.email,        // could also use user.email
-      
+      //governmentId:formData.governmentId,
       profilePic: formData.profilePic,
-      governmentId: formData.idNumber,
-      location: formData.address,
+      governmentId: formData.governmentId,
+      location: formData.location,
       gender: formData.gender,
-      age:formData.age,
+      age:Number(formData.age),
  
-    
       };
 
      // this should be sent to a specific function "createAccount"
@@ -73,6 +72,10 @@ export default function Register() {
       else if (formData.role == "seeker")
       {
         apiURL = "/api/registration/petSeeker"
+      }
+      else
+      {
+        alert(formData.role)
       }
       alert(apiURL)
     

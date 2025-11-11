@@ -1,0 +1,117 @@
+/* Card wrapper */
+.pet-card {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  padding: 18px 18px 20px;
+  width: 320px;           /* fixed-ish card width */
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-sizing: border-box;
+}
+
+/* Top image */
+.pet-img {
+  width: 100%;
+  height: 220px;
+  border-radius: 20px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Content area */
+.pet-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Header: name + status + breed */
+.pet-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pet-name {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.pet-breed {
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Description */
+.pet-description {
+  margin: 0;
+}
+
+/* Fee line */
+.pet-fee {
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Status pill */
+.pet-status {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  margin-left: 4px;
+}
+
+.pet-status.active {
+  background: #d6f5d6;
+  color: #1e7c1e;
+}
+
+.pet-status.hidden {
+  background: #ffeeba;
+  color: #856404;
+}
+
+/* Tags row */
+.pet-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f1ecff;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Buttons */
+.pet-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.pet-btn {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  border: 2px solid #0c3b3b;
+  cursor: pointer;
+  background: #ffffff;
+}
+
+.pet-btn.outline {
+  color: #0c3b3b;
+}
+
+.pet-btn.orange {
+  background: #ff8b3d;
+  border-color: #ff8b3d;
+  color: #ffffff;
+}

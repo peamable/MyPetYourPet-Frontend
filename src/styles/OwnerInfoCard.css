@@ -1,0 +1,24 @@
+.owner-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.owner-location {
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.owner-about {
+  margin: 12px 0;
+  font-size: 0.95rem;
+}
+
+.owner-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

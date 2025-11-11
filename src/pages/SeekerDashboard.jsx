@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
+import Listings from "../pages/PetList";
 import "../styles/SeekerDashboard.css";
 
 export default function PetSeekerDashboard() {
@@ -31,11 +33,12 @@ export default function PetSeekerDashboard() {
 
       {activeTab === "browse" && (
         <section className="browse-section">
-          <h2>Browse Pets</h2>
+          <Link to="/allListings" className="btn-outline">Browse Here</Link>
+          {/* <h2>Browse Pets</h2> */}
           <p>Find pets available near you and request a hangout.</p>
 
           <div className="pet-grid">
-            {/* Example cards - later will map from backend */}
+            {/* Example cards - later will map from backend
             <div className="pet-card">
               <img src="/example-pet-1.jpg" alt="Buddy" />
               <h3>Buddy</h3>
@@ -48,8 +51,8 @@ export default function PetSeekerDashboard() {
               <h3>Luna</h3>
               <p>French Bulldog • 1 yr</p>
               <button className="btn-primary">View Profile</button>
-            </div>
-          </div>
+            </div>*/}
+          </div> 
         </section>
       )}
 
