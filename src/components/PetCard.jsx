@@ -56,13 +56,13 @@ function PetCard({
 
         <div className="pet-actions">
           {onPreview && (
-            <button className="btn outline" onClick={onPreview}>
+            <button className="pet-btn outline" onClick={onPreview}>
               View details
             </button>
           )}
 
           {onEdit && (
-            <button className="btn orange" onClick={onEdit}>
+            <button className="pet-btn orange" onClick={onEdit}>
               Edit Listing
             </button>
           )}

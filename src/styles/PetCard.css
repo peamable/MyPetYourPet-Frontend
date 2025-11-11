@@ -1,95 +1,117 @@
+/* Card wrapper */
 .pet-card {
-  display: flex;
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  width: 100%;
-  max-width: 600px;
-}
-
-.pet-img {
-  width: 180px;
-  height: 300px;
-  object-fit: cover;
-}
-
-.pet-content {
-  padding: 16px 20px;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  padding: 18px 18px 20px;
+  width: 320px;           /* fixed-ish card width */
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 14px;
+  box-sizing: border-box;
+}
+
+/* Top image */
+.pet-img {
+  width: 100%;
+  height: 220px;
+  border-radius: 20px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Content area */
+.pet-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Header: name + status + breed */
+.pet-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .pet-name {
-  font-weight: 700;
-  font-size: 1.25rem;
   margin: 0;
+  font-size: 1.4rem;
 }
 
 .pet-breed {
-  color: #6b4e16;
+  margin: 0;
   font-weight: 600;
-  margin: 2px 0 8px 0;
 }
 
+/* Description */
+.pet-description {
+  margin: 0;
+}
+
+/* Fee line */
+.pet-fee {
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Status pill */
 .pet-status {
-  font-size: 0.8rem;
-  font-weight: 700;
-  padding: 2px 8px;
+  display: inline-block;
+  padding: 2px 10px;
   border-radius: 999px;
+  font-size: 0.8rem;
+  margin-left: 4px;
 }
 
 .pet-status.active {
-  background: #e0ffe0;
-  color: #2f8a2f;
+  background: #d6f5d6;
+  color: #1e7c1e;
 }
 
 .pet-status.hidden {
-  background: #fff3cc;
-  color: #b37d00;
+  background: #ffeeba;
+  color: #856404;
 }
 
-.pet-description {
-  font-size: 0.95rem;
-  margin: 4px 0 8px;
-}
-
+/* Tags row */
 .pet-tags {
   display: flex;
-  gap: 6px;
   flex-wrap: wrap;
-  margin-bottom: 10px;
+  gap: 6px;
 }
 
 .tag {
-  background: #f4f0e1;
-  border-radius: 999px;
   padding: 4px 10px;
+  border-radius: 999px;
+  background: #f1ecff;
   font-size: 0.8rem;
   font-weight: 600;
 }
 
+/* Buttons */
 .pet-actions {
+  margin-top: 10px;
   display: flex;
   gap: 10px;
 }
 
-.btn {
-  border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
+.pet-btn {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 12px;
   font-weight: 600;
+  border: 2px solid #0c3b3b;
   cursor: pointer;
+  background: #ffffff;
 }
 
-.btn.outline {
-  background: #fff;
-  border: 2px solid #15403b;
-  color: #15403b;
+.pet-btn.outline {
+  color: #0c3b3b;
 }
 
-.btn.orange {
-  background: #ff9933;
-  color: #fff;
+.pet-btn.orange {
+  background: #ff8b3d;
+  border-color: #ff8b3d;
+  color: #ffffff;
 }

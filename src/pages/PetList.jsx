@@ -14,6 +14,7 @@ export default function PetListPage() {
   const [error, setError] = useState("");
 
 //with some modifications but this is where we request for all the pets
+// the response can look like the dummy data below. If it does, nothing much needs to change
 //   // Fetch pets from backend once when page loads
 //   useEffect(() => {
 //     const fetchPets = async () => {
@@ -131,7 +132,7 @@ export default function PetListPage() {
       },
         {
         petId: 5,
-        name: "Honey",
+        petName: "Honey",
         petBreed: "Something",
         petBehavior: "Talkative and social. Enjoys human company and music.",
         petFee: 12.0,
@@ -153,7 +154,7 @@ export default function PetListPage() {
       },
         {
         petId: 6,
-        name: "Candy",
+        petName: "Candy",
         breed: "Somethng",
         petBehavior: "Talkative and social. Enjoys human company and music.",
         petFee: 12.0,
@@ -261,7 +262,7 @@ export default function PetListPage() {
                     pet.petGender === 1 ? "Male" : "Female",
                     `${pet.petAge} yrs`,
                 ]}
-                onPreview={() => setSelectedPet(pet)} // 👈 show detail card
+                onPreview={() => setSelectedPet(pet)} // show detail card
                 />
             ))}
             </div>
@@ -273,7 +274,7 @@ export default function PetListPage() {
             pet={selectedPet}
             onClose={() => setSelectedPet(null)}
             onRequest={() =>
-            console.log("Request reservation for:", selectedPet?.petName)
+            console.log("Request reservation for:", selectedPet?.petName) //we can have a record added to the reservation table here
             }
       />
     </div>

@@ -16,8 +16,10 @@ export default function OwnerDashboard() {
   }, []);
 
   return (
-    <div className="dashboard-page">
+    <div className="page">
       <Header />
+    <div className="dashboard-page">
+      
 
       <div className="dashboard-wrapper">
         <section className="owner-info-card">
@@ -64,6 +66,7 @@ export default function OwnerDashboard() {
           </button>
         </section>
       </div>
+    </div>
     </div>
   );
 }
