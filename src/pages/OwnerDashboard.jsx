@@ -22,7 +22,7 @@ export default function OwnerDashboard() {
       <Header />
 
       {/* --- Top Navigation Tabs --- */}
-      <nav className="owner-nav">
+      {/*<nav className="owner-nav">
         {["create", "listings", "messages", "reservations"].map(tab => (
           <button
             key={tab}
@@ -41,6 +41,21 @@ export default function OwnerDashboard() {
             {tab === "reservations" && "Reservations"}
           </button>
         ))}
+      </nav>*/}
+
+      <nav className="owner-nav">
+        <button className={activeTab === "create" ? "active" : ""} onClick={() => setActiveTab("create")}>
+          + Create Pet Listing
+        </button>
+        <button className={activeTab === "listings" ? "active" : ""} onClick={() => setActiveTab("listings")}>
+          My Listings
+        </button>
+        <button className={activeTab === "messages" ? "active" : ""} onClick={() => setActiveTab("messages")}>
+          Messages
+        </button>
+        <button className={activeTab === "reservations" ? "active" : ""} onClick={() => setActiveTab("reservations")}>
+          Reservations
+        </button>
       </nav>
 
       {/* Content Body */}

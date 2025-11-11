@@ -63,9 +63,9 @@ const Home = () => {
         <p>Ready to meet a new furry friend?</p>
         <div className="cta-buttons">
           <Link to="/register" className="btn-primary">Sign Up</Link>
-          <Link to="/login" className="btn-outline">Login</Link>
-          <Link to="/owner/dashboard" className="btn-outline">Pet Owner</Link>
-          <Link to="/seeker/dashboard" className="btn-outline">Pet Seeker</Link>
+          <Link to="/login" className="btn-primary">Login</Link>
+          <Link to="/owner/dashboard" className="btn-primary">Pet Owner</Link>
+          <Link to="/seeker/dashboard" className="btn-primary">Pet Seeker</Link>
         </div>
       </section>
       <Footer />
