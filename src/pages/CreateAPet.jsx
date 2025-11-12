@@ -3,63 +3,107 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import "../styles/CreateAPet.css";
+import axiosClient from "../axiosClient";
+
 
 export default function CreateAPet() {
   const [formData, setFormData] = useState({
     petName: "",
-    age: "",
-    gender: "",
-    breed: "",
-    behavior: "",
-    fee: "",
-    status: "Draft",
-    imageUrl:"",
-    // vaccinationStatus:"",
-    // dewormingStatus: "", have been apparently set below
-
+    petAge: "",
+    petGender: "",
+    petBreed: "",
+    petBehavior: "",
+    dewormingUpToDate: "", 
+    vaccinationUpToDate:"",
+    petFee: "",
+    //imageFile:"",//-------------------------------------------------------
+    petProfileStatus: "",//-------------------------------------------------------
   });
+
 
   const [dewormed, setDeworm] = useState(false);
   const [vaccinated, setVaccinated] = useState(false);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [error, setError] = useState("");
 
   const handleSave = async (e) => {  // what to do when the user clicks submit
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
+    if (
+      !formData.petName ||
+      !formData.age ||
+      !formData.gender ||
+      !formData.breed ||
+      !formData.behavior ||
+      !formData.fee ||
+      !formData.status ||
+      !image
+
+    ) {
+      setError("Please fill out all required fields and select an image.");
       return;
     }
+    // alert("Payload:\n" + JSON.stringify({
+    //   pet: {
+    //     petName: formData.petName,
+    //     petAge: parseInt(formData.petAge),
+    //     petGender: formData.petGender === "Female",
+    //     petBreed: formData.petBreed,
+    //     petBehavior: formData.petBehavior,
+    //     dewormingUpToDate: dewormed,
+    //     vaccinationUpToDate: vaccinated,
+    //     petFee: parseFloat(formData.petFee),
+    //     petProfileStatus: formData.petProfileStatus === "Active"
+    //   },
+    //   image: image?.name || "No image selected"
+    // }, null, 2));
+
+
+
     try{
-      //get firebase key to add to the request header
-
-     
-       //payload will hold the data we want to send
       const payload = {
-      petName: formData.petName,
-      age: formData.age,
-      gender: formData.gender, 
-      breed: formData.breed,
-      behavior: formData.behavior,
-      fee: formData.fee,
-      status:formData.status,  // stored in the backend as int/boolean
-      imageUrl:formData.imageUrl,
+          petName: formData.petName,
+          petAge: parseInt(formData.age),
+          petGender: formData.gender === "Female", // true for Female
+          petBreed: formData.breed,
+          petBehavior: formData.behavior,
+          dewormingUpToDate: dewormed,
+          vaccinationUpToDate: vaccinated,
+          petFee: parseFloat(formData.fee),
+          petProfileStatus: formData.status === "Active", // true for active
+          // imageFile: formData.imageUrl, //-------------------------------------------------------
       //customerId get this somehow,
-      dewormed, //true or false
-      vaccinated, //true or false
- 
       };
-      let apiURL = "the api endpoint here"
-    
-      await axiosClient.post(apiURL, payload);
+      let apiURL = "/api/v1/pets/createPet2" //-------------------------------------------------------
+      const formDataToSend = new FormData();
+      formDataToSend.append("Pet", new Blob([JSON.stringify(payload)], { type: "application/json" }));
+      // formDataToSend.append("file", image);
+      for (let [key, value] of formDataToSend.entries()) {
+        if (value instanceof Blob) {
+          value.text().then((text) => {
+            alert(`${key}:\n${text}`);
+          });
+        } else if (value instanceof File) {
+          alert(`${key}: ${value.name} (${value.type})`);
+        } else {
+          alert(`${key}: ${value}`);
+        }
+      }
 
-        alert("Pet created successfully! 🎉");
 
+      await axiosClient.post(apiURL, formDataToSend);
+      alert("Pet created successfully! 🎉");
+      setError("");
     } 
     catch (err) {
-        setError(err.message || "Something went wrong");
-      }
-};
+        if (err.response && err.response.data) {
+          const backendError = err.response.data.error || err.response.data.message || "Unknown error";
+          setError(backendError);
+        } else {
+          setError(err.message || "Something went wrong");
+        }
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -82,10 +126,11 @@ export default function CreateAPet() {
       breed: "",
       behavior: "",
       fee: "",
-      status: "Draft",
+      status: "",
     });
     setDeworm(false);
     setVaccinated(false);
+    setImage(null)
     setPreview(null);
   };
 
@@ -97,11 +142,12 @@ export default function CreateAPet() {
         {/* LEFT FORM */}
         <div className="create-pet-form">
           <h1>Create Pet Listing</h1>
+          {error && <p className="error-message">{error}</p>}
 
           <div className="grid-2">
             <label>
               Pet Name
-              <input name="petName" value={formData.petName} onChange={handleChange} />
+              <input name="petName" onChange={handleChange} />
             </label>
 
             <label>
@@ -118,7 +164,7 @@ export default function CreateAPet() {
 
             <label>
               Gender
-              <select name="gender" onChange={handleChange}>
+              <select name="gender" value={formData.petGender} onChange={handleChange}>
                 <option value="">Select</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -163,13 +209,14 @@ export default function CreateAPet() {
           <label>
             Status
             <select name="status" value={formData.status} onChange={handleChange}>
-              <option>Draft</option>
-              <option>Active</option>
+              <option value="">Select</option>
+              <option value="Draft">Draft</option>
+              <option value="Active">Active</option>
             </select>
           </label>
 
           <div className="button-row">
-             <button className="btn-save" onClick={handleSave}>Save Listing</button>  {/*Add data to db and go back to listings */}
+             <button className="btn-save" onClick={handleSave}>Save Listing</button>  {/*Add data to db and go back to listings */ }
             <button className="btn-reset" onClick={handleReset}>Reset</button>
             <Link className="btn-back" to= "/owner/ownerlistings">Back to My Listings</Link>
           </div>
