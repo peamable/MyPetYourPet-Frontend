@@ -9,29 +9,76 @@ import axiosClient from "../axiosClient"
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    uid: "",
+    // uid: "",
     fullName: "",
-    role: "",
     email: "",
     phone: "",
-    idType: "",
-    governmentId: "",
+    age:"", 
+    gender:"", 
+    // idType: "", // we should save id file and background check instead of numbers
+    governmentId: "", //placeholder to later save the file
     location: "",
-    gender:"female", //hardcoded
-    password: "",
-    confirmPassword: "",
-    profilePic:"",
-    age:24, //hardcoded
+    // password: "", //Not for backend and DB
+    // confirmPassword: "",//Not for backend and DB
+    // role: "", //----------------------------------------------------------
+    //profilePic:"", //--------------- will be pass as file
+
   });
 
+  const [image, setImage] = useState(null);
   const [error, setError] = useState("");
 
   const handleChange = (e) => {  // what to do the form fields change
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => setPreview(reader.result);
+    reader.readAsDataURL(file);
+  };
+
+  // const handleReset = () => {
+  //   setFormData({
+  //     fullName: "",
+  //     email: "",
+  //     phone: "",
+  //     age: "",
+  //     gender: "",
+  //     governmentId: "",
+  //     address: "",
+  //   });
+  //   setImage(null)
+  // };
+
   const handleSubmit = async (e) => {  // what to do when the user clicks submit
     e.preventDefault();
+     if (
+      !formData.fullName ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.age ||
+      !formData.gender ||
+      !formData.idNumber ||
+      !formData.address ||
+      !image
+    ) {
+      setError("Please fill out all required fields and select an image.");
+      return;
+    }
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowedTypes.includes(image.type)) {
+      setError("Only JPG, PNG, or WEBP images are allowed.");
+      return;
+    }
+    const maxSize = 5 * 1024 * 1024;
+    if (image.size > maxSize) {
+      setError("Image must be smaller than 5MB.");
+      return;
+    }
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
       return;
@@ -48,47 +95,64 @@ export default function Register() {
       const payload = {
       //uid: firebaseUID,             // from Firebase
       fullName: formData.fullName,
-      role: formData.role,
       email: formData.email,        // could also use user.email
-      //governmentId:formData.governmentId,
-      profilePic: formData.profilePic,
-      governmentId: formData.governmentId,
-      location: formData.location,
+      phone: formData.phone,
+      age: parseInt(formData.age),
       gender: formData.gender,
-      age:Number(formData.age),
- 
+          // idType: "", // we should save id file and background check instead of numbers
+      governmentId:formData.idNumber,
+      location: formData.address,
       };
 
      // this should be sent to a specific function "createAccount"
-      let apiURL = ""
+      let apiURL = "";
       // alert(apiURL)
       // alert(formData.role)
 
       if (formData.role == "owner")
       {
         //apiURL = "/api/PetOwnerUser/createAccount"
-         apiURL = "/api/registration/petOwner"
+         apiURL = "/api/registration/petOwner";
       }
       else if (formData.role == "seeker")
       {
-        apiURL = "/api/registration/petSeeker"
+        apiURL = "/api/registration/petSeeker";
       }
-      else
-      {
-        alert(formData.role)
-      }
+      // else
+      // {
+      //   alert(formData.role)
+      // }
       alert(apiURL)
     
-      await axiosClient.post(apiURL, payload);
+     
+      const formDataToSend = new FormData();
+      formDataToSend.append("OwnerRegistrationRequest", new Blob([JSON.stringify(payload)], { type: "application/json" }));
+      formDataToSend.append("file", image);
+      for (let [key, value] of formDataToSend.entries()) {
+        if (value instanceof Blob) {
+          value.text().then((text) => {
+            alert(`${key}:\n${text}`);
+          });
+        } else if (value instanceof File) {
+          alert(`${key}: ${value.name} (${value.type})`);
+        } else {
+          alert(`${key}: ${value}`);
+        }
+      }
 
-        alert("Account created successfully! 🎉");
-
+      await axiosClient.post(apiURL, formDataToSend);
+      alert("Account created successfully! 🎉");
+      setError("");
         // redirect if needed
         // window.location.href = "/login";
-
     } 
     catch (err) {
-        setError(err.message || "Something went wrong");
+              if (err.response && err.response.data) {
+          const backendError = err.response.data.error || err.response.data.message || "Unknown error";
+          setError(backendError);
+        } else {
+          setError(err.message || "Something went wrong");
+        }
       }
 };
 
@@ -149,12 +213,19 @@ export default function Register() {
           <label>age</label>
           <input type="number" name="age" onChange={handleChange}/>
 
-          <label>Gender</label>
+          {/* <label>Gender</label>
           <select name="gender" onChange={handleChange}>
             <option value="">Select</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
-          </select>
+          </select> */}
+          <label>Gender</label>
+          <input name="gender" onChange={handleChange} />
+
+          <label>
+          Profile Picture
+          <input type="file" accept="image/*" onChange={handleImage} />
+          </label>
 
           <label>Password</label> 
           <input type="password" name="password" onChange={handleChange} required />

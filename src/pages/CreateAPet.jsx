@@ -16,7 +16,6 @@ export default function CreateAPet() {
     dewormingUpToDate: "", 
     vaccinationUpToDate:"",
     petFee: "",
-    //imageFile:"",//-------------------------------------------------------
     petProfileStatus: "",//-------------------------------------------------------
   });
 
@@ -41,6 +40,16 @@ export default function CreateAPet() {
 
     ) {
       setError("Please fill out all required fields and select an image.");
+      return;
+    }
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowedTypes.includes(image.type)) {
+      setError("Only JPG, PNG, or WEBP images are allowed.");
+      return;
+    }
+    const maxSize = 5 * 1024 * 1024;
+    if (image.size > maxSize) {
+      setError("Image must be smaller than 5MB.");
       return;
     }
     // alert("Payload:\n" + JSON.stringify({
@@ -74,10 +83,10 @@ export default function CreateAPet() {
           // imageFile: formData.imageUrl, //-------------------------------------------------------
       //customerId get this somehow,
       };
-      let apiURL = "/api/v1/pets/createPet2" //-------------------------------------------------------
+      let apiURL = "/api/v1/pets/createPet" //-------------------------------------------------------
       const formDataToSend = new FormData();
       formDataToSend.append("Pet", new Blob([JSON.stringify(payload)], { type: "application/json" }));
-      // formDataToSend.append("file", image);
+      formDataToSend.append("file", image);
       for (let [key, value] of formDataToSend.entries()) {
         if (value instanceof Blob) {
           value.text().then((text) => {
