@@ -1,56 +1,85 @@
-.dashboard-page {
+.owner-dashboard {
   background: #f5e8da;
   min-height: 100vh;
-  padding-bottom: 60px;
-}
-
-.dashboard-wrapper {
-  max-width: 1100px;
-  margin: 40px auto;
-  display: flex;
-  gap: 30px;
-  flex-wrap: wrap;
-}
-
-.owner-info-card {
-  background: white;
-  padding: 25px;
-  border-radius: 14px;
-  width: 300px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-}
-
-.owner-info-card h3 {
-  margin-bottom: 5px;
-  font-size: 1.4rem;
-}
-
-.dashboard-actions {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 14px;
 }
 
-.btn-primary, .btn-secondary, .btn-danger {
-  padding: 14px;
+/* Center page content like seeker dashboard */
+.wrap {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+/* Top Navigation */
+.owner-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  background: white;
+  padding: 15px 0;
+  border-bottom: 1px solid #dccbb7;
+}
+
+.owner-nav button {
+  padding: 10px 20px;
   border-radius: 8px;
-  font-weight: bold;
+  background: transparent;
   border: none;
+  font-weight: 600;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-.btn-primary {
+
+.owner-nav button.active,
+.owner-nav button:hover {
   background: #ff8b3d;
-  color: #fff;
+  color: white;
 }
 
+/* Tab Content Display */
+.tab-content {
+  display: flex;
+  gap: 30px;
+  padding-top: 30px;
+}
+.owner-side-profile {
+  width: 260px;
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  height: fit-content;
+  box-shadow: 0 4px 14px rgba(0,0,0,.1);
+}
+.owner-tab-display {
+  flex: 1;
+}
+
+.owner-main {
+  text-align: center;
+  padding-top: 30px;
+}
+
+.tab-panel.centered {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin: auto;
+}
+
+.btn-primary,
 .btn-secondary {
-  background: #2d6e75;
-  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 12px;
 }
 
-.btn-danger {
-  background: #b33a3a;
-  color: #fff;
-}
+.btn-primary { background: var(--primary); color: white; }
+.btn-secondary { background: var(--accent); color: white; }

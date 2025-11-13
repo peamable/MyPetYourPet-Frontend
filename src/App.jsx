@@ -12,6 +12,7 @@ import SeekerDashboard from "./pages/SeekerDashboard";
 import CreateAPet from "./pages/CreateAPet";
 import OwnerListings from "./pages/OwnerListings";
 import PetProfileView from "./pages/PetProfileView";
+import ReservationsView from "./pages/ReservationsView";
 import ProfileView from "./pages/ProfileView"
 import PetListings from "./pages/PetList"
 
@@ -51,6 +52,9 @@ export default function App() {
         <Route path="/owner/ownerlistings" element={<OwnerListings />} />
         <Route path="/owner/petprofileview" element={<PetProfileView />} />
 
+        <Route path="/viewListings" element={<OwnerListings />} /> 
+         <Route path="/admin/reservation" element={<ReservationsView />} />
+        {/*using the ContactUs button to test the pages*}
         <Route path="/allListings" element={<PetListings />} />
 
          <Route path="/seeker/viewProfile" element={< ProfileView/>} />
@@ -58,25 +62,10 @@ export default function App() {
 
      {/*Here we add all the routes that we create for all the pages*/}
       </Routes>
+     
       
   );
-  //  (
-
-    // <div>
-    //   {/* Navigation bar or menu */}
-    //   <nav style={{ padding: "1rem", background: "#eee" }}>
-    //     <Link to="/" style={{ marginRight: "1rem" }}>Home</Link>
-    //     <Link to="/login">Login</Link>
-    //   </nav>
-
-    //   {/* Define the routes */}
-    //   <Routes>
-    //     <Route path="/" element={<h1>Welcome to My Pet, Your Pet 🐾</h1>} />
-    //     <Route path="/login" element={<Login />} />
-    //   </Routes>
-   // </div>
-  // );
-
+  
 
 }
 

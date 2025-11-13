@@ -1,11 +1,43 @@
 import Header from "../components/Header";
+import Footer from "../components/Footer";
+import "../styles/OwnerListings.css";
+
+export default function OwnerListings({ embedded }) {
+//   // Example data (Later replace with API data)
+//   const owner = {
+//     name: "Scarlet Hansen",
+//     location: "Vancouver, BC",
+//     listings: 3,
+//     rating: 4.9,
+//   };
+
+//   const pets = [
+//     {
+//       name: "Buddy",
+//       breed: "Golden Retriever",
+//       status: "Active",
+//       description: "Friendly, loves kids, perfect for walks and cuddles",
+//       tags: ["Large", "Child-Friendly", "Vaccinated"],
+//       image:
+//         "https://images.pexels.com/photos/3299907/pexels-photo-3299907.jpeg?auto=compress&cs=tinysrgb&w=600",
+//     },
+//     {
+//       name: "Luna",
+//       breed: "French Bulldog",
+//       status: "Hidden",
+//       description: "Playful and Social, great for short park hangouts.",
+//       tags: ["Small", "City-Friendly", "Vaccinated"],
+//       image:
+//         "https://images.pexels.com/photos/1814062/pexels-photo-1814062.jpeg?auto=compress&cs=tinysrgb&w=600",
+//     },
+//   ];
 import SeekerProfileCard from "../components/SeekerProfileCard";
 // import your pet cards, or just leave the JSX inline
 
 function OwnerListingsPage() {
   return (
-    <div>
-      <Header />
+    <div className="owner-listings-page">
+      {!embedded && <Header />}
 
       {/* NEW wrapper for this page */}
       <div className="owner-page">
@@ -39,6 +71,8 @@ function OwnerListingsPage() {
           {/* Luna card */}
         </div>
       </div>
+
+     {!embedded && <Footer />}
     </div>
   );
 }

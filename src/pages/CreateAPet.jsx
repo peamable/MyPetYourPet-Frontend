@@ -6,7 +6,7 @@ import "../styles/CreateAPet.css";
 import axiosClient from "../axiosClient";
 
 
-export default function CreateAPet() {
+export default function CreateAPet({ embedded }) {
   const [formData, setFormData] = useState({
     petName: "",
     petAge: "",
@@ -145,7 +145,7 @@ export default function CreateAPet() {
 
   return (
     <div className="page create-pet-page">
-      <Header />
+       {!embedded && <Header />}
 
       <div className="create-pet-container">
         {/* LEFT FORM */}
@@ -251,7 +251,7 @@ export default function CreateAPet() {
         </div>
       </div>
 
-      <Footer />
+       {!embedded && <Footer />}
     </div>
   );
 }
