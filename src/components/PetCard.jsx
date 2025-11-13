@@ -3,7 +3,7 @@ import React from "react";
 import "../styles/PetCard.css";
 
 function PetCard({
- name,
+  name,
   breed,
   behavior,
   fee,

@@ -15,12 +15,14 @@ function PetDetailCard({ pet, onClose, onRequest }) {
     dewormingUpToDate,
     vaccinationUpToDate,
     petProfileStatus,
-    imageUrl,
+    profilePicture,
     owner,
   } = pet;
 
-  const genderLabel = petGender === 1 ? "Male" : "Female";
-  const statusLabel = petProfileStatus === 1 ? "Active" : "Hidden";
+  
+
+  const genderLabel = petGender === 1 ? "Female" : "Male";
+  const statusLabel = petProfileStatus ? "Active" : "Hidden";
 
   return (
     <div className="pet-detail-backdrop">
@@ -32,7 +34,7 @@ function PetDetailCard({ pet, onClose, onRequest }) {
             {/* LEFT: Pet info */}
             <div className="detail-left">
               <div className="detail-top">
-                <img src={imageUrl} alt={petName} className="detail-img" />
+                <img src={profilePicture} alt={petName} className="detail-img" />
                 <div>
                   <h2>{petName} <span className={`status ${statusLabel.toLowerCase()}`}>{statusLabel}</span></h2>
                   <p className="breed">{petBreed}</p>
