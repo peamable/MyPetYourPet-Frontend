@@ -29,46 +29,27 @@ export default function PetSeekerDashboard() {
       {activeTab === "browse" && (
         <section className="browse-section wrap">
           <h2>Browse Pets</h2>
+          <Link to="/allListings" className="btn-outline">Browse Here</Link>
           <p>Find pets available near you and request a hangout.</p>
 
           <div className="pet-grid">
-            {/* TEMP sample data — later replace with backend */}
-            {[
-              { name: "Buddy", breed: "Golden Retriever", age: "3 yrs", img: "https://placedog.net/450/450" },
-              { name: "Luna", breed: "French Bulldog", age: "1 yr", img: "https://placedog.net/451/451" }
-            ].map(pet => (
-              <div className="pet-card" key={pet.name}>
-                <img src={pet.img} alt={pet.name} />
-                <h3>{pet.name}</h3>
-                <p>{pet.breed} • {pet.age}</p>
-                <button className="btn-primary">View Profile</button>
-              </div>
-            ))}
-          </div>
-//         <section className="browse-section">
-//           <Link to="/allListings" className="btn-outline">Browse Here</Link>
-//           {/* <h2>Browse Pets</h2> */}
-//           <p>Find pets available near you and request a hangout.</p>
-
-//           <div className="pet-grid">
-//             {/* Example cards - later will map from backend
-//             <div className="pet-card">
-//               <img src="/example-pet-1.jpg" alt="Buddy" />
-//               <h3>Buddy</h3>
-//               <p>Golden Retriever • 3 yrs</p>
-//               <button className="btn-primary">View Profile</button>
-//             </div>
-
-//             <div className="pet-card">
-//               <img src="/example-pet-2.jpg" alt="Luna" />
-//               <h3>Luna</h3>
-//               <p>French Bulldog • 1 yr</p>
-//               <button className="btn-primary">View Profile</button>
-//             </div>*/}
-//           </div> 
+              {/* TEMP sample data — later replace with backend */}
+              {[
+                { name: "Buddy", breed: "Golden Retriever", age: "3 yrs", img: "https://placedog.net/450/450" },
+                { name: "Luna", breed: "French Bulldog", age: "1 yr", img: "https://placedog.net/451/451" }
+              ].map(pet => (
+                <div className="pet-card" key={pet.name}>
+                  <img src={pet.img} alt={pet.name} />
+                  <h3>{pet.name}</h3>
+                  <p>{pet.breed} • {pet.age}</p>
+                  <button className="btn-primary">View Profile</button>
+                </div>
+              ))}
+            </div>
         </section>
       )}
 
+      
       {/* ---------------- RESERVATIONS ---------------- */}
       {activeTab === "reservations" && (
         <section className="reservations-section wrap">
@@ -113,3 +94,4 @@ export default function PetSeekerDashboard() {
     </div>
   );
 }
+

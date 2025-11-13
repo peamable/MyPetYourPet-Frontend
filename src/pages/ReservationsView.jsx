@@ -1,11 +1,13 @@
 import React from "react";
 import Header from "../components/Header";
 import "../styles/ReservationsView.css";
+import Footer from "../components/Footer";
 
-export default function ReservationsView() {
+export default function ReservationsView({embedded}) {
   return (
     <div className="reservations-page">
-      <Header />
+      {!embedded && <Header />}
+      {/* <Header /> */} {/*this page is called in another view that already has a header*/}
 
       <div className="reservations-container">
 
@@ -13,11 +15,11 @@ export default function ReservationsView() {
 
         {/* Filters */}
         <div className="filters">
-          <select>
-            <option>All roles</option>
+          {/* <select>
+             <option>All roles</option>         //dont think we need this. Should discuss 
             <option>Owner</option>
             <option>Seeker</option>
-          </select>
+          </select> */}
 
           <select>
             <option>Any status</option>
@@ -67,7 +69,7 @@ export default function ReservationsView() {
         </div>
 
       </div>
-       <Footer />
+       {!embedded && <Footer /> }
     </div>
   );
 }

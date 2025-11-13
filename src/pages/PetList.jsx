@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import PetDetailCard from "../components/petDetailCard"
 import PetCard from "../components/PetCard";
 import "../styles/PetListPage.css";
+import axiosClient from '../axiosClient';
 
 export default function PetListPage() {
   const [pets, setPets] = useState([]);
@@ -13,29 +14,40 @@ export default function PetListPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-//with some modifications but this is where we request for all the pets
-// the response can look like the dummy data below. If it does, nothing much needs to change
-//   // Fetch pets from backend once when page loads
+  //with some modifications but this is where we request for all the pets
+  // the response can look like the dummy data below. If it does, nothing much needs to change
+  //   // Fetch pets from backend once when page loads
   useEffect(() => {
     const fetchPets = async () => {
       try {
         setLoading(true);
         setError("");
 
-        const res = await fetch("http://localhost:8082/api/v1/pets/getAllPets");
-        if (!res.ok) {
-          throw new Error("Failed to load pets");
-        }
+        //.........................................................................
 
-        const data = await res.json();
+        // const res = await fetch("http://localhost:8080/api/v1/pets/getAllPets");
+        // if (!res.ok) {
+        //   throw new Error("Failed to load pets");
+        // }
+        // const data = await res.json();
+
+        //......................................................................
+        //  const res = axiosClient.get("/api/v1/pets/getAllPets")
+        // .then(res => {
+        //   setPets(res.data)});
+
+        const res = await axiosClient.get("/api/v1/pets/getAllPets");
+        const data = res.data;     
+        
+        
         setPets(data);
-      } catch (err) {
+      }
+     catch (err) {
         setError(err.message || "Something went wrong");
       } finally {
         setLoading(false);
       }
     };
-
     fetchPets();
   
   }, []);
@@ -61,145 +73,7 @@ export default function PetListPage() {
     fetchOwner();
 }, [selectedPet]);
 
- // using dummy data instead of backend fetch
-  // useEffect(() => {
-  //   const dummyPets = [
-  //     {
-  //       petId: 1,
-  //       petName: "Buddy",
-  //       petBreed: "Golden Retriever",
-  //       petBehavior: "Friendly and energetic. Loves long walks and fetch.",
-  //       petFee: 25.0,
-  //       petAge: 3,
-  //       petGender: 1,
-  //       dewormingUpToDate: true,
-  //       vaccinationUpToDate: true,
-  //       petProfileStatus: 1,
-  //       imageUrl:
-  //         "https://images.unsplash.com/photo-1517849845537-4d257902454a?w=400",
-  //         owner: {
-  //       name: "Scarlet Hansen",
-  //       location: "Vancouver, BC",
-  //       rating: 4.9,
-  //       listingsCount: 3,
-  //       about:
-  //         "Dog lover and active pet owner. Loves sharing Buddy’s adventures with seekers.",
-  //         }
-  //     },
-  //     {
-  //       petId: 2,
-  //       petName: "Luna",
-  //       petBreed: "French Bulldog",
-  //       petBehavior: "Playful and cuddly. Great for small apartments.",
-  //       petFee: 18.5,
-  //       petAge: 2,
-  //       petGender: 0,
-  //       dewormingUpToDate: true,
-  //       vaccinationUpToDate: true,
-  //       petProfileStatus: 1,
-  //       imageUrl:
-  //         "https://images.unsplash.com/photo-1556228578-1e4cde67f7d1?w=400",
-  //         owner: {
-  //       name: "Scarlet Hansen",
-  //       location: "Vancouver, BC",
-  //       rating: 4.9,
-  //       listingsCount: 3,
-  //       about:
-  //         "Dog lover and active pet owner. Loves sharing Buddy’s adventures with seekers.",
-  //         }
-  //     },
-  //     {
-  //       petId: 3,
-  //       petName: "Whiskers",
-  //       petBreed: "Siamese",
-  //       petBehavior: "Independent but affectionate. Prefers quiet homes.",
-  //       petFee: 15.0,
-  //       petAge: 4,
-  //       petGender: 0,
-  //       dewormingUpToDate: false,
-  //       vaccinationUpToDate: true,
-  //       petProfileStatus: 1,
-  //       imageUrl:
-  //         "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=400",
-  //         owner: {
-  //       name: "Scarlet Hansen",
-  //       location: "Vancouver, BC",
-  //       rating: 4.9,
-  //       listingsCount: 3,
-  //       about:
-  //         "Dog lover and active pet owner. Loves sharing Buddy’s adventures with seekers.",
-  //         }
-  //     },
-  //     {
-  //       petId: 4,
-  //       petName: "Kiwi",
-  //       petBreed: "Parrot",
-  //       petBehavior: "Talkative and social. Enjoys human company and music.",
-  //       petFee: 12.0,
-  //       petAge: 1,
-  //       petGender: 1,
-  //       dewormingUpToDate: true,
-  //       vaccinationUpToDate: true,
-  //       petProfileStatus: 1,
-  //       imageUrl:
-  //         "https://images.unsplash.com/photo-1589923188900-7fefb8ed941e?w=400",
-  //         owner: {
-  //       name: "Scarlet Hansen",
-  //       location: "Vancouver, BC",
-  //       rating: 4.9,
-  //       listingsCount: 3,
-  //       about:
-  //         "Dog lover and active pet owner. Loves sharing Buddy’s adventures with seekers.",
-  //         }
-  //     },
-  //       {
-  //       petId: 5,
-  //       petName: "Honey",
-  //       petBreed: "Something",
-  //       petBehavior: "Talkative and social. Enjoys human company and music.",
-  //       petFee: 12.0,
-  //       petAge: 1,
-  //       petGender: 1,
-  //       dewormingUpToDate: true,
-  //       vaccinationUpToDate: true,
-  //       petProfileStatus: 1,
-  //       imageUrl:
-  //         "https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/30/dachshund.jpg?crop=1.00xw:0.668xh;0,0.260xh&resize=980:*",
-  //         owner: {
-  //       name: "Scarlet Hansen",
-  //       location: "Vancouver, BC",
-  //       rating: 4.9,
-  //       listingsCount: 3,
-  //       about:
-  //         "Dog lover and active pet owner. Loves sharing Buddy’s adventures with seekers.",
-  //         }
-  //     },
-  //       {
-  //       petId: 6,
-  //       petName: "Candy",
-  //       breed: "Somethng",
-  //       petBehavior: "Talkative and social. Enjoys human company and music.",
-  //       petFee: 12.0,
-  //       petAge: 1,
-  //       petGender: 1,
-  //       dewormingUpToDate: true,
-  //       vaccinationUpToDate: true,
-  //       petProfileStatus: 1,
-  //       imageUrl:
-  //         "https://hips.hearstapps.com/hmg-prod/images/cute-corgi-posing-in-between-its-owners-legs-royalty-free-image-1752090062.pjpeg?crop=0.66672xw:1xh;center,top&resize=980:*",
-  //         owner: {
-  //       name: "Scarlet Hansen",
-  //       location: "Vancouver, BC",
-  //       rating: 4.9,
-  //       listingsCount: 3,
-  //       about:
-  //         "Dog lover and active pet owner. Loves sharing Buddy’s adventures with seekers.",
-  //         }
-  //     },
-  //   ];
 
-  //   setPets(dummyPets);
-  // }, []);
 
   // Filter + search in memory
  

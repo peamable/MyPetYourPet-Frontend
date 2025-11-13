@@ -8,7 +8,7 @@ import OwnerListings from "./OwnerListings";
 import OwnerReservation from "./ReservationsView";
 
 export default function OwnerDashboard() {
-  const [activeTab, setActiveTab] = useState("create");
+  const [activeTab, setActiveTab] = useState("listings");
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
@@ -33,10 +33,12 @@ export default function OwnerDashboard() {
 
     const fetchOwner = async () => {
         try {
-          const res = await fetch(`http://localhost:8082/api/customerAccount/getPetOwnerdetails/3`);
-          if (!res.ok) throw new Error("Failed to load owner info");
-          const ownerData = await res.json();
+          // const res = await fetch(`http://localhost:8080/api/customerAccount/getPetOwnerdetails/3`);
+          // if (!res.ok) throw new Error("Failed to load owner info");
+          // const ownerData = await res.json();
 
+          const res = await axiosClient.get(`/api/customerAccount/getPetOwnerdetails/3`);
+          const ownerData = await res.data;   
           setUserData(ownerData); // ✅ Correct state setter
         } catch (err) {
           console.error("Owner fetch error:", err);
@@ -55,11 +57,12 @@ export default function OwnerDashboard() {
 
       {/* Top Navigation Tabs (Same as Seeker) */}
       <nav className="owner-nav">
-        <button className={activeTab === "create" ? "active" : ""} onClick={() => setActiveTab("create")}>
-          + Create Pet Listing
-        </button>
+        
         <button className={activeTab === "listings" ? "active" : ""} onClick={() => setActiveTab("listings")}>
           My Listings
+        </button>
+        <button className={activeTab === "create" ? "active" : ""} onClick={() => setActiveTab("create")}>
+          + Create Pet Listing
         </button>
         <button className={activeTab === "messages" ? "active" : ""} onClick={() => setActiveTab("messages")}>
           Messages
@@ -101,13 +104,15 @@ export default function OwnerDashboard() {
         {/* Tab Dynamic Content */}
         <main className="owner-tab-display">
 
-          {activeTab === "create" && (
-            <CreateAPet embedded={true} />
-          )}
 
           {activeTab === "listings" && (
             <OwnerListings embedded={true} />
           )}
+
+          {activeTab === "create" && (
+            <CreateAPet embedded={true} />
+          )}
+
 
           {activeTab === "messages" && (
             <div className="simple-tab-panel">
@@ -117,26 +122,27 @@ export default function OwnerDashboard() {
           )}
 
           {activeTab === "reservations" && (
-            <section className="reservations-section wrap">
-              <h2>Your Reservations</h2>
+            // <section className="reservations-section wrap">
+            //   <h2>Your Reservations</h2>
 
-              <div className="reservation-block">
-                <h3>Upcoming</h3>
-                <p>No upcoming bookings yet.</p>
-              </div>
+            //   <div className="reservation-block">
+            //     <h3>Upcoming</h3>
+            //     <p>No upcoming bookings yet.</p>
+            //   </div>
 
-              <div className="reservation-block">
-                <h3>Past</h3>
-                <p>No past bookings yet.</p>
-              </div>
+            //   <div className="reservation-block">
+            //     <h3>Past</h3>
+            //     <p>No past bookings yet.</p>
+            //   </div>
 
-              <div className="stats">
-                <div><strong>0</strong> Total</div>
-                <div><strong>0</strong> Pending</div>
-                <div><strong>0</strong> Confirmed</div>
-                <div><strong>0</strong> Completed</div>
-              </div>
-            </section>
+            //   <div className="stats">
+            //     <div><strong>0</strong> Total</div>
+            //     <div><strong>0</strong> Pending</div>
+            //     <div><strong>0</strong> Confirmed</div>
+            //     <div><strong>0</strong> Completed</div>
+            //   </div>
+            // </section>
+            <OwnerReservation embedded={true} />
             
           )}
 

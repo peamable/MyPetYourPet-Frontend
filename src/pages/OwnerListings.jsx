@@ -1,40 +1,20 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../styles/OwnerListings.css";
+import SeekerProfileCard from "../components/SeekerProfileCard";
+import { useState, useEffect } from "react";
 
 export default function OwnerListings({ embedded }) {
-//   // Example data (Later replace with API data)
-//   const owner = {
-//     name: "Scarlet Hansen",
-//     location: "Vancouver, BC",
-//     listings: 3,
-//     rating: 4.9,
-//   };
 
-//   const pets = [
-//     {
-//       name: "Buddy",
-//       breed: "Golden Retriever",
-//       status: "Active",
-//       description: "Friendly, loves kids, perfect for walks and cuddles",
-//       tags: ["Large", "Child-Friendly", "Vaccinated"],
-//       image:
-//         "https://images.pexels.com/photos/3299907/pexels-photo-3299907.jpeg?auto=compress&cs=tinysrgb&w=600",
-//     },
-//     {
-//       name: "Luna",
-//       breed: "French Bulldog",
-//       status: "Hidden",
-//       description: "Playful and Social, great for short park hangouts.",
-//       tags: ["Small", "City-Friendly", "Vaccinated"],
-//       image:
-//         "https://images.pexels.com/photos/1814062/pexels-photo-1814062.jpeg?auto=compress&cs=tinysrgb&w=600",
-//     },
-//   ];
-import SeekerProfileCard from "../components/SeekerProfileCard";
-// import your pet cards, or just leave the JSX inline
+  const [ownerpets, setPets] = useState([]);
+  useEffect(()=>{
 
-function OwnerListingsPage() {
+  },[])
+  
+
+ // import your pet cards, or just leave the JSX inline
+
+ 
   return (
     <div className="owner-listings-page">
       {!embedded && <Header />}
@@ -42,7 +22,7 @@ function OwnerListingsPage() {
       {/* NEW wrapper for this page */}
       <div className="owner-page">
         {/* LEFT: profile column */}
-        <div className="owner-profile-column">
+        {/* <div className="owner-profile-column">
           <SeekerProfileCard
             name="Scarlet Hansen"
             role="Owner"
@@ -53,19 +33,24 @@ function OwnerListingsPage() {
             preferences={["Dog", "Friendly", "Active"]}
             onEdit={() => {}}
             onDelete={() => {}}
-          />
+          /> */}
 
           {/* your left-side nav if you have it */}
-          <div className="owner-menu">
+          {/* <div className="owner-menu">
             <button className="menu-item menu-item--active">My Listings</button>
             <button className="menu-item">Messages</button>
             <button className="menu-item">Payments</button>
             <button className="menu-item">Support</button>
           </div>
-        </div>
+        </div> */}
 
         {/* RIGHT: pets column */}
         <div className="owner-pets-column">
+          {ownerpets.length === 0 ? (<p> You have no pets listed. Create a pet to view here 🐾</p>) :(
+            ownerpets.map((pet) => <PetCard key={pet.id} pet={pet} />))}
+          
+            
+          
           {/* just plop your existing pet cards here */}
           {/* Buddy card */}
           {/* Luna card */}
@@ -75,6 +60,6 @@ function OwnerListingsPage() {
      {!embedded && <Footer />}
     </div>
   );
-}
+};
 
-export default OwnerListingsPage;
+// export default OwnerListings;

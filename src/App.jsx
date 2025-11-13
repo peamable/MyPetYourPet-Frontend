@@ -6,7 +6,6 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AboutUs from "./pages/AboutUs"
 import HowItWorks from "./pages/HowItWorks"
-import Header from "./components/Header";
 import OwnerDashboard from "./pages/OwnerDashboard";
 import SeekerDashboard from "./pages/SeekerDashboard";
 import CreateAPet from "./pages/CreateAPet";
@@ -16,18 +15,10 @@ import ReservationsView from "./pages/ReservationsView";
 import ProfileView from "./pages/ProfileView"
 import PetListings from "./pages/PetList"
 
-// const App = () => {
-//   return <Home />;
-// };
-
-//use this navigate from Home to Login
-
-
 
 export default function App() {
   return(
-    
-      
+  
       <Routes>
         {/* Default route (Home page) */}
         <Route path="/" element={<Home />} />
@@ -53,12 +44,9 @@ export default function App() {
         <Route path="/owner/petprofileview" element={<PetProfileView />} />
 
         <Route path="/viewListings" element={<OwnerListings />} /> 
-         <Route path="/admin/reservation" element={<ReservationsView />} />
-        {/*using the ContactUs button to test the pages*}
+        <Route path="/admin/reservation" element={<ReservationsView />} />
         <Route path="/allListings" element={<PetListings />} />
-
-         <Route path="/seeker/viewProfile" element={< ProfileView/>} />
-        //using the ContactUs button to test the pages
+        <Route path="/seeker/viewProfile" element={< ProfileView/>} />
 
      {/*Here we add all the routes that we create for all the pages*/}
       </Routes>
