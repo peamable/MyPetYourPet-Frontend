@@ -1,0 +1,96 @@
+.pet-detail-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.pet-detail-container {
+  background: transparent;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.pet-detail-card {
+  background: #f5e8da;
+  border-radius: 20px;
+  padding: 20px 24px;
+  position: relative;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+}
+
+.detail-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.detail-grid {
+    border-radius: 20px;
+  display: grid;
+  background-color: white;
+  gap: 24px;
+  grid-template-columns: 2fr 1.5fr;
+  gap: 24px;
+}
+
+.detail-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-top {
+  display: flex;
+  gap: 16px;
+}
+
+.detail-img {
+  width: 200px;
+  height: 250px;
+  border-radius: 16px;
+  object-fit: cover;
+  background-color: #f5e8da;
+}
+
+.section {
+  margin-top: 16px;
+}
+
+.status.active {
+  color: green;
+}
+
+.status.hidden {
+  color: goldenrod;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  background: #f4f0e1;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+}
+
+.chip.ok { background: #e7f8ea; color: #0f5132; }
+.chip.warn { background: #fff3cd; color: #664d03; }
+
+.detail-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

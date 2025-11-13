@@ -13,6 +13,8 @@ import CreateAPet from "./pages/CreateAPet";
 import OwnerListings from "./pages/OwnerListings";
 import PetProfileView from "./pages/PetProfileView";
 import ReservationsView from "./pages/ReservationsView";
+import ProfileView from "./pages/ProfileView"
+import PetListings from "./pages/PetList"
 
 // const App = () => {
 //   return <Home />;
@@ -53,6 +55,10 @@ export default function App() {
         <Route path="/viewListings" element={<OwnerListings />} /> 
          <Route path="/admin/reservation" element={<ReservationsView />} />
         {/*using the ContactUs button to test the pages*}
+        <Route path="/allListings" element={<PetListings />} />
+
+         <Route path="/seeker/viewProfile" element={< ProfileView/>} />
+        //using the ContactUs button to test the pages
 
      {/*Here we add all the routes that we create for all the pages*/}
       </Routes>

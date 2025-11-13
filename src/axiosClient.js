@@ -6,27 +6,29 @@ const axiosClient = Axios.create({
    //withCredentials:true,    //uncomment to implement authentication
 });
 
-//Add authenticator token
-axiosClient.interceptors.request.use(
-    (config) => {
-      const username = "user";
-  const password = "abb16115-ce66-40b2-a3b7-023ff4a01c61"; // same one that worked
+//Add authenticator token COMMENT OUT FOR TESTING!!! ---------------------------------
+// axiosClient.interceptors.request.use(
+//     (config) => {
+//       const username = "user";
+//       const password = " 151dcf35-bcc6-42ba-8df7-d2bcdae08000"; // same one that worked
 
-  const basicToken = btoa(`${username}:${password}`);
-  config.headers.Authorization = `Basic ${basicToken}`;
-
-  //not necessary unless we use maybe JWT token later
-//   if (!config.headers) {
-//   config.headers = {};
-// }
-
-// if (!config.headers.Authorization) {
+//   const basicToken = btoa(`${username}:${password}`);
 //   config.headers.Authorization = `Basic ${basicToken}`;
-// }
-        return config;
-    },
-    (error) => Promise.reject(error)
-);
+
+//   //not necessary unless we use maybe JWT token later
+// //   if (!config.headers) {
+// //   config.headers = {};
+// // }
+
+// // if (!config.headers.Authorization) {
+// //   config.headers.Authorization = `Basic ${basicToken}`;
+// // }
+//         return config;
+//     },
+//     (error) => Promise.reject(error)
+// );
+//---------------------------------------------------------------------------------------------
+
 
 // Optional: response interceptor
 axiosClient.interceptors.response.use(
