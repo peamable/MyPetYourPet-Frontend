@@ -154,3 +154,8 @@
     padding: 25px;
   }
 }
+
+.small-note{
+  font-size:x-small;
+  color: red;
+}

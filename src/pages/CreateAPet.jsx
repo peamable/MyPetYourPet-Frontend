@@ -159,10 +159,10 @@ export default function CreateAPet({ embedded }) {
               <input name="petName" onChange={handleChange} />
             </label>
 
-            <label>
+            {/* <label>
               Pet ID (auto)
               <input disabled value="Auto-Generated" />
-            </label>
+            </label> */}
           </div>
 
           <div className="grid-3">

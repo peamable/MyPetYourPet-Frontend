@@ -3,43 +3,46 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { auth } from "../firebaseConfig";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import "../styles/Register.css";
 import pawIcon from "../assets/paw.png";
 import axiosClient from "../axiosClient"
+import UserForm from "../components/UserForm";
+
 
 export default function Register() {
-  const [formData, setFormData] = useState({
-    // uid: "",
-    fullName: "",
-    email: "",
-    phone: "",
-    age:"", 
-    gender:"", 
-    // idType: "", // we should save id file and background check instead of numbers
-    governmentId: "", //placeholder to later save the file
-    location: "",
-    // password: "", //Not for backend and DB
-    // confirmPassword: "",//Not for backend and DB
-    // role: "", //----------------------------------------------------------
-    //profilePic:"", //--------------- will be pass as file
+  // const [formData, setFormData] = useState({
+  //   // uid: "",
+  //   fullName: "",
+  //   email: "",
+  //   phone: "",
+  //   age:"", 
+  //   gender:"", 
+  //   // idType: "", // we should save id file and background check instead of numbers
+  //   governmentId: "", //placeholder to later save the file
+  //   location: "",
+  //   // password: "", //Not for backend and DB
+  //   // confirmPassword: "",//Not for backend and DB
+  //   // role: "", //----------------------------------------------------------
+  //   //profilePic:"", //--------------- will be pass as file
 
-  });
+  // });
 
-  const [image, setImage] = useState(null);
-  const [error, setError] = useState("");
+  // const [image, setImage] = useState(null);
+  // const [error, setError] = useState("");
 
-  const handleChange = (e) => {  // what to do the form fields change
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  // const handleChange = (e) => {  // what to do the form fields change
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
 
-  const handleImage = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
+  // const handleImage = (e) => {
+  //   const file = e.target.files[0];
+  //   setImage(file);
 
-    const reader = new FileReader();
-    reader.onloadend = () => setPreview(reader.result);
-    reader.readAsDataURL(file);
-  };
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => setPreview(reader.result);
+  //   reader.readAsDataURL(file);
+  // };
 
   // const handleReset = () => {
   //   setFormData({
@@ -54,35 +57,52 @@ export default function Register() {
   //   setImage(null)
   // };
 
-  const handleSubmit = async (e) => {  // what to do when the user clicks submit
-    e.preventDefault();
-     if (
-      !formData.fullName ||
-      !formData.email ||
-      !formData.phone ||
-      !formData.age ||
-      !formData.gender ||
-      !formData.idNumber ||
-      !formData.address ||
-      !image
-    ) {
-      setError("Please fill out all required fields and select an image.");
-      return;
-    }
-    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
-    if (!allowedTypes.includes(image.type)) {
-      setError("Only JPG, PNG, or WEBP images are allowed.");
-      return;
-    }
-    const maxSize = 5 * 1024 * 1024;
-    if (image.size > maxSize) {
-      setError("Image must be smaller than 5MB.");
-      return;
-    }
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
+  // const handleSubmit = async (e) => {  // what to do when the user clicks submit
+  //   e.preventDefault();
+  //    if (
+  //     !formData.fullName ||
+  //     !formData.email ||
+  //     !formData.phone ||
+  //     !formData.age ||
+  //     !formData.gender ||
+  //     !formData.idNumber ||
+  //     !formData.address ||
+  //     !image
+  //   ) {
+  //     alert("Please fill out all required fields and select an image.");
+  //     return;
+  //   }
+  //   const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+  //   if (!allowedTypes.includes(image.type)) {
+  //     setError("Only JPG, PNG, or WEBP images are allowed.");
+  //     return;
+  //   }
+  //   const maxSize = 5 * 1024 * 1024;
+  //   if (image.size > maxSize) {
+  //     setError("Image must be smaller than 5MB.");
+  //     return;
+  //   }
+  //   if (formData.password !== formData.confirmPassword) {
+  //     setError("Passwords do not match");
+  //     return;
+  //   }
+
+  const handleRegister = async (data) => {
+    // data is what UserForm passes: {...formData, image}
+    const {
+      fullName,
+      email,
+      phone,
+      age,
+      gender,
+      idNumber,
+      address,
+      role,
+      password,
+      confirmPassword, // you might not need this here
+      image,
+    } = data;
+
     try{
       const usercredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
       const user = usercredential.user
@@ -156,99 +176,131 @@ export default function Register() {
       }
 };
 
-  return (
-    <div className="register-page">
-      <Header />
 
-      {/* Hero Section */}
-      <section className="register-hero">
-        <h1>Start your pet journey</h1>
-        <ul>
-          <li>Owners: share your pet safely</li>
-          <li>Seekers: book short pet hangouts</li>
-          <li>Build trust with reviews</li>
-        </ul>
-      </section>
+     return(
+      <div className="register-page">
+       <Header />
 
-      {/* Register Form Card */}
-      <div className="register-card">
-        <div className="register-brand">
-          <img src={pawIcon} alt="paw" className="paw-icon" />
-          <span>My pet, Your pet</span>
-        </div>
-        <p className="subtitle">Create Your Account</p>
+       {/* Hero Section */}
+       <section className="register-hero">
+         <h1>Start your pet journey</h1>
+         <ul>
+           <li>Owners: share your pet safely</li>
+           <li>Seekers: book short pet hangouts</li>
+           <li>Build trust with reviews</li>
+         </ul>
+       </section>
 
-        <form onSubmit={handleSubmit} className="register-form">
-          <label>Full Name</label>
-          <input name="fullName" onChange={handleChange} required />
+       <div className="register-card">
+         <div className="register-brand">
+           <img src={pawIcon} alt="paw" className="paw-icon" />
+           <span>My pet, Your pet</span>
+         </div>
+         <p className="subtitle">Create Your Account</p>
+         <UserForm mode="create" onSubmit={handleRegister} />
+         </div>
+          <Footer />
+       </div>
+/* I made one common component and used them in register and update profile*/
+//It should work but the file selection keeps freezing on me. Ill try again during the day
+//.......................................................................       
+     )
 
-          <label>Role</label>
-          <select name="role" onChange={handleChange} required>
-            <option value="">Select</option>
-            <option value="owner">Owner</option>
-            <option value="seeker">Seeker</option>
-          </select>
+  // return (
+    
+  //   <div className="register-page">
+  //     <Header />
 
-          <label>Email</label>
-          <input type="email" name="email" onChange={handleChange} required />
+  //     {/* Hero Section */}
+  //     <section className="register-hero">
+  //       <h1>Start your pet journey</h1>
+  //       <ul>
+  //         <li>Owners: share your pet safely</li>
+  //         <li>Seekers: book short pet hangouts</li>
+  //         <li>Build trust with reviews</li>
+  //       </ul>
+  //     </section>
 
-          <label>Phone</label>
-          <input type="tel" name="phone" onChange={handleChange} />
+  //     {/* Register Form Card */}
+  //     <div className="register-card">
+  //       <div className="register-brand">
+  //         <img src={pawIcon} alt="paw" className="paw-icon" />
+  //         <span>My pet, Your pet</span>
+  //       </div>
+  //       <p className="subtitle">Create Your Account</p>
 
-          {/* Government ID Section */}
-          <div className="gov-section">
-            <p className="gov-label">Government ID</p>
-            <label>ID Type</label>
-            <input name="idType" onChange={handleChange} />
-            <label>ID Number</label>
-            <input name="idNumber" onChange={handleChange}/>
-            <p className="gov-note">
-              We only use this for verification. It will be encrypted and never shared publicly.
-            </p>
-          </div>
+  //       <form onSubmit={handleSubmit} className="register-form">
+  //         <label>Full Name</label>
+  //         <input name="fullName" onChange={handleChange} required />
 
-          <label>location</label>
-          <input name="address" onChange={handleChange} />
+  //         <label>Role</label>
+  //         <select name="role" onChange={handleChange} required>
+  //           <option value="">Select</option>
+  //           <option value="owner">Owner</option>
+  //           <option value="seeker">Seeker</option>
+  //         </select>
 
-          <label>age</label>
-          <input type="number" name="age" onChange={handleChange}/>
+  //         <label>Email</label>
+  //         <input type="email" name="email" onChange={handleChange} required />
 
-          {/* <label>Gender</label>
-          <select name="gender" onChange={handleChange}>
-            <option value="">Select</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select> */}
-          <label>Gender</label>
-          <input name="gender" onChange={handleChange} />
+  //         <label>Phone</label>
+  //         <input type="tel" name="phone" onChange={handleChange} />
 
-          <label>
-          Profile Picture
-          <input type="file" accept="image/*" onChange={handleImage} />
-          </label>
+  //         {/* Government ID Section */}
+  //         <div className="gov-section">
+  //           <p className="gov-label">Government ID</p>
+  //           <label>ID Type</label>
+  //           <input name="idType" onChange={handleChange} />
+  //           <label>ID Number</label>
+  //           <input name="idNumber" onChange={handleChange}/>
+  //           <p className="gov-note">
+  //             We only use this for verification. It will be encrypted and never shared publicly.
+  //           </p>
+  //         </div>
 
-          <label>Password</label> 
-          <input type="password" name="password" onChange={handleChange} required />
+  //         <label>location</label>
+  //         <input name="address" onChange={handleChange} />
 
-          <label>Confirm Password</label>
-          <input type="password" name="confirmPassword" onChange={handleChange} required />
+  //         <label>age</label>
+  //         <input type="number" name="age" onChange={handleChange}/>
 
-          <div className="terms">
-            <input type="checkbox" required />
-            <label>
-              I agree to the <a href="#">Terms & Conditions</a> and{" "}
-              <a href="#">Privacy Policy</a>
-            </label>
-          </div>
+  //         {/* <label>Gender</label>
+  //         <select name="gender" onChange={handleChange}>
+  //           <option value="">Select</option>
+  //           <option value="male">Male</option>
+  //           <option value="female">Female</option>
+  //         </select> */}
+  //         <label>Gender</label>
+  //         <input name="gender" onChange={handleChange} />
 
-          <button type="submit" className="btn-primary">Create Account</button>
-          {error && <p className="error-text">{error}</p>}
-        </form>
+  //         <label>
+  //         Profile Picture
+  //         <input type="file" accept="image/*" onChange={handleImage} />
+  //         </label>
 
-        <p className="login-link">
-          Already have an account? <Link to="/login">Back to Login</Link>
-        </p>
-      </div>
-    </div>
-  );
+  //         <label>Password</label> 
+  //         <input type="password" name="password" onChange={handleChange} required />
+
+  //         <label>Confirm Password</label>
+  //         <input type="password" name="confirmPassword" onChange={handleChange} required />
+
+  //         <div className="terms">
+  //           <input type="checkbox" required />
+  //           <label>
+  //             I agree to the <a href="#">Terms & Conditions</a> and{" "}
+  //             <a href="#">Privacy Policy</a>
+  //           </label>
+  //         </div>
+
+  //         <button type="submit" className="btn-primary">Create Account</button>
+  //         {error && <p className="error-text">{error}</p>}
+  //       </form>
+
+  //       <p className="login-link">
+  //         Already have an account? <Link to="/login">Back to Login</Link>
+  //       </p>
+  //     </div>
+  //   </div>
+    
+  // );
 }
