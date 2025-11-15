@@ -7,28 +7,21 @@ export default function UserForm({
     mode = "create",
     initialValues = {},  // for edit mode
     onSubmit,
+    
 }) 
 {
+  const user = "owner"; //dynamically change this
     const isEdit = mode === "edit"
     const navigate = useNavigate()
-    const handleExit = ()=> {navigate("")}
+    const handleExit = ()=> {
+      if (user === "owner")
+        {navigate("/owner/dashboard")}
+    else{
+      navigate("/seeker/dashboard")
+    } }
 
 
     const [formData, setFormData] = useState({
-        // // uid: "",
-        // fullName: "",
-        // email: "",
-        // phone: "",
-        // age:"", 
-        // gender:"", 
-        // // idType: "", // we should save id file and background check instead of numbers
-        // governmentId: "", //placeholder to later save the file
-        // location: "",
-        // password: "", //Not for backend and DB
-        // confirmPassword: "",//Not for backend and DB
-        // role: "", //----------------------------------------------------------
-        //profilePic:"", //--------------- will be pass as file
-
 
         fullName: initialValues.fullName || "",
         role: initialValues.role || "",
@@ -272,7 +265,8 @@ export default function UserForm({
               <a href="#">Privacy Policy</a>
             </label>
           </div>)}
-          {isEdit && <button className="btn-primary" type = "button">Exit Form</button>}
+          {isEdit && <button className="btn-primary" type = "button" onClick={handleExit}>Exit Form</button>}
+          //exit should navigate back to the dashboard based on usertype
 
           <button type="submit" className="btn-primary">{isEdit ? "Save Changes" : "Create Account"}</button>
           {error && <p className="error-text small-note">{error}</p>}
