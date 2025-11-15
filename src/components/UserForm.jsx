@@ -49,6 +49,10 @@ export default function UserForm({
         const [error, setError] = useState("");
 
         useEffect(() => {
+
+          if(!isEdit) return;
+
+
         setFormData((prev) => ({
             ...prev,
             fullName: initialValues.fullName || "",
@@ -64,7 +68,7 @@ export default function UserForm({
             if (initialValues.profilePicUrl) {
             setPreview(initialValues.profilePicUrl);
             }
-        }, [initialValues]);
+        }, [isEdit, initialValues]);
             
         // const handleChange = (e) => {  // what to do the form fields change
         //   setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -100,6 +104,7 @@ export default function UserForm({
 
         const handleSubmit = async (e) => {  // what to do when the user clicks submit
         e.preventDefault();
+        setError("");
             if (
             !formData.fullName ||
             !formData.email ||
@@ -108,12 +113,13 @@ export default function UserForm({
             !formData.gender ||
             !formData.idNumber ||
             !formData.address ||
-            !image
+            (!isEdit &&!image)
             ) {
-            alert("Please fill out all required fields and select an image.");
+            setError("Please fill out all required fields and select an image.");
             return;
             }
-            const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+            if(image){
+              const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
             if (!allowedTypes.includes(image.type)) {
             setError("Only JPG, PNG, or WEBP images are allowed.");
             return;
@@ -123,6 +129,8 @@ export default function UserForm({
             setError("Image must be smaller than 5MB.");
             return;
             }
+            }
+            
             if (!isEdit) {
             // create mode: must match
             if (formData.password !== formData.confirmPassword) {
@@ -145,11 +153,10 @@ export default function UserForm({
             }
             }
         try {
-      
-      await onSubmit({ ...formData, image });
-    } catch (err) {
-      setError(err.message || "Something went wrong");
-    }
+          await onSubmit({ ...formData, image });
+          } catch (err) {
+            setError(err.message || "Something went wrong");
+          }
   };
 
 
@@ -166,8 +173,9 @@ export default function UserForm({
             )}
 
           <label>Full Name</label>
-          <input name="fullName" onChange={handleChange}
+          <input name="fullName" 
           value= {formData.fullName} 
+          onChange={handleChange}
           required />
 
           <label>Role</label>
@@ -264,10 +272,10 @@ export default function UserForm({
               <a href="#">Privacy Policy</a>
             </label>
           </div>)}
-          {isEdit && <button className="btn-primary">Exit Form</button>}
+          {isEdit && <button className="btn-primary" type = "button">Exit Form</button>}
 
           <button type="submit" className="btn-primary">{isEdit ? "Save Changes" : "Create Account"}</button>
-          {error && <p className="error-text">{error}</p>}
+          {error && <p className="error-text small-note">{error}</p>}
         </form>
     );
 }

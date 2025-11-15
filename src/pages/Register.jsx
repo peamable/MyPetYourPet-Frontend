@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../firebaseConfig";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -87,6 +87,8 @@ export default function Register() {
   //     return;
   //   }
 
+  const navigate = useNavigate();
+
   const handleRegister = async (data) => {
     // data is what UserForm passes: {...formData, image}
     const {
@@ -99,29 +101,31 @@ export default function Register() {
       address,
       role,
       password,
-      confirmPassword, // you might not need this here
       image,
     } = data;
+    let usercredential = null;
 
     try{
-      const usercredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+      usercredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = usercredential.user
-
       const firebaseUID = user.uid;
-      setFormData(prev => ({ ...prev, uid: firebaseUID }));
+      const firebaseToken = user
+    
+      // setFormData(prev => ({ ...prev, uid: firebaseUID }));
+      //we are setting the form data in userform
 
      
-       //payload will hold the data we want to send
+      //payload will hold the data we want to send
       const payload = {
       //uid: firebaseUID,             // from Firebase
-      fullName: formData.fullName,
-      email: formData.email,        // could also use user.email
-      phone: formData.phone,
-      age: parseInt(formData.age),
-      gender: formData.gender,
+      fullName: fullName,
+      email: email,        // could also use user.email
+      phone: phone,
+      age: parseInt(age),
+      gender: gender,
           // idType: "", // we should save id file and background check instead of numbers
-      governmentId:formData.idNumber,
-      location: formData.address,
+      governmentId:idNumber,
+      location: address,
       };
 
      // this should be sent to a specific function "createAccount"
@@ -129,47 +133,62 @@ export default function Register() {
       // alert(apiURL)
       // alert(formData.role)
 
-      if (formData.role == "owner")
+      if (role == "owner")
       {
         //apiURL = "/api/PetOwnerUser/createAccount"
          apiURL = "/api/registration/petOwner";
       }
-      else if (formData.role == "seeker")
+      else if (role == "seeker")
       {
         apiURL = "/api/registration/petSeeker";
       }
-      // else
-      // {
-      //   alert(formData.role)
-      // }
-      alert(apiURL)
+       else
+       {
+         throw new Error("Please select a role")
+       }
+      // alert(apiURL) //this was for debugging
     
      
       const formDataToSend = new FormData();
       formDataToSend.append("OwnerRegistrationRequest", new Blob([JSON.stringify(payload)], { type: "application/json" }));
       formDataToSend.append("file", image);
-      for (let [key, value] of formDataToSend.entries()) {
-        if (value instanceof Blob) {
-          value.text().then((text) => {
-            alert(`${key}:\n${text}`);
-          });
-        } else if (value instanceof File) {
-          alert(`${key}: ${value.name} (${value.type})`);
-        } else {
-          alert(`${key}: ${value}`);
-        }
-      }
+
+      //for debugging............................................................
+      // for (let [key, value] of formDataToSend.entries()) {
+      //   if (value instanceof Blob) {
+      //     value.text().then((text) => {
+      //       alert(`${key}:\n${text}`);
+      //     });
+      //   } else if (value instanceof File) {
+      //     alert(`${key}: ${value.name} (${value.type})`);
+      //   } else {
+      //     alert(`${key}: ${value}`);
+      //   }
+      // }
+      //...............................................................................
 
       await axiosClient.post(apiURL, formDataToSend);
       alert("Account created successfully! 🎉");
-      setError("");
+      navigate("/login")
+
+      // setError("");
         // redirect if needed
         // window.location.href = "/login";
     } 
     catch (err) {
-              if (err.response && err.response.data) {
-          const backendError = err.response.data.error || err.response.data.message || "Unknown error";
-          setError(backendError);
+     //delete the firebase record if there was an error saving into the database
+      if (usercredential) {
+      try {
+        await usercredential.user.delete();
+        // optionally: await auth.signOut();
+      } catch (delErr) {
+        console.log("Failed to rollback Firebase user:", delErr);
+      }
+       }
+     if (err.response && err.response.data) {
+       const backendError = err.response.data.error || err.response.data.message || "Unknown error";
+          JSON.stringify(err.response.data);
+          throw new Error(backendError);
         } else {
           setError(err.message || "Something went wrong");
         }
@@ -201,6 +220,23 @@ export default function Register() {
          </div>
           <Footer />
        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* I made one common component and used them in register and update profile*/
 //It should work but the file selection keeps freezing on me. Ill try again during the day
 //.......................................................................       
