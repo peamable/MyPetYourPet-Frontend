@@ -10,7 +10,7 @@ const axiosClient = Axios.create({
 axiosClient.interceptors.request.use(
     (config) => {
       const username = "user";
-      const password = "0287a5b5-5c27-4fc7-bce9-8e126ad35b02"; // same one that worked
+      const password = "500d1e6b-8884-4f9f-86af-8dbf483a5ee8"; // same one that worked
 
   const basicToken = btoa(`${username}:${password}`);
   config.headers.Authorization = `Basic ${basicToken}`;

@@ -117,7 +117,7 @@ export default function Register() {
      
       //payload will hold the data we want to send
       const payload = {
-      //uid: firebaseUID,             // from Firebase
+      firebaseUID: firebaseUID,             // from Firebase
       fullName: fullName,
       email: email,        // could also use user.email
       phone: phone,
