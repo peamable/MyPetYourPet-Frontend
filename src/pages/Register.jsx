@@ -222,21 +222,6 @@ export default function Register() {
        </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* I made one common component and used them in register and update profile*/
 //It should work but the file selection keeps freezing on me. Ill try again during the day
 //.......................................................................       

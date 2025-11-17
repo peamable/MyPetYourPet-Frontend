@@ -10,6 +10,7 @@ import SeekerProfileCard from "../components/UserProfileCard";
 import { useNavigate } from "react-router-dom";
 
 export default function PetSeekerDashboard() {
+  const accountId = localStorage.getItem("accountId"); //like shared preferences
   const [activeTab, setActiveTab] = useState("browse");
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate()
@@ -23,7 +24,7 @@ export default function PetSeekerDashboard() {
     const fetchOwner = async () => { 
         try {
 
-          const res = await axiosClient.get(`/api/customerAccount/getPetOwnerdetails/3`);
+          const res = await axiosClient.get(`/api/customerAccount/getCustomerDetails/${accountId}`);
           const ownerData = await res.data;   
           setUserData(ownerData); // ✅ Correct state setter
         } catch (err) {

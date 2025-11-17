@@ -11,6 +11,7 @@ import OwnerProfileCard from "../components/UserProfileCard";
 
 export default function OwnerDashboard() {
 
+  const accountId = localStorage.getItem("accountId"); //like shared preferences
   const navigate = useNavigate()
   const handleEdit = () =>
   {
@@ -45,7 +46,8 @@ export default function OwnerDashboard() {
           // if (!res.ok) throw new Error("Failed to load owner info");
           // const ownerData = await res.json();
 
-          const res = await axiosClient.get(`/api/customerAccount/getPetOwnerdetails/2`);
+          // const res = await axiosClient.get(`/api/customerAccount/getPetOwnerdetails/2`);
+          const res = await axiosClient.get(`/api/customerAccount/getCustomerDetails/${accountId}`);
           const ownerData = await res.data;   
           setUserData(ownerData); // ✅ Correct state setter
         } catch (err) {
