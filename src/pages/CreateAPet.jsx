@@ -20,6 +20,7 @@ export default function CreateAPet({ embedded }) {
   });
 
 
+  
   const [dewormed, setDeworm] = useState(false);
   const [vaccinated, setVaccinated] = useState(false);
   const [image, setImage] = useState(null);
@@ -70,6 +71,7 @@ export default function CreateAPet({ embedded }) {
 
 
     try{
+      const token = await user.getIdToken();
       const payload = {
           petName: formData.petName,
           petAge: parseInt(formData.age),
@@ -100,7 +102,8 @@ export default function CreateAPet({ embedded }) {
       }
 
 
-      await axiosClient.post(apiURL, formDataToSend);
+      await axiosClient.post(apiURL, formDataToSend, { headers: { Authorization: `Bearer ${token}`} });
+      
       alert("Pet created successfully! 🎉");
       setError("");
     } 
@@ -227,7 +230,7 @@ export default function CreateAPet({ embedded }) {
           <div className="button-row">
              <button className="btn-save" onClick={handleSave}>Save Listing</button>  {/*Add data to db and go back to listings */ }
             <button className="btn-reset" onClick={handleReset}>Reset</button>
-            <Link className="btn-back" to= "/owner/ownerlistings">Back to My Listings</Link>
+            <Link className="btn-back" to= "/owner/dashboard">Back to My Listings</Link> {/*Need to work on the navigation*/ }
           </div>
         </div>
 

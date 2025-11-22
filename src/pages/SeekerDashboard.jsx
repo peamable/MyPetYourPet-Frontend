@@ -21,18 +21,18 @@ export default function PetSeekerDashboard() {
 
   useEffect(() => {
      //change to fetch seeker
-    const fetchOwner = async () => { 
+    const fetchSeeker = async () => { 
         try {
 
           const res = await axiosClient.get(`/api/customerAccount/getCustomerDetails/${accountId}`);
-          const ownerData = await res.data;   
-          setUserData(ownerData); // ✅ Correct state setter
+          const seekerData = await res.data;   
+          setUserData(seekerData); // ✅ Correct state setter
         } catch (err) {
           console.error("Owner fetch error:", err);
         }
     };
 
-    fetchOwner();
+    fetchSeeker();
 
    }, []);
 
@@ -51,9 +51,10 @@ export default function PetSeekerDashboard() {
                     location={userData.customerInfo?.location || "Location not set"}
                     email={userData.email}
                     phone={userData.customerInfo?.phone}
-                    bio="Dog lover, my spouse is allergic so I cannot have one. Looking forward to fun hangout sessions."
+                    bio={userData.customerInfo?.bio}
                     rating={userData.rating} //the controller that fills should add status and rating
                     status={userData.rating}
+                    profilePicUrl={userData.profilePicUrl}
                     onEdit={handleEdit}
                     // onDelete={handleDelete}
                   />

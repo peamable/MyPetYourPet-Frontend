@@ -39,7 +39,12 @@ export default function App() {
 
      
         {/*Role specific routes*/}
-        <Route path="/owner/dashboard" element={<OwnerDashboard />} />
+        <Route path="/owner/dashboard" element={<OwnerDashboard />}>
+          {/* <Route index element={<OwnerDashboardHome />} />
+          <Route path="listings" element={<OwnerListings />} /> */}
+        </Route>
+      
+
         <Route path="/seeker/dashboard" element={<SeekerDashboard />} />
         <Route path="/owner/createapet" element={<CreateAPet />} />
         <Route path="/owner/ownerlistings" element={<OwnerListings />} />

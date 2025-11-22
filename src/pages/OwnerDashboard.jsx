@@ -92,8 +92,9 @@ export default function OwnerDashboard() {
                     location={userData.customerInfo?.location || "Location not set"}
                     email={userData.email}
                     phone={userData.customerInfo?.phone}
-                    bio="Dog lover, my spouse is allergic so I cannot have one. Looking forward to fun hangout sessions."
+                    bio={userData.customerInfo?.bio}
                     rating={userData.customerInfo?.ratingAvg} //the controller that fills should add status and rating
+                    profilePicUrl={userData.profilePicUrl}
                     status={userData.customerInfo?.profileStatus}
                     onEdit={handleEdit}
                     // onDelete={handleDelete}

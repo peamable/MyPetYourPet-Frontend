@@ -1,4 +1,5 @@
 import Axios from "axios";
+import { getAuth } from "firebase/auth";
 
 const axiosClient = Axios.create({
    baseURL: import.meta.env.VITE_API_BASE_URL, //reads from .env
@@ -31,13 +32,30 @@ const axiosClient = Axios.create({
 
 
 // Optional: response interceptor
-axiosClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    // You can handle common errors here, e.g. 401
-    return Promise.reject(error);
-  }
-);
+// axiosClient.interceptors.response.use(
 
+//   (response) => response,
+//   (error) => {
+//     // You can handle common errors here, e.g. 401
+//     return Promise.reject(error);
+//   }
+// );
+
+axiosClient.interceptors.request.use(
+  
+
+  async (config) => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (user) {
+      const token = await user.getIdToken(/* forceRefresh */ false);
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 export default axiosClient;

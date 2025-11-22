@@ -33,6 +33,7 @@ export default function UserForm({
         idNumber: initialValues.idNumber || "",
         address: initialValues.address || "",
         password: "",
+        bio:"",
         confirmPassword: "",
     
       });
@@ -56,6 +57,7 @@ export default function UserForm({
             gender: initialValues.gender || "",
             idType: initialValues.idType || "",
             idNumber: initialValues.idNumber || "",
+            bio:initialValues.bio || "You have no bio, Write something about yourself here",
             address: initialValues.address || "",
             }));
             if (initialValues.profilePicUrl) {
@@ -233,6 +235,15 @@ export default function UserForm({
           Profile Picture
           <input type="file" accept="image/*" onChange={handleImage} />
           </label>
+
+          <label>Bio</label>
+          <textarea
+            name="bio"
+            value={formData.bio}
+            onChange={handleChange}
+            rows={4}
+            placeholder="Write a short bio to help users know a bit about you"
+          />
 
             {isEdit && (<p className="small-note">
                 Leave password fields empty if you don't want to change your password.

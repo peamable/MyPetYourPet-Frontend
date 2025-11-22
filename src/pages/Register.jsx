@@ -101,6 +101,7 @@ export default function Register() {
       address,
       role,
       password,
+      bio,
       image,
     } = data;
     let usercredential = null;
@@ -109,7 +110,7 @@ export default function Register() {
       usercredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = usercredential.user
       const firebaseUID = user.uid;
-      const firebaseToken = user
+      //const firebaseToken = user
     
       // setFormData(prev => ({ ...prev, uid: firebaseUID }));
       //we are setting the form data in userform
@@ -126,6 +127,7 @@ export default function Register() {
           // idType: "", // we should save id file and background check instead of numbers
       governmentId:idNumber,
       location: address,
+      bio:bio,
       };
 
      // this should be sent to a specific function "createAccount"
@@ -188,7 +190,7 @@ export default function Register() {
      if (err.response && err.response.data) {
        const backendError = err.response.data.error || err.response.data.message || "Unknown error";
           JSON.stringify(err.response.data);
-          throw new Error(backendError);
+          throw new Error(backendError||"Something went Wrong");
         } else {
           setError(err.message || "Something went wrong");
         }
