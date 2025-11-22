@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../styles/OwnerListings.css";
-import SeekerProfileCard from "../components/SeekerProfileCard";
+import SeekerProfileCard from "../components/UserProfileCard";
 import { useState, useEffect } from "react";
 
 export default function OwnerListings({ embedded }) {

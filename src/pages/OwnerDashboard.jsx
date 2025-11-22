@@ -6,8 +6,17 @@ import "../styles/OwnerDashboard.css";
 import CreateAPet from "./CreateAPet";   
 import OwnerListings from "./OwnerListings"; 
 import OwnerReservation from "./ReservationsView";
+import { useNavigate } from "react-router-dom";
+import OwnerProfileCard from "../components/UserProfileCard";
 
 export default function OwnerDashboard() {
+
+  const accountId = localStorage.getItem("accountId"); //like shared preferences
+  const navigate = useNavigate()
+  const handleEdit = () =>
+  {
+     navigate("/customer/editProfile")
+  }
   const [activeTab, setActiveTab] = useState("listings");
   const [userData, setUserData] = useState(null);
 
@@ -37,7 +46,8 @@ export default function OwnerDashboard() {
           // if (!res.ok) throw new Error("Failed to load owner info");
           // const ownerData = await res.json();
 
-          const res = await axiosClient.get(`/api/customerAccount/getPetOwnerdetails/3`);
+          // const res = await axiosClient.get(`/api/customerAccount/getPetOwnerdetails/2`);
+          const res = await axiosClient.get(`/api/customerAccount/getCustomerDetails/${accountId}`);
           const ownerData = await res.data;   
           setUserData(ownerData); // ✅ Correct state setter
         } catch (err) {
@@ -52,7 +62,7 @@ export default function OwnerDashboard() {
   return (
     <div className="page">
       <Header />
-    <div className="dashboard-page">
+     <div className="dashboard-page">
       
 
       {/* Top Navigation Tabs (Same as Seeker) */}
@@ -72,36 +82,64 @@ export default function OwnerDashboard() {
         </button>
       </nav>
 
+      <div className="layout-wrapper" >
+
+        <div className="side-profile" >
+            {userData ? (
+                  <OwnerProfileCard
+                    name={userData.fullName}
+                    role="Owner" //I'm not sure how it is sent
+                    location={userData.customerInfo?.location || "Location not set"}
+                    email={userData.email}
+                    phone={userData.customerInfo?.phone}
+                    bio={userData.customerInfo?.bio}
+                    rating={userData.customerInfo?.ratingAvg} //the controller that fills should add status and rating
+                    profilePicUrl={userData.profilePicUrl}
+                    status={userData.customerInfo?.profileStatus}
+                    onEdit={handleEdit}
+                    // onDelete={handleDelete}
+                  />
+                  ) : (
+                 <p>Loading...</p>
+                )}
+              </div>
+
+      
+
       <div className="wrap tab-content">
 
+          {/* ................................................................................................... */}
         {/* Profile sidebar remains visible */}
-        <aside className="owner-side-profile">
+
+         {/* <aside className="owner-side-profile">
           {userData ? (
             <>
               <h3>{userData.fullName}</h3>
               {/* <p>{userData.city}, {userData.country}</p> */}
-              <p>{userData.customerInfo?.location || "Location not set"}</p>
+              {/* <p>{userData.customerInfo?.location || "Location not set"}</p> */}
               {/* <p>Email: {userData.email}</p>
               <p>Role: Pet Owner</p> */}
-              <p>Email: {userData.email}</p>
-              <p>Phone: {userData.customerInfo?.phone}</p>
+              {/* <p>Email: {userData.email}</p>
+              <p>Phone: {userData.customerInfo?.phone}</p> */}
               {/* <p>Age: {userData.customerInfo?.age}</p>
               <p>Gender: {userData.customerInfo?.gender}</p> */}
-              <p>Status: {userData.customerInfo?.profileStatus}</p>
-              <p>Rating: {userData.customerInfo?.ratingAvg} ⭐</p>
+              {/* <p>Status: {userData.customerInfo?.profileStatus}</p>
+              <p>Rating: {userData.customerInfo?.ratingAvg} ⭐</p> */}
               {/* <img src={userData.profilePicture} alt={userData.fullName} 
               className="owner-profile-img"/> */}
 
 
-              <button className="btn-secondary">Edit Profile</button>
+              {/* <button className="btn-secondary" onClick={handleEdit}>Edit Profile</button>
               <button className="btn-danger">Delete Account</button>
             </>
           ) : (
             <p>Loading...</p>
-          )}
-        </aside>
+          )} */}
+        {/* </aside>  */} 
+            {/* this is messy but that the only way i could comment */}
+        {/* ................................................................................................... */}
 
-        {/* Tab Dynamic Content */}
+       <div> {/* Tab Dynamic Content */}<div/>
         <main className="owner-tab-display">
 
 
@@ -122,35 +160,19 @@ export default function OwnerDashboard() {
           )}
 
           {activeTab === "reservations" && (
-            // <section className="reservations-section wrap">
-            //   <h2>Your Reservations</h2>
-
-            //   <div className="reservation-block">
-            //     <h3>Upcoming</h3>
-            //     <p>No upcoming bookings yet.</p>
-            //   </div>
-
-            //   <div className="reservation-block">
-            //     <h3>Past</h3>
-            //     <p>No past bookings yet.</p>
-            //   </div>
-
-            //   <div className="stats">
-            //     <div><strong>0</strong> Total</div>
-            //     <div><strong>0</strong> Pending</div>
-            //     <div><strong>0</strong> Confirmed</div>
-            //     <div><strong>0</strong> Completed</div>
-            //   </div>
-            // </section>
+          
             <OwnerReservation embedded={true} />
             
           )}
 
         </main>
-      </div>
+       </div>
 
-      <Footer />
-    </div>
+       
+     </div>
+     </div>
+     </div>
+     <Footer />
     </div>
   );
 }
