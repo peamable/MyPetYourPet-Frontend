@@ -16,7 +16,7 @@ export default function PetSeekerDashboard() {
   const navigate = useNavigate()
   const handleEdit = () =>
   {
-     navigate("/customer/editProfile")
+     navigate("/customer/editProfile", { state: { userData } })
   }
 
   useEffect(() => {
@@ -24,11 +24,11 @@ export default function PetSeekerDashboard() {
     const fetchSeeker = async () => { 
         try {
 
-          const res = await axiosClient.get(`/api/customerAccount/getCustomerDetails/${accountId}`);
+          const res = await axiosClient.get(`/api/customerAccount/getSeekerDetails/${accountId}`);
           const seekerData = await res.data;   
           setUserData(seekerData); // ✅ Correct state setter
         } catch (err) {
-          console.error("Owner fetch error:", err);
+          console.error("Seeker fetch error:", err);
         }
     };
 
@@ -47,15 +47,16 @@ export default function PetSeekerDashboard() {
             {userData ? (
                   <SeekerProfileCard
                     name={userData.fullName}
-                    role="Seeker"
+                    role="Seeker" //"Seeker"
                     location={userData.customerInfo?.location || "Location not set"}
                     email={userData.email}
                     phone={userData.customerInfo?.phone}
                     bio={userData.customerInfo?.bio}
-                    rating={userData.rating} //the controller that fills should add status and rating
-                    status={userData.rating}
-                    profilePicUrl={userData.profilePicUrl}
+                    rating={userData.customerInfo?.ratingAvg} //the controller that fills should add status and rating
+                    status={userData.customerInfo?.profileStatus}
+                    profilePicUrl={userData.profilePicture}
                     onEdit={handleEdit}
+
                     // onDelete={handleDelete}
                   />
                   ) : (

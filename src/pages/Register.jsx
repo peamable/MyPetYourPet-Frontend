@@ -125,7 +125,7 @@ export default function Register() {
       age: parseInt(age),
       gender: gender,
           // idType: "", // we should save id file and background check instead of numbers
-      governmentId:idNumber,
+      governmentId:idNumber, // we should save id file and background check instead of numbers
       location: address,
       bio:bio,
       };
@@ -150,9 +150,9 @@ export default function Register() {
        }
       // alert(apiURL) //this was for debugging
     
-     
+ 
       const formDataToSend = new FormData();
-      formDataToSend.append("OwnerRegistrationRequest", new Blob([JSON.stringify(payload)], { type: "application/json" }));
+      formDataToSend.append("RegistrationRequest", new Blob([JSON.stringify(payload)], { type: "application/json" }));
       formDataToSend.append("file", image);
 
       //for debugging............................................................
