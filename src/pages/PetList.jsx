@@ -60,7 +60,7 @@ export default function PetListPage() {
       if (!selectedPet?.customerId) return;
       try {
         //I will change to axios later
-        const res = await fetch(`http://localhost:8080/api/customerAccount/getPetOwnerdetails/${selectedPet.customerId}`);
+        const res = await fetch(`http://localhost:8080/api/customerAccount/getOwnerDetails/${selectedPet.customerId}`);
         if (!res.ok) throw new Error("Failed to load owner info");
         const ownerData = await res.json();
 

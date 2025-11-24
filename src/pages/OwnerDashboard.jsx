@@ -9,13 +9,14 @@ import OwnerReservation from "./ReservationsView";
 import { useNavigate } from "react-router-dom";
 import OwnerProfileCard from "../components/UserProfileCard";
 
+
 export default function OwnerDashboard() {
 
   const accountId = localStorage.getItem("accountId"); //like shared preferences
   const navigate = useNavigate()
   const handleEdit = () =>
   {
-     navigate("/customer/editProfile")
+     navigate("/customer/editProfile", { state: { userData } })
   }
   const [activeTab, setActiveTab] = useState("listings");
   const [userData, setUserData] = useState(null);
@@ -35,7 +36,7 @@ export default function OwnerDashboard() {
     // const firebaseUid = localStorage.getItem("uid"); // stored after login
     // if (!firebaseUid) return;
 
- //   axiosClient.get(`http://localhost:8082/api/customerAccount/getPetOwnerdetails/${firebaseUid}`)
+ //   axiosClient.get(`http://localhost:8080/api/customerAccount/getPetOwnerdetails/${firebaseUid}`)
     //   .then(res => setUserData(res.data))
     //   .catch(err => console.log(err));
 
@@ -47,9 +48,9 @@ export default function OwnerDashboard() {
           // const ownerData = await res.json();
 
           // const res = await axiosClient.get(`/api/customerAccount/getPetOwnerdetails/2`);
-          const res = await axiosClient.get(`/api/customerAccount/getCustomerDetails/${accountId}`);
+          const res = await axiosClient.get(`/api/customerAccount/getOwnerDetails/${accountId}`);
           const ownerData = await res.data;   
-          setUserData(ownerData); // ✅ Correct state setter
+          setUserData(ownerData); // Correct state setter
         } catch (err) {
           console.error("Owner fetch error:", err);
         }
@@ -88,13 +89,13 @@ export default function OwnerDashboard() {
             {userData ? (
                   <OwnerProfileCard
                     name={userData.fullName}
-                    role="Owner" //I'm not sure how it is sent
+                    role="Owner" // dYNAMIC WIRTH IT?
                     location={userData.customerInfo?.location || "Location not set"}
                     email={userData.email}
                     phone={userData.customerInfo?.phone}
                     bio={userData.customerInfo?.bio}
                     rating={userData.customerInfo?.ratingAvg} //the controller that fills should add status and rating
-                    profilePicUrl={userData.profilePicUrl}
+                    profilePicUrl={userData.profilePicture}
                     status={userData.customerInfo?.profileStatus}
                     onEdit={handleEdit}
                     // onDelete={handleDelete}
@@ -102,9 +103,7 @@ export default function OwnerDashboard() {
                   ) : (
                  <p>Loading...</p>
                 )}
-              </div>
-
-      
+              </div>     
 
       <div className="wrap tab-content">
 
@@ -144,11 +143,11 @@ export default function OwnerDashboard() {
 
 
           {activeTab === "listings" && (
-            <OwnerListings embedded={true} />
+            <OwnerListings embedded={true} accountId={accountId} />
           )}
 
           {activeTab === "create" && (
-            <CreateAPet embedded={true} />
+            <CreateAPet embedded={true} accountId={accountId} />
           )}
 
 

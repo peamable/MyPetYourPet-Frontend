@@ -10,11 +10,11 @@ export default function UserForm({
     
 }) 
 {
-  const user = "owner"; //dynamically change this
+  const user = initialValues.role; //dynamically change this
     const isEdit = mode === "edit"
     const navigate = useNavigate()
     const handleExit = ()=> {
-      if (user === "owner")
+      if (user === "Owner")
         {navigate("/owner/dashboard")}
     else{
       navigate("/seeker/dashboard")
@@ -30,8 +30,8 @@ export default function UserForm({
         age: initialValues.age || "",
         gender: initialValues.gender || "",
         idType: initialValues.idType || "",
-        idNumber: initialValues.idNumber || "",
-        address: initialValues.address || "",
+        idNumber: initialValues.idNumber || "",//NOT WORKING
+        address: initialValues.address|| "",
         password: "",
         bio:"",
         confirmPassword: "",
@@ -57,8 +57,8 @@ export default function UserForm({
             gender: initialValues.gender || "",
             idType: initialValues.idType || "",
             idNumber: initialValues.idNumber || "",
-            bio:initialValues.bio || "You have no bio, Write something about yourself here",
             address: initialValues.address || "",
+            bio:initialValues.bio || "You have no bio, Write something about yourself here",
             }));
             if (initialValues.profilePicUrl) {
             setPreview(initialValues.profilePicUrl);
@@ -75,6 +75,9 @@ export default function UserForm({
             ...prev,
          [name]: value,
             }));
+            if(name=="age" && value<18){
+              alert("Sorry, only users over 18 years old can use My Pet, Your Pet services");
+            }
         };
        
       
@@ -110,7 +113,7 @@ export default function UserForm({
             !formData.address ||
             (!isEdit &&!image)
             ) {
-            setError("Please fill out all required fields and select an image.");
+            alert("Please fill out all required fields and select an image.");
             return;
             }
             if(image){
@@ -154,7 +157,6 @@ export default function UserForm({
           }
   };
 
-
     return(
         <form onSubmit={handleSubmit} className="register-form">
           {preview && (
@@ -193,23 +195,22 @@ export default function UserForm({
           <div className="gov-section">
             <p className="gov-label">Government ID</p>
             <label>ID Type</label>
-            <select name="idType" onChange={handleChange} value= {formData.idType} >
+            <select name="idType" onChange={handleChange} value= {formData.idType} disabled={isEdit} required>
             <option value="">Select</option>
             <option value="Driver's License">Driver's License</option>
             <option value="Passport">Passport</option>
             <option value="State/Provincial Id">State/Provincial Id</option>
             </select>
 
-            <label>ID Number</label>
-            <input name="idNumber" onChange={handleChange} placeholder={isEdit ? "******": ""}/>
+            <label>ID Number</label> 
+            <input name="idNumber" onChange={handleChange} value={formData.idNumber} disabled={isEdit} required/>
             <p className="gov-note">
               We only use this for verification. It will be encrypted and never shared publicly.
             </p>
           </div>
 
           <label>Location</label>
-          <input name="address" onChange={handleChange} 
-          value= {formData.address}/>
+          <input name="address" onChange={handleChange} value= {formData.address}/>
 
           <label>age</label>
           <input type="number" name="age" onChange={handleChange}
@@ -250,6 +251,8 @@ export default function UserForm({
             </p>)}
             
           <label>{isEdit ? "New Password" : "Password"}</label> 
+
+          <label>Password</label> 
           <input
             type="password"
             name="password"
@@ -277,7 +280,7 @@ export default function UserForm({
             </label>
           </div>)}
           {isEdit && <button className="btn-primary" type = "button" onClick={handleExit}>Exit Form</button>}
-          //exit should navigate back to the dashboard based on usertype
+          {/* //exit should navigate back to the dashboard based on usertype */}
 
           <button type="submit" className="btn-primary">{isEdit ? "Save Changes" : "Create Account"}</button>
           {error && <p className="error-text small-note">{error}</p>}

@@ -38,7 +38,7 @@ function OwnerInfoCard({ owner }) {
          </div>
               </div>
       <div className="owner-buttons">
-        <button className="btn outline">View Profile</button>
+        <button className="btn outline">View Profile</button> {/*DEFINE THIS ONCLICK*/}
         <button className="btn ghost">Message</button>
       </div>
     </div>

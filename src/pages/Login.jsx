@@ -14,6 +14,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   let accountId = null; 
+  let cRole = null; 
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -27,17 +28,20 @@ export default function Login() {
       { headers: { Authorization: `Bearer ${token}`} }); 
 
       accountId = res.data.id; // the request will send the user id
+      cRole = res.data.role; 
 
       localStorage.setItem("accountId", accountId);
+      localStorage.setItem("role", cRole);
       // localStorage.setItem("token", token);
 
       alert("Login successful! 🐾");
       
-      if (res.data.role === "owner") 
+      if (cRole === "owner") 
       { navigate("/owner/dashboard"); } 
      else { navigate("/seeker/dashboard"); }
 
     } catch (err) {
+      // alert(err);
       setError("Invalid email or password");
     }
   };
