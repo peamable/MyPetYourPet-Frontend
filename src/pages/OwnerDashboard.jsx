@@ -8,6 +8,9 @@ import OwnerListings from "./OwnerListings";
 import OwnerReservation from "./ReservationsView";
 import { useNavigate } from "react-router-dom";
 import OwnerProfileCard from "../components/UserProfileCard";
+import { auth } from "../firebaseConfig";
+import { deleteUser } from "firebase/auth";
+import { reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 import UpdatePet from "../components/UpdatePet";   
 // import UpdatePet from "./UpdatePet";
 
@@ -62,6 +65,47 @@ export default function OwnerDashboard() {
 
   }, []);
 
+  const handleDelete = async () => {
+    const ok = window.confirm(
+        "Are you sure you want to delete your account?\nThis action cannot be undone."
+      );
+      if (!ok) return;
+
+      try {
+    const email = localStorage.getItem("email");
+    if (!email) throw new Error("No email in storage.");
+
+    const user = auth.currentUser;
+
+    const password = prompt("Please re-enter your password to confirm deletion:"); //not safe though
+
+    if (!password) return; // user cancelled
+    const credential = EmailAuthProvider.credential(email, password);
+
+    await reauthenticateWithCredential(user, credential);
+
+    // Backend soft delete seeker
+    await axiosClient.delete(`/api/customerAccount/deleteOwner?email=${encodeURIComponent(email)}`);
+
+
+    // Firebase side
+    if (user) {
+      // PERMANENT delete
+      await deleteUser(user);
+    }
+
+    
+    // Cleanup + redirect
+    localStorage.clear();
+    navigate("/"); // or "/login"
+
+  } catch (err) {
+    console.error(err);
+    alert("Delete failed. Please try again.");
+  }
+
+   };
+
   return (
     <div className="page">
       <Header />
@@ -103,7 +147,7 @@ export default function OwnerDashboard() {
                     profilePicUrl={userData.profilePicture}
                     status={userData.customerInfo?.profileStatus}
                     onEdit={handleEdit}
-                    // onDelete={handleDelete}
+                    onDelete={handleDelete}
                   />
                   ) : (
                  <p>Loading...</p>
@@ -112,36 +156,7 @@ export default function OwnerDashboard() {
 
       <div className="wrap tab-content">
 
-          {/* ................................................................................................... */}
-        {/* Profile sidebar remains visible */}
-
-         {/* <aside className="owner-side-profile">
-          {userData ? (
-            <>
-              <h3>{userData.fullName}</h3>
-              {/* <p>{userData.city}, {userData.country}</p> */}
-              {/* <p>{userData.customerInfo?.location || "Location not set"}</p> */}
-              {/* <p>Email: {userData.email}</p>
-              <p>Role: Pet Owner</p> */}
-              {/* <p>Email: {userData.email}</p>
-              <p>Phone: {userData.customerInfo?.phone}</p> */}
-              {/* <p>Age: {userData.customerInfo?.age}</p>
-              <p>Gender: {userData.customerInfo?.gender}</p> */}
-              {/* <p>Status: {userData.customerInfo?.profileStatus}</p>
-              <p>Rating: {userData.customerInfo?.ratingAvg} ⭐</p> */}
-              {/* <img src={userData.profilePicture} alt={userData.fullName} 
-              className="owner-profile-img"/> */}
-
-
-              {/* <button className="btn-secondary" onClick={handleEdit}>Edit Profile</button>
-              <button className="btn-danger">Delete Account</button>
-            </>
-          ) : (
-            <p>Loading...</p>
-          )} */}
-        {/* </aside>  */} 
-            {/* this is messy but that the only way i could comment */}
-        {/* ................................................................................................... */}
+         
 
        <div> {/* Tab Dynamic Content */}<div/>
         <main className="owner-tab-display">
