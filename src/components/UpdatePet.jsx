@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { Link } from "react-router-dom";
@@ -12,6 +12,7 @@ export default function UpdatePet({ embedded, pet, onClose, onSubmit}) {
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const fileInputRef = useRef(null);
 
   // ✅ formData keys match your input `name`s and preview usage
   const [formData, setFormData] = useState({
@@ -114,6 +115,10 @@ useEffect(() => {
     setVaccinated(pet.vaccinationUpToDate);
     setPreview(pet.profilePicture);
     setImage(null);//-------------------------------------------check if is working on save
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+
 };
 
   const handleSave = async (e) => {
@@ -296,7 +301,7 @@ useEffect(() => {
 
                 <label>
                   Profile Picture
-                  <input type="file" accept="image/*" onChange={handleImage} />
+                  <input type="file" accept="image/*" onChange={handleImage} ref={fileInputRef}/>
                 </label>
               </div>
 
