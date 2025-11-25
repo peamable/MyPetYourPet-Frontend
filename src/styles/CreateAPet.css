@@ -1,7 +1,7 @@
 .create-pet-page {
   background: #f5e8da;
   min-height: 100vh;
-  padding: 30px 0;
+  /* padding: 10px 0; */
 }
 
 .create-pet-container {
@@ -10,7 +10,7 @@
   gap: 30px;
   max-width: 1200px;
   margin: auto;
-  padding: 20px;
+  padding: 20px, 20px;
 }
 
 .create-pet-form {
