@@ -16,6 +16,7 @@ import ProfileView from "./pages/ProfileView"
 import PetListings from "./pages/PetList"
 import UpdateProfilePage from "./pages/UpdateProfile";
 import PetUpdate from "./components/UpdatePet"
+import AdminDashboard from "./pages/AdminSupportView";
 
 
 export default function App() {
@@ -59,7 +60,7 @@ export default function App() {
         <Route path="/updatePet" element={< PetUpdate/>} />
         {/* <Route path="/owner/editProfile" element={< UpdateProfilePage/>} /> */}
 
-
+         <Route path="/admin/dashboard" element={<AdminDashboard />} />   
      {/*Here we add all the routes that we create for all the pages*/}
       </Routes>
      

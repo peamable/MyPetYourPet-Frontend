@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../styles/OwnerListings.css";
 import PetCard from "../components/PetCard";
-import EditAPet from "../pages/EditAPet";
+//import EditAPet from "../pages/EditAPet";
 import axiosClient from '../axiosClient';//----------------------------------------
 // import SeekerProfileCard from "../components/UserProfileCard";
 import { useState, useEffect } from "react";
