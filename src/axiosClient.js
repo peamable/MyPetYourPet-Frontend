@@ -45,11 +45,11 @@ axiosClient.interceptors.request.use(
   
 
   async (config) => {
-    const auth = getAuth();
-    const user = auth.currentUser;
+    // const auth = getAuth();
+    // const user = auth.currentUser;
+    const token = localStorage.getItem("token");
 
-    if (user) {
-      const token = await user.getIdToken(/* forceRefresh */ false);
+    if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
 

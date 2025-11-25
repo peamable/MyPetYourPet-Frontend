@@ -23,16 +23,17 @@ export default function Login() {
      const user = userCredential.user;
      //const firebaseUID = user.uid; uid in the token
      const token = await user.getIdToken(); //send this in the header
+     localStorage.setItem("token", token); //save in local storage for axiosClient to receive
 
-     const res = await axiosClient.get("/api/customerAccount/userRole", 
-      { headers: { Authorization: `Bearer ${token}`} }); 
+     const res = await axiosClient.get("/api/customerAccount/userRole"); 
 
       accountId = res.data.id; // the request will send the user id
       cRole = res.data.role; 
 
       localStorage.setItem("accountId", accountId);
       localStorage.setItem("role", cRole);
-      // localStorage.setItem("token", token);
+      localStorage.setItem("email", email)
+      
 
       alert("Login successful! 🐾");
       

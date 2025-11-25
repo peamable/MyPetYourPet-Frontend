@@ -8,6 +8,10 @@ import axiosClient from "../axiosClient";
 import SeekerReservations from "./ReservationsView"
 import SeekerProfileCard from "../components/UserProfileCard";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../firebaseConfig";
+import { deleteUser } from "firebase/auth";
+import { reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
+import firebase from "firebase/compat/app";
 
 export default function PetSeekerDashboard() {
   const accountId = localStorage.getItem("accountId"); //like shared preferences
@@ -36,6 +40,49 @@ export default function PetSeekerDashboard() {
 
    }, []);
 
+   const handleDelete = async () => {
+    const ok = window.confirm(
+        "Are you sure you want to delete your account?\nThis action cannot be undone."
+      );
+      if (!ok) return;
+
+      try {
+    const email = localStorage.getItem("email");
+    if (!email) throw new Error("No email in storage.");
+
+    const user = auth.currentUser;
+
+    const password = prompt("Please re-enter your password to confirm deletion:");
+
+    if (!password) return; // user cancelled
+    const credential = EmailAuthProvider.credential(email, password);
+
+    await reauthenticateWithCredential(user, credential);
+
+    // Backend soft delete seeker
+    await axiosClient.delete(`/api/customerAccount/deleteSeeker?email=${encodeURIComponent(email)}`);
+
+
+    // Firebase side
+    if (user) {
+      // PERMANENT delete
+      await deleteUser(user);
+    }
+
+    
+    // Cleanup + redirect
+    localStorage.clear();
+    navigate("/"); // or "/login"
+
+  } catch (err) {
+    console.error(err);
+    alert("Delete failed. Please try again.");
+  }
+
+   };
+
+
+
    return (
     <div className="seeker-dashboard ">
       <Header />
@@ -56,8 +103,7 @@ export default function PetSeekerDashboard() {
                     status={userData.customerInfo?.profileStatus}
                     profilePicUrl={userData.profilePicture}
                     onEdit={handleEdit}
-
-                    // onDelete={handleDelete}
+                    onDelete={handleDelete}
                   />
                   ) : (
                  <p>Loading...</p>
