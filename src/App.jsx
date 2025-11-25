@@ -15,7 +15,7 @@ import ReservationsView from "./pages/ReservationsView";
 import ProfileView from "./pages/ProfileView"
 import PetListings from "./pages/PetList"
 import UpdateProfilePage from "./pages/UpdateProfile";
-import PetUpdate from "./components/UpdatePet"
+import UpdatePet from "./components/UpdatePet"
 
 
 export default function App() {
@@ -56,7 +56,7 @@ export default function App() {
         <Route path="/seeker/viewProfile" element={< ProfileView/>} />
         <Route path="/customer/editProfile" element={< UpdateProfilePage/>} />
 
-        <Route path="/updatePet" element={< PetUpdate/>} />
+        <Route path="/updatePet" element={< UpdatePet/>} />
         {/* <Route path="/owner/editProfile" element={< UpdateProfilePage/>} /> */}
 
 

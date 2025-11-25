@@ -45,13 +45,18 @@ axiosClient.interceptors.request.use(
   
 
   async (config) => {
-    const auth = getAuth();
-    const user = auth.currentUser;
+    // const auth = getAuth();
+    // const user = auth.currentUser;
 
-    if (user) {
-      const token = await user.getIdToken(/* forceRefresh */ false);
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+    // if (user) {
+    //   const token = await user.getIdToken(/* forceRefresh */ false);
+    //   config.headers.Authorization = `Bearer ${token}`;
+    // }
+
+    const token = localStorage.getItem("token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
 
     return config;
   },
