@@ -26,3 +26,17 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+.logout-btn {
+  background: #ff4d4d;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 15px;
+}
+
+.logout-btn:hover {
+  background: #e63939;
+}

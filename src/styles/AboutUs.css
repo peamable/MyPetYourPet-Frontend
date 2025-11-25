@@ -1,0 +1,70 @@
+.about-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.about-title {
+  font-size: 2.4rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.about-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.about-subtitle {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.team-member {
+  text-align: center;
+  background: #fafafa;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+
+.team-photo {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 12px;
+  background: #eee;
+}
+
+.team-name {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+
+.team-role {
+  font-size: 0.95rem;
+  opacity: 0.7;
+  margin-bottom: 12px;
+}
+
+.team-bio {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.subtle {
+  font-style: italic;
+  text-align: center;
+  opacity: 0.8;
+  margin-top: 40px;
+}

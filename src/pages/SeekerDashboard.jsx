@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
-import Listings from "../pages/PetList";
 import "../styles/SeekerDashboard.css";
 import axiosClient from "../axiosClient";
 import SeekerReservations from "./ReservationsView"
@@ -11,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebaseConfig";
 import { deleteUser } from "firebase/auth";
 import { reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
-import firebase from "firebase/compat/app";
 
 export default function PetSeekerDashboard() {
   const accountId = localStorage.getItem("accountId"); //like shared preferences
@@ -140,7 +138,7 @@ export default function PetSeekerDashboard() {
                     <p>Find pets available near you and request a hangout.</p>
 
                     <div className="pet-grid">
-                        {/* TEMP sample data — later replace with backend */}
+                        {/* TEMP sample data to show what browse looks like */}
                         {[
                           { name: "Buddy", breed: "Golden Retriever", age: "3 yrs", img: "https://placedog.net/450/450" },
                           { name: "Luna", breed: "French Bulldog", age: "1 yr", img: "https://placedog.net/451/451" }
@@ -149,7 +147,7 @@ export default function PetSeekerDashboard() {
                             <img src={pet.img} alt={pet.name} />
                             <h3>{pet.name}</h3>
                             <p>{pet.breed} • {pet.age}</p>
-                            <button className="btn-primary">View Profile</button>
+                            {/* <button className="btn-primary">View Profile</button> */}
                           </div>
                         ))}
                       </div>
