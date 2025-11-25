@@ -150,12 +150,11 @@ export default function CreateAPet({ embedded, accountId }) {
 
   return (
     <div className="page create-pet-page">
-       {!embedded && <Header />}
-
       <div className="create-pet-container">
         {/* LEFT FORM */}
         <div className="create-pet-form">
-          <h1>Create Pet Listing</h1>
+          <h1>Create <br></br>
+            Pet Listing</h1>
           {error && <p className="error-message">{error}</p>}
 
           <div className="grid-2">
@@ -256,7 +255,6 @@ export default function CreateAPet({ embedded, accountId }) {
         </div>
       </div>
 
-       {!embedded && <Footer />}
     </div>
   );
 }

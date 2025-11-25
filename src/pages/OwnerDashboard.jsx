@@ -8,10 +8,12 @@ import OwnerListings from "./OwnerListings";
 import OwnerReservation from "./ReservationsView";
 import { useNavigate } from "react-router-dom";
 import OwnerProfileCard from "../components/UserProfileCard";
+import UpdatePet from "../components/UpdatePet";   
+// import UpdatePet from "./UpdatePet";
 
 
 export default function OwnerDashboard() {
-
+  const [selectedPet, setSelectedPet] = useState(null);
   const accountId = localStorage.getItem("accountId"); //like shared preferences
   const navigate = useNavigate()
   const handleEdit = () =>
@@ -69,7 +71,9 @@ export default function OwnerDashboard() {
       {/* Top Navigation Tabs (Same as Seeker) */}
       <nav className="owner-nav">
         
-        <button className={activeTab === "listings" ? "active" : ""} onClick={() => setActiveTab("listings")}>
+        <button className={activeTab === "listings" ? "active" : ""} onClick={() => {
+          setActiveTab("listings");
+          setSelectedPet(null);}}>
           My Listings
         </button>
         <button className={activeTab === "create" ? "active" : ""} onClick={() => setActiveTab("create")}>
@@ -81,6 +85,7 @@ export default function OwnerDashboard() {
         <button className={activeTab === "reservations" ? "active" : ""} onClick={() => setActiveTab("reservations")}>
           Reservations
         </button>
+        
       </nav>
 
       <div className="layout-wrapper" >
@@ -142,14 +147,41 @@ export default function OwnerDashboard() {
         <main className="owner-tab-display">
 
 
-          {activeTab === "listings" && (
+          {/* {activeTab === "listings" && (
             <OwnerListings embedded={true} accountId={accountId} />
+          )} */}
+          {activeTab === "listings" && (
+            <OwnerListings
+              embedded={true}
+              accountId={accountId}
+              onEditPet={(pet) => {
+                setSelectedPet(pet);
+                setActiveTab("updatePet");
+              }}
+            />
           )}
+
+
+          {/* {activeTab === "updatePet" && (
+            <UpdatePet embedded={true} accountId={accountId} />
+          )} */}
+
+          {activeTab === "updatePet" && selectedPet && (
+            <UpdatePet
+              embedded={true}
+              accountId={accountId}
+              pet={selectedPet}
+              onClose={() => {
+                setSelectedPet(null);
+                setActiveTab("listings");
+              }}
+            />
+          )}
+
 
           {activeTab === "create" && (
             <CreateAPet embedded={true} accountId={accountId} />
           )}
-
 
           {activeTab === "messages" && (
             <div className="simple-tab-panel">

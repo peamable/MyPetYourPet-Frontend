@@ -89,11 +89,11 @@ export default function PetListPage() {
       pet.breed?.toLowerCase().includes(q) ||
       pet.location?.toLowerCase().includes(q);
 
-    const matchesSpecies =
-      speciesFilter === "all" ||
-      pet.species?.toLowerCase() === speciesFilter.toLowerCase();
-
-    return matchesSearch && matchesSpecies;
+    // const matchesSpecies =
+    //   speciesFilter === "all" ||
+    //   pet.species?.toLowerCase() === speciesFilter.toLowerCase();
+    return matchesSearch;
+    // return matchesSearch && matchesSpecies;
   });
 
   // When a card is clicked (placeholder for now)

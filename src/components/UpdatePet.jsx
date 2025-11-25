@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { Link } from "react-router-dom";
 import "../styles/CreateAPet.css";
 import axiosClient from "../axiosClient";
 
-export default function UpdatePet({ embedded }) {
+export default function UpdatePet({ embedded, pet, onClose, onSubmit}) {
   const [dewormed, setDeworm] = useState(false);
   const [vaccinated, setVaccinated] = useState(false);
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const fileInputRef = useRef(null);
 
   // ✅ formData keys match your input `name`s and preview usage
   const [formData, setFormData] = useState({
@@ -24,39 +25,52 @@ export default function UpdatePet({ embedded }) {
     status: "",
   });
 
+  
  const loadPetData = () => {
   
     // TODO: replace this with real API call using petId
-    const fakePetFromBackend = {
-      petName: "Luna",
-      petAge: 3,
-      petGender: "Female",
-      petBreed: "Golden Retriever",
-      petBehavior: "Very friendly, loves kids and other dogs.",
-      dewormingUpToDate: true,
-      vaccinationUpToDate: true,
-      petFee: 25,
-      petProfileStatus: "ACTIVE", // or "DRAFT"
-      imageUrl: null, // could be a URL later
+    const petToUpdate = {
+      petName: pet.petName,
+      petAge: pet.petAge,
+      petGender: pet.petGender,
+      petBreed: pet.petBreed,
+      petBehavior: pet.petBehavior,
+      dewormingUpToDate: pet.dewormingUpToDate,
+      vaccinationUpToDate: pet.vaccinationUpToDate,
+      petFee: pet.petFee,
+      petProfileStatus: pet.petProfileStatus, // or "DRAFT"
+      imageUrl: pet.profilePicture, // could be a URL later
     };
+
+    // key={pet.petId}
+    //             name={pet.petName}
+    //             breed={pet.petBreed}
+    //             behavior={pet.petBehavior}
+    //             fee={pet.petFee}
+    //             image={pet.profilePicture}
+    //             status={pet.petProfileStatus ? "Active" : "Hidden"}
+    //             tags={[
+    //                 pet.petGender === 1 ? "Female" : "Male",
+    //                 `${pet.petAge} yrs`,
+    //             ]}
 
     // Prefill formData based on fakePet
     setFormData({
-      petName: fakePetFromBackend.petName,
-      age: String(fakePetFromBackend.petAge),
-      gender: fakePetFromBackend.petGender,
-      breed: fakePetFromBackend.petBreed,
-      behavior: fakePetFromBackend.petBehavior,
-      fee: String(fakePetFromBackend.petFee),
+      petName: petToUpdate.petName,
+      age: String(petToUpdate.petAge),
+      gender: petToUpdate.petGender=== true ? "Female" : "Male",
+      breed: petToUpdate.petBreed,
+      behavior: petToUpdate.petBehavior,
+      fee: String(petToUpdate.petFee),
       status:
-        fakePetFromBackend.petProfileStatus === "ACTIVE" ? "Active" : "Draft",
+        petToUpdate.petProfileStatus === true ? "Active" : "Draft",
     });
 
-    setDeworm(fakePetFromBackend.dewormingUpToDate);
-    setVaccinated(fakePetFromBackend.vaccinationUpToDate);
+    setDeworm(petToUpdate.dewormingUpToDate);
+    setVaccinated(petToUpdate.vaccinationUpToDate);
 
-    if (fakePetFromBackend.imageUrl) {
-      setPreview(fakePetFromBackend.imageUrl);
+    if (petToUpdate.imageUrl) {
+      setPreview(petToUpdate.imageUrl);
     }
   }
   
@@ -86,9 +100,26 @@ useEffect(() => {
   };
 
   const handleReset = () => {
-   loadPetData();
-    setError("");
-  };
+      setFormData({
+      petName: pet.petName,
+      age: String(pet.petAge),
+      gender: pet.petGender=== true ? "Female" : "Male",
+      breed: pet.petBreed,
+      behavior: pet.petBehavior,
+      fee: String(pet.petFee),
+      status:
+        pet.petProfileStatus === true ? "Active" : "Draft",
+    });
+
+    setDeworm(pet.dewormingUpToDate);
+    setVaccinated(pet.vaccinationUpToDate);
+    setPreview(pet.profilePicture);
+    setImage(null);//-------------------------------------------check if is working on save
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+
+};
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -96,9 +127,8 @@ useEffect(() => {
 
   
     if (
-      !formData.petName ||
+      // !formData.petName ||
       !formData.age ||
-      !formData.gender ||
       !formData.breed ||
       !formData.behavior ||
       !formData.fee ||
@@ -125,15 +155,13 @@ useEffect(() => {
 
     try {
       const payload = {
-        petName: formData.petName,
+        petId: pet.petId,
         petAge: parseInt(formData.age),
-        petGender: formData.gender === "Female", 
-        petBreed: formData.breed,
         petBehavior: formData.behavior,
         dewormingUpToDate: dewormed,
         vaccinationUpToDate: vaccinated,
         petFee: parseFloat(formData.fee),
-        petProfileStatus: formData.status === "Active", 
+        petProfileStatus: formData.status === "Active"? true:false, 
         // plus whatever your backend needs to identify the pet (id/uid)
       };
 
@@ -176,156 +204,156 @@ useEffect(() => {
   }
 
   return (
-    <div className="page create-pet-page">
-      {!embedded && <Header />}
+        <div className="page create-pet-page">
+          <div className="create-pet-container">
+            {/* LEFT FORM */}
+            <div className="create-pet-form">
+              <h1>Update Pet Profile</h1>
+              {error && <p className="error-message">{error}</p>}
 
-      <div className="create-pet-container">
-        {/* LEFT FORM */}
-        <div className="create-pet-form">
-          <h1>Update Pet Profile</h1>
-          {error && <p className="error-message">{error}</p>}
+              <div className="grid-2">
+                <label>
+                  Pet Name
+                  <input
+                    name="petName"
+                    value={formData.petName}
+                    // onChange={handleChange} 
+                    disabled
 
-          <div className="grid-2">
-            <label>
-              Pet Name
-              <input
-                name="petName"
-                value={formData.petName}
-                onChange={handleChange}
-              />
-            </label>
+                  />
+                </label>
+              </div>
+
+              <div className="grid-3">
+                <label>
+                  Age (years)
+                  <input
+                    name="age"
+                    value={formData.age}
+                    onChange={handleChange}
+                  />
+                </label>
+
+                <label>
+                  Gender
+                  <select
+                    name="gender"
+                    value={formData.gender}
+                    // onChange={handleChange}
+                    disabled
+
+                  >
+                    <option value="">Select</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </label>
+
+                <label>
+                  Breed
+                  <input
+                    name="breed"
+                    value={formData.breed}
+                    // onChange={handleChange}
+                    disabled
+                  />
+                </label>
+              </div>
+
+              <label>
+                Behavior / Temperament
+                <textarea
+                  name="behavior"
+                  value={formData.behavior}
+                  onChange={handleChange}
+                />
+              </label>
+
+              <div className="grid-2 checkbox-row">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={dewormed}
+                    onChange={() => setDeworm(!dewormed)}
+                  />
+                  Deworming up to date
+                </label>
+
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={vaccinated}
+                    onChange={() => setVaccinated(!vaccinated)}
+                  />
+                  Vaccination up to date
+                </label>
+              </div>
+
+              <div className="grid-2">
+                <label>
+                  Listing Fee (CAD)
+                  <input
+                    name="fee"
+                    value={formData.fee}
+                    onChange={handleChange}
+                  />
+                </label>
+
+                <label>
+                  Profile Picture
+                  <input type="file" accept="image/*" onChange={handleImage} ref={fileInputRef}/>
+                </label>
+              </div>
+
+              <label>
+                Status
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleChange}
+                >
+                  <option value="">Select</option>
+                  <option value="Draft">Draft</option>
+                  <option value="Active">Active</option>
+                </select>
+              </label>
+
+              <div className="button-row">
+                <button className="btn-save" onClick={handleSave}>
+                  Save Changes
+                </button>
+                <button className="btn-reset" onClick={handleReset}>
+                  Reset
+                </button>
+                <Link className="btn-back"  onClick={onClose}> Back to My Listings </Link>
+              </div>
+            </div>
+
+            {/* RIGHT PREVIEW */}
+            <div className="pet-preview">
+              <div className="preview-card">
+                {preview ? (
+                  <img src={preview} alt="pet preview" />
+                ) : (
+                  <div className="img-placeholder">Pet Image Preview</div>
+                )}
+                <h2>{formData.petName || "Pet Name"}</h2>
+                <p className="tag">{formData.status}</p>
+
+                <p>
+                  {formData.breed || "Breed"} • {formData.age || "--"} years •{" "}
+                  {formData.gender || "--"}
+                </p>
+
+                <p className="behavior-text">
+                  {formData.behavior || "Behavior will appear here."}
+                </p>
+
+                <h3>${formData.fee || "0.00"}</h3>
+              </div>
+            </div>
+
           </div>
-
-          <div className="grid-3">
-            <label>
-              Age (years)
-              <input
-                name="age"
-                value={formData.age}
-                onChange={handleChange}
-              />
-            </label>
-
-            <label>
-              Gender
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-              >
-                <option value="">Select</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-            </label>
-
-            <label>
-              Breed
-              <input
-                name="breed"
-                value={formData.breed}
-                onChange={handleChange}
-              />
-            </label>
-          </div>
-
-          <label>
-            Behavior / Temperament
-            <textarea
-              name="behavior"
-              value={formData.behavior}
-              onChange={handleChange}
-            />
-          </label>
-
-          <div className="grid-2 checkbox-row">
-            <label>
-              <input
-                type="checkbox"
-                checked={dewormed}
-                onChange={() => setDeworm(!dewormed)}
-              />
-              Deworming up to date
-            </label>
-
-            <label>
-              <input
-                type="checkbox"
-                checked={vaccinated}
-                onChange={() => setVaccinated(!vaccinated)}
-              />
-              Vaccination up to date
-            </label>
-          </div>
-
-          <div className="grid-2">
-            <label>
-              Listing Fee (CAD)
-              <input
-                name="fee"
-                value={formData.fee}
-                onChange={handleChange}
-              />
-            </label>
-
-            <label>
-              Profile Picture
-              <input type="file" accept="image/*" onChange={handleImage} />
-            </label>
-          </div>
-
-          <label>
-            Status
-            <select
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-            >
-              <option value="">Select</option>
-              <option value="Draft">Draft</option>
-              <option value="Active">Active</option>
-            </select>
-          </label>
-
-          <div className="button-row">
-            <button className="btn-save" onClick={handleSave}>
-              Save Changes
-            </button>
-            <button className="btn-reset" onClick={handleReset}>
-              Reset
-            </button>
-            <Link className="btn-back" to="/owner/dashboard">
-              Back to My Listings
-            </Link>
-          </div>
-        </div>
-
-        {/* RIGHT PREVIEW */}
-        <div className="pet-preview">
-          <div className="preview-card">
-            {preview ? (
-              <img src={preview} alt="pet preview" />
-            ) : (
-              <div className="img-placeholder">Pet Image Preview</div>
-            )}
-            <h2>{formData.petName || "Pet Name"}</h2>
-            <p className="tag">{formData.status}</p>
-
-            <p>
-              {formData.breed || "Breed"} • {formData.age || "--"} years •{" "}
-              {formData.gender || "--"}
-            </p>
-
-            <p className="behavior-text">
-              {formData.behavior || "Behavior will appear here."}
-            </p>
-
-            <h3>${formData.fee || "0.00"}</h3>
-          </div>
-        </div>
-      </div>
-
-      {!embedded && <Footer />}
-    </div>
+        </div> 
   );
 }
