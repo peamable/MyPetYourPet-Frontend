@@ -6,8 +6,23 @@ import "../styles/OwnerDashboard.css";
 import CreateAPet from "./CreateAPet";   
 import OwnerListings from "./OwnerListings"; 
 import OwnerReservation from "./ReservationsView";
+import { useNavigate } from "react-router-dom";
+import OwnerProfileCard from "../components/UserProfileCard";
+import { auth } from "../firebaseConfig";
+import { deleteUser } from "firebase/auth";
+import { reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
+import UpdatePet from "../components/UpdatePet";   
+// import UpdatePet from "./UpdatePet";
+
 
 export default function OwnerDashboard() {
+  const [selectedPet, setSelectedPet] = useState(null);
+  const accountId = localStorage.getItem("accountId"); //like shared preferences
+  const navigate = useNavigate()
+  const handleEdit = () =>
+  {
+     navigate("/customer/editProfile", { state: { userData } })
+  }
   const [activeTab, setActiveTab] = useState("listings");
   const [userData, setUserData] = useState(null);
 
@@ -26,7 +41,7 @@ export default function OwnerDashboard() {
     // const firebaseUid = localStorage.getItem("uid"); // stored after login
     // if (!firebaseUid) return;
 
- //   axiosClient.get(`http://localhost:8082/api/customerAccount/getPetOwnerdetails/${firebaseUid}`)
+ //   axiosClient.get(`http://localhost:8080/api/customerAccount/getPetOwnerdetails/${firebaseUid}`)
     //   .then(res => setUserData(res.data))
     //   .catch(err => console.log(err));
 
@@ -37,9 +52,10 @@ export default function OwnerDashboard() {
           // if (!res.ok) throw new Error("Failed to load owner info");
           // const ownerData = await res.json();
 
-          const res = await axiosClient.get(`/api/customerAccount/getPetOwnerdetails/3`);
+          // const res = await axiosClient.get(`/api/customerAccount/getPetOwnerdetails/2`);
+          const res = await axiosClient.get(`/api/customerAccount/getOwnerDetails/${accountId}`);
           const ownerData = await res.data;   
-          setUserData(ownerData); // ✅ Correct state setter
+          setUserData(ownerData); // Correct state setter
         } catch (err) {
           console.error("Owner fetch error:", err);
         }
@@ -49,16 +65,59 @@ export default function OwnerDashboard() {
 
   }, []);
 
+  const handleDelete = async () => {
+    const ok = window.confirm(
+        "Are you sure you want to delete your account?\nThis action cannot be undone."
+      );
+      if (!ok) return;
+
+      try {
+    const email = localStorage.getItem("email");
+    if (!email) throw new Error("No email in storage.");
+
+    const user = auth.currentUser;
+
+    const password = prompt("Please re-enter your password to confirm deletion:"); //not safe though
+
+    if (!password) return; // user cancelled
+    const credential = EmailAuthProvider.credential(email, password);
+
+    await reauthenticateWithCredential(user, credential);
+
+    // Backend soft delete seeker
+    await axiosClient.delete(`/api/customerAccount/deleteOwner?email=${encodeURIComponent(email)}`);
+
+
+    // Firebase side
+    if (user) {
+      // PERMANENT delete
+      await deleteUser(user);
+    }
+
+    
+    // Cleanup + redirect
+    localStorage.clear();
+    navigate("/"); // or "/login"
+
+  } catch (err) {
+    console.error(err);
+    alert("Delete failed. Please try again.");
+  }
+
+   };
+
   return (
     <div className="page">
       <Header />
-    <div className="dashboard-page">
+     <div className="dashboard-page">
       
 
       {/* Top Navigation Tabs (Same as Seeker) */}
       <nav className="owner-nav">
         
-        <button className={activeTab === "listings" ? "active" : ""} onClick={() => setActiveTab("listings")}>
+        <button className={activeTab === "listings" ? "active" : ""} onClick={() => {
+          setActiveTab("listings");
+          setSelectedPet(null);}}>
           My Listings
         </button>
         <button className={activeTab === "create" ? "active" : ""} onClick={() => setActiveTab("create")}>
@@ -70,49 +129,74 @@ export default function OwnerDashboard() {
         <button className={activeTab === "reservations" ? "active" : ""} onClick={() => setActiveTab("reservations")}>
           Reservations
         </button>
+        
       </nav>
+
+      <div className="layout-wrapper" >
+
+        <div className="side-profile" >
+            {userData ? (
+                  <OwnerProfileCard
+                    name={userData.fullName}
+                    role="Owner" // dYNAMIC WIRTH IT?
+                    location={userData.customerInfo?.location || "Location not set"}
+                    email={userData.email}
+                    phone={userData.customerInfo?.phone}
+                    bio={userData.customerInfo?.bio}
+                    rating={userData.customerInfo?.ratingAvg} //the controller that fills should add status and rating
+                    profilePicUrl={userData.profilePicture}
+                    status={userData.customerInfo?.profileStatus}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                  />
+                  ) : (
+                 <p>Loading...</p>
+                )}
+              </div>     
 
       <div className="wrap tab-content">
 
-        {/* Profile sidebar remains visible */}
-        <aside className="owner-side-profile">
-          {userData ? (
-            <>
-              <h3>{userData.fullName}</h3>
-              {/* <p>{userData.city}, {userData.country}</p> */}
-              <p>{userData.customerInfo?.location || "Location not set"}</p>
-              {/* <p>Email: {userData.email}</p>
-              <p>Role: Pet Owner</p> */}
-              <p>Email: {userData.email}</p>
-              <p>Phone: {userData.customerInfo?.phone}</p>
-              {/* <p>Age: {userData.customerInfo?.age}</p>
-              <p>Gender: {userData.customerInfo?.gender}</p> */}
-              <p>Status: {userData.customerInfo?.profileStatus}</p>
-              <p>Rating: {userData.customerInfo?.ratingAvg} ⭐</p>
-              {/* <img src={userData.profilePicture} alt={userData.fullName} 
-              className="owner-profile-img"/> */}
+         
 
-
-              <button className="btn-secondary">Edit Profile</button>
-              <button className="btn-danger">Delete Account</button>
-            </>
-          ) : (
-            <p>Loading...</p>
-          )}
-        </aside>
-
-        {/* Tab Dynamic Content */}
+       <div> {/* Tab Dynamic Content */}<div/>
         <main className="owner-tab-display">
 
 
+          {/* {activeTab === "listings" && (
+            <OwnerListings embedded={true} accountId={accountId} />
+          )} */}
           {activeTab === "listings" && (
-            <OwnerListings embedded={true} />
+            <OwnerListings
+              embedded={true}
+              accountId={accountId}
+              onEditPet={(pet) => {
+                setSelectedPet(pet);
+                setActiveTab("updatePet");
+              }}
+            />
           )}
+
+
+          {/* {activeTab === "updatePet" && (
+            <UpdatePet embedded={true} accountId={accountId} />
+          )} */}
+
+          {activeTab === "updatePet" && selectedPet && (
+            <UpdatePet
+              embedded={true}
+              accountId={accountId}
+              pet={selectedPet}
+              onClose={() => {
+                setSelectedPet(null);
+                setActiveTab("listings");
+              }}
+            />
+          )}
+
 
           {activeTab === "create" && (
-            <CreateAPet embedded={true} />
+            <CreateAPet embedded={true} accountId={accountId} />
           )}
-
 
           {activeTab === "messages" && (
             <div className="simple-tab-panel">
@@ -122,35 +206,19 @@ export default function OwnerDashboard() {
           )}
 
           {activeTab === "reservations" && (
-            // <section className="reservations-section wrap">
-            //   <h2>Your Reservations</h2>
-
-            //   <div className="reservation-block">
-            //     <h3>Upcoming</h3>
-            //     <p>No upcoming bookings yet.</p>
-            //   </div>
-
-            //   <div className="reservation-block">
-            //     <h3>Past</h3>
-            //     <p>No past bookings yet.</p>
-            //   </div>
-
-            //   <div className="stats">
-            //     <div><strong>0</strong> Total</div>
-            //     <div><strong>0</strong> Pending</div>
-            //     <div><strong>0</strong> Confirmed</div>
-            //     <div><strong>0</strong> Completed</div>
-            //   </div>
-            // </section>
+          
             <OwnerReservation embedded={true} />
             
           )}
 
         </main>
-      </div>
+       </div>
 
-      <Footer />
-    </div>
+       
+     </div>
+     </div>
+     </div>
+     <Footer />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 // SeekerProfilePage.jsx
 import React from "react";
 import Header from "../components/Header";
-import SeekerProfileCard from "../components/SeekerProfileCard";
+import SeekerProfileCard from "../components/UserProfileCard";
 import "../styles/ProfileView.css";
 function ProfilePage() {
   const handleEdit = () => {

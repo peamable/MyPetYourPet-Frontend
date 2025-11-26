@@ -37,7 +37,8 @@ export default function PetListPage() {
         //   setPets(res.data)});
 
         const res = await axiosClient.get("/api/v1/pets/getAllPets");
-        const data = res.data;     
+        const data = res.data;   
+          
         
         
         setPets(data);
@@ -59,7 +60,8 @@ export default function PetListPage() {
     const fetchOwner = async () => {
       if (!selectedPet?.customerId) return;
       try {
-        const res = await fetch(`http://localhost:8082/api/customerAccount/getPetOwnerdetails/${selectedPet.customerId}`);
+        //I will change to axios later
+        const res = await fetch(`http://localhost:8080/api/customerAccount/getOwnerDetails/${selectedPet.customerId}`);
         if (!res.ok) throw new Error("Failed to load owner info");
         const ownerData = await res.json();
 
@@ -84,15 +86,15 @@ export default function PetListPage() {
 
     const matchesSearch =
       !q ||
-      pet.name?.toLowerCase().includes(q) ||
-      pet.breed?.toLowerCase().includes(q) ||
-      pet.location?.toLowerCase().includes(q);
+      pet.petName?.toLowerCase().includes(q) ||
+      pet.petBreed?.toLowerCase().includes(q) ||
+      pet.petBehavior?.toLowerCase().includes(q);
 
-    const matchesSpecies =
-      speciesFilter === "all" ||
-      pet.species?.toLowerCase() === speciesFilter.toLowerCase();
-
-    return matchesSearch && matchesSpecies;
+    // const matchesSpecies =
+    //   speciesFilter === "all" ||
+    //   pet.species?.toLowerCase() === speciesFilter.toLowerCase();
+    return matchesSearch;
+    // return matchesSearch && matchesSpecies;
   });
 
   // When a card is clicked (placeholder for now)
@@ -120,12 +122,13 @@ export default function PetListPage() {
                 <input
                 type="text"
                 className="pet-search-input"
-                placeholder="Search by name, breed, or location..."
+                placeholder="Search by name, breed, or behaviour..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 />
 
-                <select
+               {/* this for "future installations with different pets" */}
+                {/* <select
                 className="pet-filter-select"
                 value={speciesFilter}
                 onChange={(e) => setSpeciesFilter(e.target.value)}
@@ -135,7 +138,7 @@ export default function PetListPage() {
                 <option value="cat">Cats</option>
                 <option value="bird">Birds</option>
                 <option value="other">Other</option>
-                </select>
+                </select> */}
             </div>
             </div>
 
@@ -175,6 +178,7 @@ export default function PetListPage() {
             onRequest={() =>
             console.log("Request reservation for:", selectedPet?.petName) //we can have a record added to the reservation table here
             }
+            //I though i had the owner detail popup here
       />
     </div>
   );

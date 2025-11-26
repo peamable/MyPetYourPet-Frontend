@@ -2,8 +2,19 @@ import React from "react";
 import Header from "../components/Header";
 import "../styles/ReservationsView.css";
 import Footer from "../components/Footer";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export default function ReservationsView({embedded}) {
+
+  const navigate = useNavigate();
+  const handleFind = () => {
+  navigate("/allListings");}
+
+  const {pathname} = useLocation();
+
+  const hideButton = pathname.startsWith("/owner/dashboard");
+
   return (
     <div className="reservations-page">
       {!embedded && <Header />}
@@ -15,11 +26,11 @@ export default function ReservationsView({embedded}) {
 
         {/* Filters */}
         <div className="filters">
-          {/* <select>
-             <option>All roles</option>         //dont think we need this. Should discuss 
+          {!embedded&& <select>
+             <option>All roles</option>         
             <option>Owner</option>
             <option>Seeker</option>
-          </select> */}
+          </select>}
 
           <select>
             <option>Any status</option>
@@ -29,8 +40,9 @@ export default function ReservationsView({embedded}) {
           </select>
 
           <input type="text" placeholder="Search pets, people, IDs." />
-
-          <button className="new-booking-btn">New Booking</button>
+  
+         {!hideButton &&(
+          <button className="new-booking-btn" onClick={handleFind}>New Booking</button>)}
         </div>
 
         {/* Upcoming Section */}

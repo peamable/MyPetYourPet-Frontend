@@ -6,7 +6,7 @@ import "../styles/CreateAPet.css";
 import axiosClient from "../axiosClient";
 
 
-export default function CreateAPet({ embedded }) {
+export default function CreateAPet({ embedded, accountId }) {
   const [formData, setFormData] = useState({
     petName: "",
     petAge: "",
@@ -16,10 +16,12 @@ export default function CreateAPet({ embedded }) {
     dewormingUpToDate: "", 
     vaccinationUpToDate:"",
     petFee: "",
-    petProfileStatus: "",//-------------------------------------------------------
+    //customerId: accountId,
+    petProfileStatus: "",
   });
 
 
+  
   const [dewormed, setDeworm] = useState(false);
   const [vaccinated, setVaccinated] = useState(false);
   const [image, setImage] = useState(null);
@@ -70,6 +72,7 @@ export default function CreateAPet({ embedded }) {
 
 
     try{
+      // const token = await user.getIdToken(); //user is undefined-------------------------
       const payload = {
           petName: formData.petName,
           petAge: parseInt(formData.age),
@@ -79,6 +82,7 @@ export default function CreateAPet({ embedded }) {
           dewormingUpToDate: dewormed,
           vaccinationUpToDate: vaccinated,
           petFee: parseFloat(formData.fee),
+          customerId: accountId,
           petProfileStatus: formData.status === "Active", // true for active
           // imageFile: formData.imageUrl, //-------------------------------------------------------
       //customerId get this somehow,
@@ -87,19 +91,20 @@ export default function CreateAPet({ embedded }) {
       const formDataToSend = new FormData();
       formDataToSend.append("Pet", new Blob([JSON.stringify(payload)], { type: "application/json" }));
       formDataToSend.append("file", image);
-      for (let [key, value] of formDataToSend.entries()) {
-        if (value instanceof Blob) {
-          value.text().then((text) => {
-            alert(`${key}:\n${text}`);
-          });
-        } else if (value instanceof File) {
-          alert(`${key}: ${value.name} (${value.type})`);
-        } else {
-          alert(`${key}: ${value}`);
-        }
-      }
+      // for (let [key, value] of formDataToSend.entries()) {
+      //   if (value instanceof Blob) {
+      //     value.text().then((text) => {
+      //       alert(`${key}:\n${text}`);
+      //     });
+      //   } else if (value instanceof File) {
+      //     alert(`${key}: ${value.name} (${value.type})`);
+      //   } else {
+      //     alert(`${key}: ${value}`);
+      //   }
+      // }
 
 
+      // await axiosClient.post(apiURL, formDataToSend, { headers: { Authorization: `Bearer ${token}`} });
       await axiosClient.post(apiURL, formDataToSend);
       alert("Pet created successfully! 🎉");
       setError("");
@@ -145,12 +150,11 @@ export default function CreateAPet({ embedded }) {
 
   return (
     <div className="page create-pet-page">
-       {!embedded && <Header />}
-
       <div className="create-pet-container">
         {/* LEFT FORM */}
         <div className="create-pet-form">
-          <h1>Create Pet Listing</h1>
+          <h1>Create <br></br>
+            Pet Listing</h1>
           {error && <p className="error-message">{error}</p>}
 
           <div className="grid-2">
@@ -159,10 +163,10 @@ export default function CreateAPet({ embedded }) {
               <input name="petName" onChange={handleChange} />
             </label>
 
-            <label>
+            {/* <label>
               Pet ID (auto)
               <input disabled value="Auto-Generated" />
-            </label>
+            </label> */}
           </div>
 
           <div className="grid-3">
@@ -227,7 +231,7 @@ export default function CreateAPet({ embedded }) {
           <div className="button-row">
              <button className="btn-save" onClick={handleSave}>Save Listing</button>  {/*Add data to db and go back to listings */ }
             <button className="btn-reset" onClick={handleReset}>Reset</button>
-            <Link className="btn-back" to= "/owner/ownerlistings">Back to My Listings</Link>
+            <Link className="btn-back" to= "/owner/dashboard">Back to My Listings</Link> {/*Need to work on the navigation*/ }
           </div>
         </div>
 
@@ -251,7 +255,6 @@ export default function CreateAPet({ embedded }) {
         </div>
       </div>
 
-       {!embedded && <Footer />}
     </div>
   );
 }

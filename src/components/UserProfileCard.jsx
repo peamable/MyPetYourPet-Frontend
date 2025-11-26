@@ -2,14 +2,17 @@
 import React from "react";
 import "../styles/ProfileView.css";
 
-function SeekerProfileCard({
+function UserProfileCard({
+
   name,
   role,
   location,
   email,
   phone,
   bio,
-  preferences = [],
+  status,
+  rating,
+  profilePicUrl,
   onEdit,
   onDelete,
   showDelete = true,
@@ -17,8 +20,16 @@ function SeekerProfileCard({
   return (
     <div className="profile-card">
       {/* Top: avatar + name/role/location */}
+        
       <div className="profile-card-header">
-        <div className="profile-avatar" aria-hidden="true" />
+        {/* <div className="profile-avatar" aria-hidden="true" /> */}
+        <img
+        src={profilePicUrl || "https://tse4.mm.bing.net/th/id/OIP.eDOsXt3XNYFxCikumFhjjQHaHa?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"}
+        alt="Profile"
+        className="profile-avatar"
+        />
+
+
         <div>
           <h1 className="profile-name">{name}</h1>
           <p className="profile-subtitle">
@@ -45,19 +56,15 @@ function SeekerProfileCard({
           <h2 className="profile-section-title">Bio</h2>
           <p className="profile-text">{bio}</p>
         </section>
+        <section className="profile-section">
+          <h2 className="profile-section-title">Status</h2>
+          <p className="profile-text">{status}</p>
+        </section>
+        <section className="profile-section">
+          <h2 className="profile-section-title">Rating</h2>
+          <p className="profile-text">{rating} ⭐</p> {/* we need data here */}
+        </section>
 
-        {preferences.length > 0 && (
-          <section className="profile-section">
-            <h2 className="profile-section-title">My Preferences</h2>
-            <div className="profile-preferences">
-              {preferences.map((pref) => (
-                <span key={pref} className="preference-pill">
-                  {pref}
-                </span>
-              ))}
-            </div>
-          </section>
-        )}
       </div>
 
       {/* Bottom: buttons */}
@@ -84,4 +91,4 @@ function SeekerProfileCard({
   );
 }
 
-export default SeekerProfileCard;
+export default UserProfileCard;
