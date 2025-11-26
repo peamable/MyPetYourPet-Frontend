@@ -12,6 +12,10 @@
   padding: 40px 20px;
 }
 
+.side-profile {
+  padding: 10px 10px;
+}
+
 /* Top Navigation */
 .owner-nav {
   display: flex;

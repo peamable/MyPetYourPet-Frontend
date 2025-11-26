@@ -2,15 +2,17 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../styles/OwnerListings.css";
 import PetCard from "../components/PetCard";
-//import EditAPet from "../pages/EditAPet";
+// import EditAPet from "../pages/EditAPet";
+// import UpdatePet from "../components/UpdatePet";
+// import UpdatePet from "../pages/UpdatePet";
 import axiosClient from '../axiosClient';//----------------------------------------
 // import SeekerProfileCard from "../components/UserProfileCard";
 import { useState, useEffect } from "react";
 
-export default function OwnerListings({ embedded, accountId }) {
+export default function OwnerListings({ embedded, accountId, onEditPet }) {
 
   const [ownerpets, setPets] = useState([]);
-  const [selectedPet, setSelectedPet] = useState(null);//----------------------------------------------
+  //const [selectedPet, setSelectedPet] = useState(null);//----------------------------------------------
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -87,7 +89,8 @@ export default function OwnerListings({ embedded, accountId }) {
                 ]}
                 onEdit={() => {
                   console.log("Editing pet:", pet);   // <-- your debug log
-                  setSelectedPet(pet);
+                  // setSelectedPet(pet);
+                  onEditPet(pet);
                 }}
                 />))}
             
@@ -98,14 +101,19 @@ export default function OwnerListings({ embedded, accountId }) {
         </div>
 
       {/* This is an overlay to show the pet details */}
-      {selectedPet && (
-       <EditAPet
+      {/* {selectedPet && (
+       <UpdatePet
           embedded={true} 
           pet={selectedPet}
           onClose={() => setSelectedPet(null)}
-      />)}
+          onSubmit={(updatedPet) => {
+          console.log("Updated pet:", updatedPet);
+          // optionally refresh your ownerpets list here
+          setSelectedPet(null); // return to listings
+          }}
+      />)} */}
       </div>
-     {!embedded && <Footer />}
+     {/* {!embedded && <Footer />} */}
     </div>
   );
 };

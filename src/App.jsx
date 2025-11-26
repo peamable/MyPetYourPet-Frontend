@@ -17,6 +17,8 @@ import PetListings from "./pages/PetList"
 import UpdateProfilePage from "./pages/UpdateProfile";
 import PetUpdate from "./components/UpdatePet"
 import AdminDashboard from "./pages/AdminSupportView";
+import UpdatePet from "./components/UpdatePet"
+import Admin from "./pages/AdminSupportView"
 
 
 export default function App() {
@@ -52,12 +54,12 @@ export default function App() {
         <Route path="/owner/petprofileview" element={<PetProfileView />} />
 
         <Route path="/viewListings" element={<OwnerListings />} /> 
-        <Route path="/admin/reservation" element={<ReservationsView />} />
+        <Route path="/admin/dashboard" element={<Admin />} />
         <Route path="/allListings" element={<PetListings />} />
         <Route path="/seeker/viewProfile" element={< ProfileView/>} />
         <Route path="/customer/editProfile" element={< UpdateProfilePage/>} />
 
-        <Route path="/updatePet" element={< PetUpdate/>} />
+        <Route path="/updatePet" element={< UpdatePet/>} />
         {/* <Route path="/owner/editProfile" element={< UpdateProfilePage/>} /> */}
 
          <Route path="/admin/dashboard" element={<AdminDashboard />} />   

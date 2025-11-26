@@ -77,6 +77,7 @@ const handleFind = () => {
           <Link to="/seeker/dashboard" className="btn-primary">Pet Seeker</Link>
           <Link to="/admin/reservation" className="btn-primary">Admin reservation View</Link>
           <Link to="/admin/dashboard" className="btn-primary">Admin Dashboard</Link>
+          <Link to="/admin/dashboard" className="btn-primary">Admin reservation View</Link>
         </div>
       </section>
       <Footer />

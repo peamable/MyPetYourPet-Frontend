@@ -37,7 +37,8 @@ export default function PetListPage() {
         //   setPets(res.data)});
 
         const res = await axiosClient.get("/api/v1/pets/getAllPets");
-        const data = res.data;     
+        const data = res.data;   
+          
         
         
         setPets(data);
@@ -85,15 +86,15 @@ export default function PetListPage() {
 
     const matchesSearch =
       !q ||
-      pet.name?.toLowerCase().includes(q) ||
-      pet.breed?.toLowerCase().includes(q) ||
-      pet.location?.toLowerCase().includes(q);
+      pet.petName?.toLowerCase().includes(q) ||
+      pet.petBreed?.toLowerCase().includes(q) ||
+      pet.petBehavior?.toLowerCase().includes(q);
 
-    const matchesSpecies =
-      speciesFilter === "all" ||
-      pet.species?.toLowerCase() === speciesFilter.toLowerCase();
-
-    return matchesSearch && matchesSpecies;
+    // const matchesSpecies =
+    //   speciesFilter === "all" ||
+    //   pet.species?.toLowerCase() === speciesFilter.toLowerCase();
+    return matchesSearch;
+    // return matchesSearch && matchesSpecies;
   });
 
   // When a card is clicked (placeholder for now)
@@ -156,7 +157,7 @@ export default function PetListPage() {
                 <input
                 type="text"
                 className="pet-search-input"
-                placeholder="Search by name, breed, or location..."
+                placeholder="Search by name, breed, or behaviour..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 />
