@@ -19,6 +19,7 @@ import PetUpdate from "./components/UpdatePet"
 import AdminDashboard from "./pages/AdminSupportView";
 import UpdatePet from "./components/UpdatePet"
 import Admin from "./pages/AdminSupportView"
+import PaymentSuccess from "./pages/PaymentSuccess"
 
 
 export default function App() {
@@ -62,7 +63,9 @@ export default function App() {
         <Route path="/updatePet" element={< UpdatePet/>} />
         {/* <Route path="/owner/editProfile" element={< UpdateProfilePage/>} /> */}
 
-         <Route path="/admin/dashboard" element={<AdminDashboard />} />   
+         <Route path="/admin/dashboard" element={<AdminDashboard />} />  
+
+         <Route path="/payment-success" element={<PaymentSuccess />} /> 
      {/*Here we add all the routes that we create for all the pages*/}
       </Routes>
      
