@@ -117,18 +117,27 @@ export default function Register() {
 
      
       //payload will hold the data we want to send
-      const payload = {
-      firebaseUID: firebaseUID,             // from Firebase
-      fullName: fullName,
-      email: email,        // could also use user.email
-      phone: phone,
-      age: parseInt(age),
-      gender: gender,
-          // idType: "", // we should save id file and background check instead of numbers
-      governmentId:idNumber, // we should save id file and background check instead of numbers
-      location: address,
-      bio:bio,
+      let payload;
+       if (role === "admin") {
+      payload = {
+        firebaseUID,
+        fullName,
+        email,
+        userType: "Administrator",
       };
+    } else {
+      payload = {
+        firebaseUID,
+        fullName,
+        email,
+        phone,
+        age: parseInt(age),
+        gender,
+        governmentId: idNumber,
+        location: address,
+        bio,
+      };
+    }
 
      // this should be sent to a specific function "createAccount"
       let apiURL = "";
@@ -144,6 +153,10 @@ export default function Register() {
       {
         apiURL = "/api/registration/petSeeker";
       }
+      else if (role === "admin") 
+      {
+        apiURL = "/api/registration/admin";
+      }
        else
        {
          throw new Error("Please select a role")
@@ -153,7 +166,7 @@ export default function Register() {
  
       const formDataToSend = new FormData();
       formDataToSend.append("RegistrationRequest", new Blob([JSON.stringify(payload)], { type: "application/json" }));
-      formDataToSend.append("file", image);
+      if (image) formDataToSend.append("file", image);
 
       //for debugging............................................................
       // for (let [key, value] of formDataToSend.entries()) {
@@ -168,9 +181,9 @@ export default function Register() {
       //   }
       // }
       //...............................................................................
-
+    //Send to backend
       await axiosClient.post(apiURL, formDataToSend);
-      alert("Account created successfully! 🎉");
+      alert("Account created successfully!");
       navigate("/login")
 
       // setError("");

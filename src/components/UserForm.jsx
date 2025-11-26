@@ -116,6 +116,20 @@ export default function UserForm({
             alert("Please fill out all required fields and select an image.");
             return;
             }
+            try {
+              if (formData.role === "admin") {
+                await onSubmit({
+                  ...formData,
+                  image,
+                  targetTable: "support_user", // <-- Flag to backend
+                });
+              } else {
+                await onSubmit({ ...formData, image });
+              }
+            } catch (err) {
+              setError(err.message || "Something went wrong");
+            }
+
             if(image){
               const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
             if (!allowedTypes.includes(image.type)) {
@@ -181,15 +195,20 @@ export default function UserForm({
             <option value="">Select</option>
             <option value="owner">Owner</option>
             <option value="seeker">Seeker</option>
+            <option value="admin">Admin</option>
           </select>
 
           <label>Email</label>
           <input type="email" name="email" disabled={isEdit}
           value= {formData.email} onChange={handleChange} required />
 
-          <label>Phone</label>
-          <input type="tel" name="phone" onChange={handleChange} 
-          value= {formData.phone}/>
+          {formData.role !== "admin" && (
+            <>
+              <label>Phone</label>
+              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} />
+              {/* Add similar check for ID, address, age, bio */}
+            </>
+          )}
 
           {/* Government ID Section */}
           <div className="gov-section">
