@@ -136,8 +136,10 @@ export default function ReservationsView({ embedded }) {
               >
                 <option value="Pending">Pending</option>
                 {/*<option value="Confirmed" disabled={new Date(res.endDate) < new Date()}>Confirmed</option>*/}
-                <option value="Confirmed">Confirmed</option>
                 <option value="Rejected">Rejected</option>
+                <option value="Confirmed - Pending Payment">Confirmed - Pending Payment</option>
+                <option value="Confirmed - Paid">Confirmed - Paid</option>
+                
               </select>
             ) : (
               <button className={`status-badge ${res.petResStatus.toLowerCase()}`} disabled>
