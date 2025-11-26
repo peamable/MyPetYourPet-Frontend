@@ -26,7 +26,7 @@ export default function PetSeekerDashboard() {
 
           const res = await axiosClient.get(`/api/customerAccount/getSeekerDetails/${accountId}`);
           const seekerData = await res.data;   
-          setUserData(seekerData); // ✅ Correct state setter
+          setUserData(seekerData); //  Correct state setter
         } catch (err) {
           console.error("Seeker fetch error:", err);
         }

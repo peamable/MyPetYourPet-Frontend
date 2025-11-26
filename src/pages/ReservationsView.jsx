@@ -4,10 +4,12 @@ import Header from "../components/Header";
 import "../styles/ReservationsView.css";
 import Footer from "../components/Footer";
 import { useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function ReservationsView({ embedded }) {
   const navigate = useNavigate();
   const accountId = localStorage.getItem("accountId"); // customerId (Seeker ID)
+  const userRole = localStorage.getItem("role");
   const { pathname } = useLocation();
   const hideButton = pathname.startsWith("/owner/dashboard");
 
@@ -17,21 +19,41 @@ export default function ReservationsView({ embedded }) {
 
   // Fetch reservation data on component load
   useEffect(() => {
-    const fetchReservations = async () => {
-      try {
-        const res = await axiosClient.get(`/api/reservations/seeker/${accountId}`);
-        setReservations(res.data || []);
-      } catch (err) {
-        console.error("Failed to load reservations:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchReservations = async () => {
+    try {
+      const endpoint =
+        userRole === "owner"
+          ? `/api/reservations/owner/view/${accountId}`
+          : `/api/reservations/seeker/view/${accountId}`;
 
-    if (accountId) fetchReservations();
-  }, [accountId]);
+      const res = await axiosClient.get(endpoint);
+      setReservations(res.data || []);
+    } catch (err) {
+      console.error("Failed to load reservations:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (accountId) fetchReservations();
+}, [accountId, userRole]);
 
   const handleFind = () => navigate("/allListings");
+
+  const handleStatusChange = async (reservationId, newStatus) => {
+  try {
+    await axiosClient.patch(`/api/reservations/updateStatus/${reservationId}`, {
+      status: newStatus,
+    });
+    alert("Status updated!");
+    // Refresh the list
+    const res = await axiosClient.get(`/api/reservations/${userRole === "owner" ? "owner/view" : "seeker/view"}/${accountId}`);
+    setReservations(res.data);
+  } catch (err) {
+    console.error("Failed to update status:", err);
+    toast.error("Error updating status");
+  }
+};
 
   // Categorization logic
   const upcomingReservations = reservations.filter((res) =>
@@ -90,13 +112,40 @@ export default function ReservationsView({ embedded }) {
             <p className="placeholder">No upcoming reservations yet.</p>
           ) : (
             upcomingReservations.map((res) => (
-              <p key={res.petResId}>
-                Pet ID: {res.petId} | From:{" "}
+            <div key={res.petResId} className="reservation-row">
+              
+              <div className="reservation-pet">
+                <img
+                  src={res.petImageUrl || "/default_pro_pic.jpg"}
+                  alt={res.petName}
+                  className="reservation-pet-img"
+                />
+                <span className="reservation-pet-name">{res.petName}</span>
+              </div>
+             
+              <span>
                 {new Date(res.startDate).toLocaleDateString()} →{" "}
-                {new Date(res.endDate).toLocaleDateString()} | Status:{" "}
+                {new Date(res.endDate).toLocaleDateString()}
+              </span>
+              
+              {userRole === "owner" ? (
+              <select
+                value={res.petResStatus}
+                onChange={(e) => handleStatusChange(res.petResId, e.target.value)}
+                className={`status-dropdown enhanced-dropdown status-${res.petResStatus.toLowerCase()}`}
+              >
+                <option value="Pending">Pending</option>
+                {/*<option value="Confirmed" disabled={new Date(res.endDate) < new Date()}>Confirmed</option>*/}
+                <option value="Confirmed">Confirmed</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            ) : (
+              <button className={`status-badge ${res.petResStatus.toLowerCase()}`} disabled>
                 {res.petResStatus}
-              </p>
-            ))
+              </button>
+            )}
+            </div>
+          ))
           )}
         </div>
 

@@ -100,6 +100,143 @@
   margin-top: 4px;
 }
 
+/* Row layout */
+.reservation-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+}
+
+/* Pet image + name wrapper */
+.reservation-pet {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Pet image styling */
+.reservation-pet-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Pet name styling */
+.reservation-pet-name {
+  font-weight: 500;
+}
+
+/* Date */
+.reservation-date {
+  color: #555;
+}
+
+/* Status badges */
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: not-allowed;
+}
+
+/* Status color themes */
+.status-pending {
+  background: #ffedb5;
+  color: #b47a00;
+}
+
+.status-confirmed {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-completed {
+  background: #e2e3e5;
+  color: #6c757d;
+}
+
+.reservation-pet {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.reservation-pet-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.status-dropdown {
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #fff;
+  font-size: 0.9rem;
+}
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+.status-badge.pending {
+  background: #ffe9b2;
+  color: #8a6d1a;
+}
+.status-badge.confirmed {
+  background: #c7f9cc;
+  color: #2e7d32;
+}
+.status-badge.rejected {
+  background: #ffd4d4;
+  color: #b02222;
+}
+
+/* Base dropdown styling */
+.enhanced-dropdown {
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 2px solid #dfdfdf;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px; /* Prevent compact dropdown */
+}
+
+/* Hover and focus */
+.enhanced-dropdown:hover,
+.enhanced-dropdown:focus {
+  border-color: var(--accent);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Status-specific colors */
+.status-pending {
+  background: #fff7db;
+  color: #996c00;
+}
+
+.status-confirmed {
+  background: #e9fbe9;
+  color: #2c7a2c;
+}
+
+.status-rejected {
+  background: #fdeaea;
+  color: #b10000;
+}
+
+
 /* RESPONSIVENESS */
 @media (max-width: 600px) {
   .filters {
