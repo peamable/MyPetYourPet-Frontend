@@ -16,6 +16,8 @@ export default function ReservationsView({ embedded }) {
   // State to store reservation data
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState("Any");
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Fetch reservation data on component load
   useEffect(() => {
@@ -40,6 +42,30 @@ export default function ReservationsView({ embedded }) {
 
   const handleFind = () => navigate("/allListings");
 
+  const handlePay = async (reservationId, petFee) => {
+    try {
+    //const petFee = localStorage.getItem("petFeeForReservation")
+    //reservationId = reservationId; // or however you store it
+    const amountCents = Math.round(petFee * 100); // e.g. 20.00 CAD → 2000
+    
+
+    const res = await axiosClient.post(
+      "/api/payments/create-checkout-session",
+      {
+        reservationId,
+        amountCents,
+      }
+    );
+
+    // Redirect to Stripe
+    window.location.href = res.data.url;
+
+  } catch (err) {
+    console.error(err);
+    toast.error("Payment failed to start");
+  }
+  };
+
   const handleStatusChange = async (reservationId, newStatus) => {
   try {
     await axiosClient.patch(`/api/reservations/updateStatus/${reservationId}`, {
@@ -55,13 +81,33 @@ export default function ReservationsView({ embedded }) {
   }
 };
 
+const filteredReservations = reservations.filter((res) => {
+  // STATUS FILTER
+  if (statusFilter !== "Any" && res.petResStatus !== statusFilter) {
+    return false;
+  }
+
+  // SEARCH FILTER — checks pet name, status, ID, dates
+  const term = searchTerm.toLowerCase();
+  if (
+    !res.petName.toLowerCase().includes(term) &&
+    !res.petResStatus.toLowerCase().includes(term) &&
+    !String(res.petResId).includes(term) &&
+    !String(res.petId).includes(term)
+  ) {
+    return false;
+  }
+
+  return true;
+});
+
   // Categorization logic
-  const upcomingReservations = reservations.filter((res) =>
-    ["Pending", "Confirmed"].includes(res.petResStatus)
-  );
-  const pastReservations = reservations.filter((res) =>
-    ["Completed"].includes(res.petResStatus)
-  );
+  // const upcomingReservations = reservations.filter((res) =>
+  //   ["Pending", "Confirmed"].includes(res.petResStatus)
+  // );
+  // const pastReservations = reservations.filter((res) =>
+  //   ["Completed"].includes(res.petResStatus)
+  // );
 
   // Stats
   const total = reservations.length;
@@ -77,96 +123,199 @@ export default function ReservationsView({ embedded }) {
         <h2 className="title">Reservations</h2>
 
         {/* Filters */}
-        <div className="filters">
-          {!embedded && (
-            <select>
-              <option>All roles</option>
-              <option>Owner</option>
-              <option>Seeker</option>
+          <div className="filters">
+            {!embedded && (
+              <select>
+                <option>All roles</option>
+                <option>Owner</option>
+                <option>Seeker</option>
+              </select>
+            )}
+
+            {/* STATUS FILTER */}
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <option value="Any">All</option>
+              <option value="Pending">Pending</option>
+              <option value="Confirmed">Confirmed</option>
+              <option value="Completed">Completed</option>
+              <option value="Rejected">Rejected</option>
+              <option value="Confirmed - Pending Payment">Confirmed - Pending Payment</option>
+              <option value="Confirmed - Paid">Confirmed - Paid</option>
             </select>
-          )}
 
-          <select>
-            <option>Any status</option>
-            <option>Pending</option>
-            <option>Confirmed</option>
-            <option>Completed</option>
-          </select>
+            {/* SEARCH FILTER */}
+            <input
+              type="text"
+              placeholder="Search pets, people, IDs"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
 
-          <input type="text" placeholder="Search pets, people, IDs." />
-
-          {!hideButton && (
-            <button className="new-booking-btn" onClick={handleFind}>
-              New Booking
-            </button>
-          )}
-        </div>
+            {!hideButton && (
+              <button className="new-booking-btn" onClick={handleFind}>
+                New Booking
+              </button>
+            )}
+          </div>
 
         {/* Loading indicator */}
         {loading && <p className="placeholder">Loading reservations...</p>}
 
-        {/* Upcoming Section */}
-        <div className="section-card">
-          <h3>Upcoming</h3>
-          {upcomingReservations.length === 0 ? (
-            <p className="placeholder">No upcoming reservations yet.</p>
-          ) : (
-            upcomingReservations.map((res) => (
-            <div key={res.petResId} className="reservation-row">
-              
-              <div className="reservation-pet">
-                <img
-                  src={res.petImageUrl || "/default_pro_pic.jpg"}
-                  alt={res.petName}
-                  className="reservation-pet-img"
-                />
-                <span className="reservation-pet-name">{res.petName}</span>
-              </div>
-             
-              <span>
-                {new Date(res.startDate).toLocaleDateString()} →{" "}
-                {new Date(res.endDate).toLocaleDateString()}
-              </span>
-              
-              {userRole === "owner" ? (
-              <select
-                value={res.petResStatus}
-                onChange={(e) => handleStatusChange(res.petResId, e.target.value)}
-                className={`status-dropdown enhanced-dropdown status-${res.petResStatus.toLowerCase()}`}
-              >
-                <option value="Pending">Pending</option>
-                {/*<option value="Confirmed" disabled={new Date(res.endDate) < new Date()}>Confirmed</option>*/}
-                <option value="Rejected">Rejected</option>
-                <option value="Confirmed - Pending Payment">Confirmed - Pending Payment</option>
-                <option value="Confirmed - Paid">Confirmed - Paid</option>
-                
-              </select>
-            ) : (
-              <button className={`status-badge ${res.petResStatus.toLowerCase()}`} disabled>
-                {res.petResStatus}
-              </button>
+<div className="section-card">
+  <h3>All Reservations</h3>
+
+  {filteredReservations.length === 0 ? (
+    <p className="placeholder">No matching reservations.</p>
+  ) : (
+    filteredReservations.map((res) => (
+      <div key={res.petResId} className="reservation-row">
+
+        {/* Pet image + name */}
+        <div className="reservation-pet">
+          <img
+            src={res.petImageUrl || "/default_pro_pic.jpg"}
+            alt={res.petName}
+            className="reservation-pet-img"
+          />
+          <span className="reservation-pet-name">{res.petName}</span>
+        </div>
+
+        {/* Dates */}
+        <span>
+          {new Date(res.startDate).toLocaleDateString()} →{" "}
+          {new Date(res.endDate).toLocaleDateString()}
+        </span>
+
+        {/* OWNER VIEW */}
+        {userRole === "owner" ? (
+          <div className="owner-controls">
+            <span className={`status-badge ${res.petResStatus.toLowerCase()}`}>
+              {res.petResStatus}
+            </span>
+            {res.petResStatus === "Pending" &&(
+            <select
+              defaultValue=""
+              onChange={(e) => handleStatusChange(res.petResId, e.target.value)}
+              className="status-action-dropdown"
+            >
+              <option value="" disabled>Choose Action</option>
+              <option value="Confirmed - Pending Payment">Accept</option>
+              <option value="Rejected">Decline</option>
+            </select>
             )}
-            </div>
-          ))
-          )}
-        </div>
+          </div>
+        ) : (
+          <button className={`status-badge ${res.petResStatus.toLowerCase()}`} disabled>
+            {res.petResStatus}
+          </button>
+        )}
 
-        {/* Past Section */}
-        <div className="section-card">
-          <h3>Past</h3>
-          {pastReservations.length === 0 ? (
-            <p className="placeholder">No past reservations found.</p>
-          ) : (
-            pastReservations.map((res) => (
-              <p key={res.petResId}>
-                Pet ID: {res.petId} | From:{" "}
-                {new Date(res.startDate).toLocaleDateString()} | Status:{" "}
+        {/* SEEKER PAY BUTTON */}
+        {userRole === "seeker" && res.petResStatus === "Confirmed - Pending Payment" && (
+          <button
+            className="pay-btn"
+            onClick={() => handlePay(res.petResId, res.serviceAmount)}
+          >
+            Pay Now
+          </button>
+        )}
+
+      </div>
+    ))
+  )}
+</div>
+
+        {/* Upcoming Section */}
+        
+ {/*.............................................................................*/}       
+        {/* <div className="section-card">
+  <h3>Upcoming</h3>
+
+  {upcomingReservations.length === 0 ? (
+    <p className="placeholder">No upcoming reservations yet.</p>
+  ) : (
+    upcomingReservations.map((res) => (
+      <div key={res.petResId} className="reservation-row"> */}
+
+        {/* Pet image + name */}
+        {/* <div className="reservation-pet">
+          <img
+            src={res.petImageUrl || "/default_pro_pic.jpg"}
+            alt={res.petName}
+            className="reservation-pet-img"
+          />
+          <span className="reservation-pet-name">{res.petName}</span>
+        </div> */}
+
+        {/* Dates */}
+        {/* <span>
+          {new Date(res.startDate).toLocaleDateString()} →{" "}
+          {new Date(res.endDate).toLocaleDateString()}
+        </span> */}
+
+        {/* OWNER DROPDOWN OR SEEKER STATUS BADGE */}
+        {/* {userRole === "owner" ? (
+          <select
+            value={res.petResStatus}
+            onChange={(e) => handleStatusChange(res.petResId, e.target.value)}
+            className={`status-dropdown enhanced-dropdown status-${res.petResStatus.toLowerCase()}`}
+          >
+            <option value="Pending">Pending</option>
+            <option value="Rejected">Rejected</option>
+            <option value="Confirmed - Pending Payment">Confirmed - Pending Payment</option>
+            <option value="Confirmed - Paid">Confirmed - Paid</option>
+          </select>
+        ) : (
+          <button className={`status-badge ${res.petResStatus.toLowerCase()}`} disabled>
+            {res.petResStatus}
+          </button>
+        )} */}
+
+        {/* OWNER VIEW: STATUS + ACTION DROPDOWN */}
+          {/* {userRole === "owner" ? (
+            <div className="owner-controls"> */}
+
+              {/* Show CURRENT STATUS */}
+              {/* <span className={`status-badge ${res.petResStatus.toLowerCase()}`}>
                 {res.petResStatus}
-              </p>
-            ))
-          )}
-        </div>
+              </span> */}
 
+              {/* Action dropdown */}
+              {/* <select
+                defaultValue=""
+                onChange={(e) => handleStatusChange(res.petResId, e.target.value)}
+                className="status-action-dropdown"
+              >
+                <option value="" disabled>Choose Action</option>
+                <option value="Confirmed - Pending Payment">Accept</option>
+                <option value="Rejected">Decline</option>
+              </select>
+
+            </div> */}
+          {/* ) : (
+            <button className={`status-badge ${res.petResStatus.toLowerCase()}`} disabled>
+              {res.petResStatus}
+            </button>
+          )} */}
+
+        {/* SEEKER ONLY: PAY BUTTON  && res.petResStatus === "Confirmed - Pending Payment"*/}
+        {/* {userRole === "seeker"  && (
+          <button
+            className="pay-btn"
+            onClick={() => handlePay(res.petResId, res.serviceAmount)}
+          >
+            Pay Now
+          </button>
+        )}
+
+      </div>
+    ))
+  )}
+</div> */}
+{/*.............................................................................*/}
         {/* Stats Summary */}
         <div className="glance-card">
           <h3>At a glance</h3>

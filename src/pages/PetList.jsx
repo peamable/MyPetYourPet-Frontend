@@ -129,6 +129,8 @@ export default function PetListPage() {
       petResStatus: "Pending"
     });
 
+    localStorage.setItem("petFeeForReservation", pet.petFee)
+
     console.log("Reservation saved:", res.data);
     alert("Reservation requested successfully!");
     setSelectedPet(null);
