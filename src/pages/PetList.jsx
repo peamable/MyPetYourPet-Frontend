@@ -103,6 +103,43 @@ export default function PetListPage() {
     console.log("Clicked pet id:", petId);
   };
 
+  //reservation handler
+ const handleRequestReservation = async (pet) => {
+  if (!pet) return;
+  const accountId = localStorage.getItem("accountId"); // Logged-in user (seeker)
+
+  if (!accountId) {
+    alert("Please login to request!");
+    return;
+  }
+
+    // TODO: Replace with user-chosen dates (temporary hardcoded)
+    const startDate = new Date("2025-02-01T10:00:00");
+    const endDate = new Date("2025-02-01T18:00:00");
+
+     try {
+    const res = await axiosClient.post("/api/reservations/seeker/create", {
+      petId: pet.petId,
+      customerId: accountId,  // seeker (logged in user)
+      ownerId: pet.owner?.ownerId, // If backend supports owner reference
+      startDate: "2025-02-01 10:00:00", 
+      endDate: "2025-02-01 18:00:00",
+      serviceFee: pet.petFee, // dynamic fee from DB
+      serviceAmount: 50, 
+      petResStatus: "Pending"
+    });
+
+    localStorage.setItem("petFeeForReservation", pet.petFee)
+
+    console.log("Reservation saved:", res.data);
+    alert("Reservation requested successfully!");
+    setSelectedPet(null);
+  } catch (err) {
+    console.error("Reservation error:", err);
+    alert("Failed to request reservation");
+  }
+  };
+
 
   return (
     <div className="page">
@@ -175,9 +212,10 @@ export default function PetListPage() {
       <PetDetailCard
             pet={selectedPet}
             onClose={() => setSelectedPet(null)}
-            onRequest={() =>
-            console.log("Request reservation for:", selectedPet?.petName) //we can have a record added to the reservation table here
-            }
+            onRequest={handleRequestReservation}
+            //onRequest={() =>{handleRequestReservation}
+            //console.log("Request reservation for:", selectedPet?.petName) //we can have a record added to the reservation table here
+            //}
             //I though i had the owner detail popup here
       />
     </div>

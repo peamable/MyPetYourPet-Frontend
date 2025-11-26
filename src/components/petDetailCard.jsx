@@ -66,7 +66,9 @@ function PetDetailCard({ pet, onClose, onRequest }) {
 
               <div className="detail-actions">
                 <button className="btn outline" onClick={onClose}>Back to list</button>
-                <button className="btn orange" onClick={onRequest}>Request reservation</button>
+                <button className="btn orange" onClick={() => onRequest(pet)}>
+                  Request reservation
+                </button>
               </div>
             </div>
 
