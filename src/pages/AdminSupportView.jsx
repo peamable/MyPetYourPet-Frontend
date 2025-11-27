@@ -10,6 +10,7 @@ export default function AdminDashboard() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [verifiedCount, setVerifiedCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [admin, setAdmin] = useState(null);
 
   //.................................................
   // // Fetch data on mount
@@ -103,6 +104,19 @@ const documents = selectedUser
      { id: 3, title: "Address Proof", image: selectedUser.addressProof }
   ].filter(doc => doc.image);*/
 
+  useEffect(() => {
+    loadDashboardData();
+    loadAdminDetails(); // fetch admin data
+  }, []);
+  const loadAdminDetails = async () => {
+  try {
+    const res = await axiosClient.get("/api/adminAccount/details");
+    setAdmin(res.data);
+  } catch (error) {
+    console.error("Failed to fetch admin details:", error);
+  }
+};
+
   return (
     <div className="page">
       <Header />
@@ -112,16 +126,17 @@ const documents = selectedUser
         {/* Main Admin Info */}
         <div className="admin-card">
           <img
-            src="https://picsum.photos/200/200"
+            src={admin?.profilePicture || "https://picsum.photos/200/200"}
             alt="Admin avatar"
             className="admin-avatar"
           />
-          <h2 className="admin-name">Admin User</h2>
-          <p className="admin-role">System Administrator</p>
+          <h2 className="admin-name">{admin?.fullName || "Admin User"}</h2>
+          <p className="admin-role">{admin?.role || "System Administrator"}</p>
 
           <p className="admin-status online">● Online</p>
 
           <div className="admin-meta">
+            <p><strong>Email:</strong> {admin?.email || "N/A"}</p>
             <p><strong>Signed in:</strong> Today</p>
             <p><strong>Shift time:</strong> 00h 00m</p>
           </div>

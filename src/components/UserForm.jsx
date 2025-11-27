@@ -116,32 +116,32 @@ export default function UserForm({
             alert("Please fill out all required fields and select an image.");
             return;
             }
-            try {
-              if (formData.role === "admin") {
-                await onSubmit({
-                  ...formData,
-                  image,
-                  targetTable: "support_user", // <-- Flag to backend
-                });
-              } else {
-                await onSubmit({ ...formData, image });
-              }
-            } catch (err) {
-              setError(err.message || "Something went wrong");
-            }
+            // try {
+            //   if (formData.role === "admin") {
+            //     await onSubmit({
+            //       ...formData,
+            //       image,
+            //       targetTable: "support_user", // <-- Flag to backend
+            //     });
+            //   } else {
+            //     await onSubmit({ ...formData, image });
+            //   }
+            // } catch (err) {
+            //   setError(err.message || "Something went wrong");
+            // }
 
-            if(image){
-              const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
-            if (!allowedTypes.includes(image.type)) {
-            setError("Only JPG, PNG, or WEBP images are allowed.");
-            return;
-            }
-            const maxSize = 5 * 1024 * 1024;
-            if (image.size > maxSize) {
-            setError("Image must be smaller than 5MB.");
-            return;
-            }
-            }
+            // if(image){
+            //   const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+            // if (!allowedTypes.includes(image.type)) {
+            // setError("Only JPG, PNG, or WEBP images are allowed.");
+            // return;
+            // }
+            // const maxSize = 5 * 1024 * 1024;
+            // if (image.size > maxSize) {
+            // setError("Image must be smaller than 5MB.");
+            // return;
+            // }
+            // }
             
             if (!isEdit) {
             // create mode: must match
