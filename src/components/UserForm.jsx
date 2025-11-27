@@ -10,7 +10,7 @@ export default function UserForm({
     
 }) 
 {
-  const user = initialValues.role; //dynamically change this
+    const user = initialValues.role; //dynamically change this
     const isEdit = mode === "edit"
     const navigate = useNavigate()
     const handleExit = ()=> {
@@ -29,8 +29,8 @@ export default function UserForm({
         phone: initialValues.phone || "",
         age: initialValues.age || "",
         gender: initialValues.gender || "",
-        idType: initialValues.idType || "",
-        idNumber: initialValues.idNumber || "",//NOT WORKING
+        // idType: initialValues.idType || "",
+        // idNumber: initialValues.idNumber || "",//NOT WORKING
         address: initialValues.address|| "",
         password: "",
         bio:"",
@@ -38,6 +38,8 @@ export default function UserForm({
     
       });
 
+        const [govIdFile, setGovIdFile] = useState(null);
+        const [backCheckFile, setBackCheckFile] = useState(null);
         const [image, setImage] = useState(null);
         const [preview, setPreview] = useState(initialValues.profilePicUrl || "https://tse4.mm.bing.net/th/id/OIP.eDOsXt3XNYFxCikumFhjjQHaHa?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3");
         const [error, setError] = useState("");
@@ -55,8 +57,8 @@ export default function UserForm({
             phone: initialValues.phone || "",
             age: initialValues.age || "",
             gender: initialValues.gender || "",
-            idType: initialValues.idType || "",
-            idNumber: initialValues.idNumber || "",
+            // idType: initialValues.idType || "",
+            // idNumber: initialValues.idNumber || "",
             address: initialValues.address || "",
             bio:initialValues.bio || "You have no bio, Write something about yourself here",
             }));
@@ -74,11 +76,7 @@ export default function UserForm({
          setFormData((prev) => ({
             ...prev,
          [name]: value,
-            }));
-            if(name=="age" && value<18){
-              alert("Sorry, only users over 18 years old can use My Pet, Your Pet services");
-            }
-        };
+            }));   };
        
       
         // const handleImage = (e) => {
@@ -90,44 +88,79 @@ export default function UserForm({
         //   reader.readAsDataURL(file);
         // };
 
-        const handleImage = (e) => {
+      //   const handleImage = (e) => {
+      //   const file = e.target.files?.[0];
+      //   if (!file) return;
+      //   setImage(file);
+
+      //   const reader = new FileReader();
+      //   reader.onloadend = () => setPreview(reader.result);
+      //   reader.readAsDataURL(file);
+      //  };
+
+      const handleImage = (e) => {
         const file = e.target.files?.[0];
         if (!file) return;
-        setImage(file);
 
-        const reader = new FileReader();
-        reader.onloadend = () => setPreview(reader.result);
-        reader.readAsDataURL(file);
-       };
+        const { name } = e.target;
+
+        const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+        if (!allowedTypes.includes(file.type)) {
+          setError("Only JPG, PNG, or WEBP images are allowed.");
+          return;
+        }
+        const maxSize = 5 * 1024 * 1024;
+        if (file.size > maxSize) {
+          setError("Image must be smaller than 5MB.");
+          return;
+        }
+
+        setError("");
+
+        if (name === "Picture") {
+          setImage(file);
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setPreview(reader.result);
+            console.log("Preview set:", reader.result);};
+          reader.readAsDataURL(file);
+        } else if (name === "GovId") {
+          setGovIdFile(file);
+        } else if (name === "BackCheck") {
+          setBackCheckFile(file);
+        }
+      };
+
 
         const handleSubmit = async (e) => {  // what to do when the user clicks submit
         e.preventDefault();
         setError("");
             if (
+              !isEdit&&(
             !formData.fullName ||
             !formData.email ||
             !formData.phone ||
+            !formData.role||
             !formData.age ||
             !formData.gender ||
-            !formData.idNumber ||
             !formData.address ||
-            (!isEdit &&!image)
+            !image||!govIdFile||!backCheckFile)
             ) {
             alert("Please fill out all required fields and select an image.");
             return;
             }
-            if(image){
-              const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
-            if (!allowedTypes.includes(image.type)) {
-            setError("Only JPG, PNG, or WEBP images are allowed.");
-            return;
-            }
-            const maxSize = 5 * 1024 * 1024;
-            if (image.size > maxSize) {
-            setError("Image must be smaller than 5MB.");
-            return;
-            }
-            }
+            // if(image){
+            //   const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+            // if (!allowedTypes.includes(image.type)) {
+            // setError("Only JPG, PNG, or WEBP images are allowed.");
+            // return;
+            // }
+            // const maxSize = 5 * 1024 * 1024;
+            // if (image.size > maxSize) {
+            // setError("Image must be smaller than 5MB.");
+            // return;
+            // }
+            // }
             
             if (!isEdit) {
             // create mode: must match
@@ -150,12 +183,24 @@ export default function UserForm({
                 }
             }
             }
-        try {
-          await onSubmit({ ...formData, image });
-          } catch (err) {
-            setError(err.message || "Something went wrong");
-          }
-  };
+          // try {
+          //   await onSubmit({ ...formData, image });
+          //   } catch (err) {
+          //     setError(err.message || "Something went wrong");
+          //   }
+            try {
+                // alert("User Form before await")
+                console.log("FORMDATA:", formData);
+                console.log("IMAGE:", image);
+                console.log("GOVID:", govIdFile);
+                console.log("BACKCHECK:", backCheckFile);
+              await onSubmit({ ...formData, image, govIdFile, backCheckFile, });
+            } catch (err) {
+              alert("userform "+err.message);//------------------------------------
+              setError(err.message || "Something went wrong");
+            }
+        };
+        
 
     return(
         <form onSubmit={handleSubmit} className="register-form">
@@ -169,32 +214,39 @@ export default function UserForm({
                 </div>
             )}
 
-          <label>Full Name</label>
+          <label>Full Name *</label>
           <input name="fullName" 
           value= {formData.fullName} 
           onChange={handleChange}
           required />
 
-          <label>Role</label>
+          <label>Role *</label>
           <select name="role" value={formData.role}
           onChange={handleChange} disabled={isEdit} required>
             <option value="">Select</option>
-            <option value="owner">Owner</option>
-            <option value="seeker">Seeker</option>
+            <option value="Owner">Owner</option>
+            <option value="Seeker">Seeker</option>
           </select>
 
-          <label>Email</label>
+          <label>Email *</label>
           <input type="email" name="email" disabled={isEdit}
           value= {formData.email} onChange={handleChange} required />
 
-          <label>Phone</label>
+          <label>Phone *</label>
           <input type="tel" name="phone" onChange={handleChange} 
           value= {formData.phone}/>
 
           {/* Government ID Section */}
-          <div className="gov-section">
-            <p className="gov-label">Government ID</p>
-            <label>ID Type</label>
+          {!isEdit && (<div className="gov-section">
+            <p className="gov-label">Government ID and Background Check</p>
+            <label>Government ID Picture *
+            <input type="file" accept="image/*" name="GovId" onChange={handleImage} />
+            </label>
+            <label>Background Check Picture *
+            <input type="file" accept="image/*" name="BackCheck" onChange={handleImage} />
+            </label>
+            {/* <p className="gov-label">Government ID</p> */}
+            {/* <label>ID Type</label>
             <select name="idType" onChange={handleChange} value= {formData.idType} disabled={isEdit} required>
             <option value="">Select</option>
             <option value="Driver's License">Driver's License</option>
@@ -203,16 +255,16 @@ export default function UserForm({
             </select>
 
             <label>ID Number</label> 
-            <input name="idNumber" onChange={handleChange} value={formData.idNumber} disabled={isEdit} required/>
+            <input name="idNumber" onChange={handleChange} value={formData.idNumber} disabled={isEdit} required/> */}
             <p className="gov-note">
               We only use this for verification. It will be encrypted and never shared publicly.
             </p>
-          </div>
+          </div> )}
 
-          <label>Location</label>
+          <label>Location *</label>
           <input name="address" onChange={handleChange} value= {formData.address}/>
 
-          <label>age</label>
+          <label>Age *</label>
           <input type="number" name="age" onChange={handleChange}
           value= {formData.age}/>
 
@@ -222,7 +274,7 @@ export default function UserForm({
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select> */}
-          <label>Gender</label>
+          <label>Gender *</label>
           <input name="gender" onChange={handleChange} 
          value= {formData.gender}/>
 
@@ -233,8 +285,8 @@ export default function UserForm({
           </p>
          )}
           <label>
-          Profile Picture
-          <input type="file" accept="image/*" onChange={handleImage} />
+          Profile Picture *
+          <input type="file" accept="image/*"  name="Picture" onChange={handleImage} />
           </label>
 
           <label>Bio</label>
@@ -252,7 +304,7 @@ export default function UserForm({
             
           <label>{isEdit ? "New Password" : "Password"}</label> 
 
-          <label>Password</label> 
+          {/* <label>Password</label>  */}
           <input
             type="password"
             name="password"

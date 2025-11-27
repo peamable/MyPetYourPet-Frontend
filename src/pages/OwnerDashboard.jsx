@@ -138,7 +138,7 @@ export default function OwnerDashboard() {
             {userData ? (
                   <OwnerProfileCard
                     name={userData.fullName}
-                    role="Owner" // dYNAMIC WIRTH IT?
+                    role={userData.customerType ==="PetOwner"? "Owner":"Seeker"}
                     location={userData.customerInfo?.location || "Location not set"}
                     email={userData.email}
                     phone={userData.customerInfo?.phone}

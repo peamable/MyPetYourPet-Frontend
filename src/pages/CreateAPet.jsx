@@ -144,8 +144,11 @@ export default function CreateAPet({ embedded, accountId }) {
     });
     setDeworm(false);
     setVaccinated(false);
-    setImage(null)
     setPreview(null);
+    setImage(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -160,7 +163,7 @@ export default function CreateAPet({ embedded, accountId }) {
           <div className="grid-2">
             <label>
               Pet Name
-              <input name="petName" onChange={handleChange} />
+              <input name="petName" value={formData.petName} onChange={handleChange} />
             </label>
 
             {/* <label>
@@ -172,12 +175,12 @@ export default function CreateAPet({ embedded, accountId }) {
           <div className="grid-3">
             <label>
               Age (years)
-              <input name="age" onChange={handleChange} />
+              <input name="age" value={formData.age} onChange={handleChange} />
             </label>
 
             <label>
               Gender
-              <select name="gender" value={formData.petGender} onChange={handleChange}>
+              <select name="gender" value={formData.gender} onChange={handleChange}>
                 <option value="">Select</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -186,13 +189,13 @@ export default function CreateAPet({ embedded, accountId }) {
 
             <label>
               Breed
-              <input name="breed" onChange={handleChange} />
+              <input name="breed" value={formData.breed} onChange={handleChange} />
             </label>
           </div>
 
           <label>
             Behavior / Temperament
-            <textarea name="behavior" onChange={handleChange} />
+            <textarea name="behavior" value={formData.behavior} onChange={handleChange} />
           </label>
 
           <div className="grid-2 checkbox-row">
@@ -210,7 +213,7 @@ export default function CreateAPet({ embedded, accountId }) {
           <div className="grid-2">
             <label>
               Listing Fee (CAD)
-              <input name="fee" onChange={handleChange} />
+              <input name="fee" value={formData.fee} onChange={handleChange} />
             </label>
 
             <label>
@@ -231,7 +234,7 @@ export default function CreateAPet({ embedded, accountId }) {
           <div className="button-row">
              <button className="btn-save" onClick={handleSave}>Save Listing</button>  {/*Add data to db and go back to listings */ }
             <button className="btn-reset" onClick={handleReset}>Reset</button>
-            <Link className="btn-back" to= "/owner/dashboard">Back to My Listings</Link> {/*Need to work on the navigation*/ }
+            {/* <Link className="btn-back" to= "/owner/dashboard">Back to My Listings</Link> {/*Need to work on the navigation*/ }
           </div>
         </div>
 

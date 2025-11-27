@@ -5,15 +5,18 @@ import { useEffect, useState } from "react";
 import UserForm from "../components/UserForm";// adjust path if needed
 // import EditUserForm from "../components/EditUserForm";   
 import { useLocation } from "react-router-dom";
+import axiosClient from "../axiosClient"
+import toast from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
 
 export default function UpdateProfilePage() {
-
+  const navigate = useNavigate();
   const [initialValues, setInitialValues] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const location_ = useLocation();
   const { userData } = location_.state || {};
-
+  const accountId = localStorage.getItem("accountId");//-----------
   // const user = {
   //   fullName: userData.fullName,
   //   role: userData.customerType, 
@@ -44,7 +47,7 @@ export default function UpdateProfilePage() {
 
     const user = {
     fullName: userData.fullName,
-    role: userData.customerType === "PetOwner" ? "owner":"seeker", 
+    role: userData.customerType === "PetOwner" ? "Owner":"Seeker", 
     email: userData.email,
     idNumber: userData.customerInfo.governmentID,
     phone: userData.customerInfo.phone,
@@ -60,24 +63,25 @@ export default function UpdateProfilePage() {
     setLoading(false);
   }, []);
 
-  const handleUpdate = async (data) => {
+  const handleUpdate = async (formData) => {
     // data includes:
     // fullName, role, email, phone, age, gender,
     // idType, idNumber, address, password (maybe), confirmPassword, image
 
-    console.log("Update profile submit data:", data);
+    // console.log("Update profile submit data:", formData);
 
      const {
       fullName,
-      email,
+      // email,
       phone,
       age,
       gender,
       address,
       bio,
       image,
-    } = data;
-    let usercredential = null;
+    } = formData;
+    //  alert("Received formData: " + JSON.stringify(formData));
+   // let usercredential = null;//-----------
 
     try{
       //PENDING TO UPDATE THE PASSWORD
@@ -92,27 +96,31 @@ export default function UpdateProfilePage() {
      
       //payload will hold the data we want to send
       const payload = {
+      id:accountId,//-----------
       fullName: fullName,
-      email: email,        // could also use user.email
-      phone: phone,
-      age: parseInt(age),
-      gender: gender,
-      location: address,
-      bio:bio,
+      customerInfo:{
+        // email: email,        // could also use user.email
+        phone: phone,
+        age: parseInt(age),
+        gender: gender,
+        location: address,
+        bio:bio,
+        }
       };
 
      // this should be sent to a specific function "createAccount"
       let apiURL = "";
       // alert(apiURL)
       // alert(formData.role)
-
-      if (role == "owner")
+      // alert("FormData role " + formData.role)
+      // alert("role " + role);
+      if (formData.role == "Owner")
       {
-        //  apiURL = "/api/registration/petOwner"; // UPDATE THIS
+        apiURL = "/api/registration/updatePetOwner"; 
       }
-      else if (role == "seeker")
+      else if (formData.role == "Seeker")
       {
-        // apiURL = "/api/registration/petSeeker"; // UPDATE THIS
+        apiURL = "/api/registration/updatePetSeeker"; 
       }
        else
        {
@@ -122,10 +130,10 @@ export default function UpdateProfilePage() {
      
       const formDataToSend = new FormData();
       formDataToSend.append("ProfileUpdateRequest", new Blob([JSON.stringify(payload)], { type: "application/json" }));
-      if(data.image != null){
+      if(formData.image != null){
       formDataToSend.append("file", image);
       }
-
+      // alert(formDataToSend);
 
       //for debugging............................................................
       // for (let [key, value] of formDataToSend.entries()) {
@@ -140,32 +148,37 @@ export default function UpdateProfilePage() {
       //   }
       // }
       //...............................................................................
-
+      // alert(apiURL);
       await axiosClient.post(apiURL, formDataToSend);
-      alert("Account created successfully! 🎉");
-      navigate("/login")
+      // toast.success("Account Updated successfully! 🎉");
+         alert("Account Updated successfully! 🎉");//-----------------------
+      if (formData.role=== "Owner") 
+      { navigate("/owner/dashboard"); } 
+      else { navigate("/seeker/dashboard"); }
 
       // setError("");
         // redirect if needed
         // window.location.href = "/login";
     } 
     catch (err) {
+            alert("CATCH ERROR: ---> " + err.message);
      //delete the firebase record if there was an error saving into the database
-      if (usercredential) {
-      try {
-        await usercredential.user.delete();
-        // optionally: await auth.signOut();
-      } catch (delErr) {
-        console.log("Failed to rollback Firebase user:", delErr);
-      }
-       }
-     if (err.response && err.response.data) {
-       const backendError = err.response.data.error || err.response.data.message || "Unknown error";
-          JSON.stringify(err.response.data);
+      // if (usercredential) {
+      // try {
+      //   await usercredential.user.delete();
+      //   // optionally: await auth.signOut();
+      // } catch (delErr) {
+      //   console.log("Failed to rollback Firebase user:", delErr);
+      // }
+      //  }
+     if (err.response && err.response.formData) {
+       const backendError = err.response.formData.error || err.response.formData.message || "Unknown error";
+          JSON.stringify(err.response.formData);
           throw new Error(backendError||"Something went Wrong");
         } else {
           setError(err.message || "Something went wrong");
         }
+              alert("CATCH ERROR2: ---> " +backendError);
       }
 
     // 🔴 TODO:
