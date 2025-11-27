@@ -1,7 +1,8 @@
 .create-pet-page {
   background: #f5e8da;
-  min-height: 100vh;
+  min-height: 50vh;
   /* padding: 10px 0; */
+  /* padding: 10px, 20px, 20px; */
 }
 
 .create-pet-container {
@@ -9,8 +10,8 @@
   grid-template-columns: 1.5fr 1fr;
   gap: 30px;
   max-width: 1200px;
-  margin: auto;
-  padding: 20px, 20px;
+  /* margin: auto; */
+  padding: 10px, 20px;
 }
 
 .create-pet-form {
@@ -59,14 +60,37 @@ textarea {
 .btn-save {
   background: #ff8b3d;
   color: white;
-  padding: 10px 20px;
+  padding: 5px 10px;
   border-radius: 8px;
+  height: 4rem; 
+  width: 8rem;
 }
 
-.btn-reset, .btn-back {
+.btn-reset, .btn-back, .btn-delete {
   background: #ddd;
-  padding: 10px 20px;
+  color: #282828;
+  text-align: center;
+  padding: 5px 10px;
   border-radius: 8px;
+  height: rem; 
+  width: 8rem;
+}
+.btn-reset:hover {
+  border-color:#282828;
+  color: black;
+}
+.btn-back:hover {
+  border-color:#282828;
+  color: black;
+}
+.btn-save:hover {
+  border-color:#282828;
+  
+}
+
+.btn-delete:hover {
+  background: #ff8b3d;
+  color: white;
 }
 
 .pet-preview .preview-card {

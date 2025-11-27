@@ -6,7 +6,7 @@ import "../styles/CreateAPet.css";
 import axiosClient from "../axiosClient";
 
 
-export default function CreateAPet({ embedded, accountId }) {
+export default function CreateAPet({ embedded, accountId, onClose }) {
   const [formData, setFormData] = useState({
     petName: "",
     petAge: "",
@@ -156,8 +156,7 @@ export default function CreateAPet({ embedded, accountId }) {
       <div className="create-pet-container">
         {/* LEFT FORM */}
         <div className="create-pet-form">
-          <h1>Create <br></br>
-            Pet Listing</h1>
+          <h1>Create Pet Listing</h1>
           {error && <p className="error-message">{error}</p>}
 
           <div className="grid-2">
@@ -235,6 +234,9 @@ export default function CreateAPet({ embedded, accountId }) {
              <button className="btn-save" onClick={handleSave}>Save Listing</button>  {/*Add data to db and go back to listings */ }
             <button className="btn-reset" onClick={handleReset}>Reset</button>
             {/* <Link className="btn-back" to= "/owner/dashboard">Back to My Listings</Link> {/*Need to work on the navigation*/ }
+            <button className="btn-back" onClick={onClose}>
+                Back to My Listings
+            </button>
           </div>
         </div>
 

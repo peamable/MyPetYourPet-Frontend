@@ -33,42 +33,42 @@ export default function AboutUs() {
            
             <div className="team-member">
               <img
-                src="PHOTO_URL_"
+                src="src\assets\xol.jpg"
                 alt="Team Member "
                 className="team-photo"
               />
               <h3 className="team-name">Xochilt Sucre Masea</h3>
-              <p className="team-role">Something</p>
+              <p className="team-role">Project Lead</p>
               <p className="team-bio">
-                Write Something here
+                Organization freak, Database expert, appasionated tester, entusiastic backend.
               </p>
             </div>
 
             
             <div className="team-member">
               <img
-                src="PHOTO_URL_"
+                src="src\assets\SandaliAvatar.jpeg"
                 alt="Team Member "
                 className="team-photo"
               />
               <h3 className="team-name">Sandali Silva</h3>
-              <p className="team-role">Write Something here</p>
+              <p className="team-role">Documentation specialist</p>
               <p className="team-bio">
-                Write Something here
+                Master in Documentation, diagrams guru.
               </p>
             </div>
 
           
             <div className="team-member">
               <img
-                src="img"
+                src="src\assets\ManeeshaAvatar.jpeg"
                 alt="Team Member"
                 className="team-photo"
               />
               <h3 className="team-name">Maneesha Eeshwara </h3>
-              <p className="team-role">Write Something here</p>
+              <p className="team-role">React Developer</p>
               <p className="team-bio">
-                Write Something here
+                Front-End expert, design entusiastic
               </p>
             </div>
 
@@ -79,9 +79,9 @@ export default function AboutUs() {
                 className="team-photo"
               />
               <h3 className="team-name">Phoebe Amable</h3>
-              <p className="team-role">Write Something here</p>
+              <p className="team-role">Fullstack developer</p>
               <p className="team-bio">
-                What can I actually write about myself sitting in the dark at 2am full of caffeine but too bored to do anything serious.
+               Designer, integrating both front-end, backend and APIs services.
               </p>
             </div>
              <div className="team-member">
@@ -91,10 +91,9 @@ export default function AboutUs() {
                 className="team-photo"
               />
               <h3 className="team-name">Gian-Pierre Toussaint</h3>
-              <p className="team-role">Debugging & Computational Encouragement Advisor</p>
+              <p className="team-role">Help Desk</p>
               <p className="team-bio">
-                a certain cloud-based assistant who
-            never sleeps, always debugs, and drinks absolutely zero coffee. ☁️🤖
+                Cloud-based assistant - coming to help you soon. ☁️🤖
               </p>
             </div>
 

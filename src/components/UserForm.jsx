@@ -169,7 +169,7 @@ export default function UserForm({
                 return;
             }
             } else {
-            // edit mode: only validate if user is trying to change password
+
             const hasPasswordInput = formData.password || formData.confirmPassword;
 
             if (hasPasswordInput) {
@@ -190,10 +190,10 @@ export default function UserForm({
           //   }
             try {
                 // alert("User Form before await")
-                console.log("FORMDATA:", formData);
-                console.log("IMAGE:", image);
-                console.log("GOVID:", govIdFile);
-                console.log("BACKCHECK:", backCheckFile);
+                // console.log("FORMDATA:", formData);
+                // console.log("IMAGE:", image);
+                // console.log("GOVID:", govIdFile);
+                // console.log("BACKCHECK:", backCheckFile);
               await onSubmit({ ...formData, image, govIdFile, backCheckFile, });
             } catch (err) {
               alert("userform "+err.message);//------------------------------------
@@ -310,7 +310,7 @@ export default function UserForm({
             name="password"
             placeholder={isEdit ? "******": ""}
             onChange={handleChange}
-            {...(!isEdit && { required: true })}  // required only when creating
+            {...(!isEdit && { required: true })}  
             />
             
 
@@ -320,7 +320,7 @@ export default function UserForm({
             name="confirmPassword"
             placeholder={isEdit ? "******": ""}
             onChange={handleChange}
-            {...(!isEdit && { required: true })}  // required only when creating
+            {...(!isEdit && { required: true })}  
             />
 
           {(!isEdit &&

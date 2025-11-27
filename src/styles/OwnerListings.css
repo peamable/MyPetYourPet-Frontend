@@ -4,6 +4,13 @@
   padding-bottom: 40px;
 }
 
+.owner-pets-column {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
 /* Layout */
 .owner-layout {
   display: grid;
