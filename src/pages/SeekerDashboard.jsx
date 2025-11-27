@@ -92,7 +92,7 @@ export default function PetSeekerDashboard() {
             {userData ? (
                   <SeekerProfileCard
                     name={userData.fullName}
-                    role="Seeker" //"Seeker"
+                    role={userData.customerType === "PetOwner" ? "Owner":"Seeker"}
                     location={userData.customerInfo?.location || "Location not set"}
                     email={userData.email}
                     phone={userData.customerInfo?.phone}
