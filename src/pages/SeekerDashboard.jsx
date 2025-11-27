@@ -37,7 +37,13 @@ export default function PetSeekerDashboard() {
     fetchSeeker();
 
    }, []);
-
+    const handleWrongUser = async () => {
+      const cRole = userData.customerType ==="PetOwner"? "Owner":"Seeker";
+      if(cRole == "Owner"){
+        navigate("/");
+      }
+    };
+    handleWrongUser();
    const handleDelete = async () => {
     const ok = window.confirm(
         "Are you sure you want to delete your account?\nThis action cannot be undone."

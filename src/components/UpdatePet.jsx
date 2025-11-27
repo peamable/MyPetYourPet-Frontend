@@ -13,7 +13,6 @@ export default function UpdatePet({ embedded, pet, onClose, onSubmit}) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const fileInputRef = useRef(null);
-
   // ✅ formData keys match your input `name`s and preview usage
   const [formData, setFormData] = useState({
     petName: "",
@@ -42,19 +41,6 @@ export default function UpdatePet({ embedded, pet, onClose, onSubmit}) {
       imageUrl: pet.profilePicture, // could be a URL later
     };
 
-    // key={pet.petId}
-    //             name={pet.petName}
-    //             breed={pet.petBreed}
-    //             behavior={pet.petBehavior}
-    //             fee={pet.petFee}
-    //             image={pet.profilePicture}
-    //             status={pet.petProfileStatus ? "Active" : "Hidden"}
-    //             tags={[
-    //                 pet.petGender === 1 ? "Female" : "Male",
-    //                 `${pet.petAge} yrs`,
-    //             ]}
-
-    // Prefill formData based on fakePet
     setFormData({
       petName: petToUpdate.petName,
       age: String(petToUpdate.petAge),
@@ -118,8 +104,22 @@ useEffect(() => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+  };
 
-};
+  const handleDelete = async () => {
+   const ok = window.confirm(
+        "Are you sure you want to delete this pet profile? \nThis action can't be undone. \nYou can hide the profile instead."
+    );
+    if (!ok) {return;}
+    try {    
+      await axiosClient.delete(`/api/v1/pets/${pet.petId}/deletePet`);
+      alert("Pet profile succesfully deleted!");
+      onClose();
+    } catch (err) {
+      console.error(err);
+      alert("Delete failed. Please try again.");
+    }
+  };
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -323,9 +323,15 @@ useEffect(() => {
                   Save Changes
                 </button>
                 <button className="btn-reset" onClick={handleReset}>
-                  Reset
+                  Reset Profile
                 </button>
-                <Link className="btn-back"  onClick={onClose}> Back to My Listings </Link>
+                <button className="btn-delete" onClick={handleDelete}>
+                  Delete Pet
+                </button>
+                <button className="btn-back" onClick={onClose}>
+                  Back to My Listings
+                </button>
+                {/* <Link className="btn-back"  onClick={onClose}> Back to My Listings </Link> */}
               </div>
             </div>
 

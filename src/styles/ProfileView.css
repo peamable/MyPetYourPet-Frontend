@@ -15,19 +15,20 @@
 .profile-wrapper {
   width: 100%;
   max-width: 520px;
+  
 }
 
 .page.page--seeker-profile {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;          /* centers vertically within viewport */
-  /*background-color: #f8efe5;  optional - matches your site tone */
+  min-height: 80vh;         
+  /*background-color: #f8efe5; */
 }
 
 .page-content {
   width: 100%;
-  max-width: 520px;         /* keeps your white card nicely sized */
+  max-width: 520px;         
 
 }
 

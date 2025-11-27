@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 const Home = () => {
 
   const navigate = useNavigate();
-const handleFind = () => {
+  const handleFind = () => {
   navigate("/allListings");
 }
   return (
@@ -73,6 +73,11 @@ const handleFind = () => {
         <div className="cta-buttons">
           <Link to="/register" className="btn-primary">Sign Up</Link>
           <Link to="/login" className="btn-primary">Login</Link>
+        </div>
+      </section>
+      <section className="cta-section">
+      <p>***DEMO NAVIGATION**</p>
+        <div className="cta-buttons">
           <Link to="/owner/dashboard" className="btn-primary">Pet Owner</Link>
           <Link to="/seeker/dashboard" className="btn-primary">Pet Seeker</Link>
           <Link to="/admin/reservation" className="btn-primary">Admin reservation View</Link>

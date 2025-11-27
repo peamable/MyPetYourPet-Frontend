@@ -13,6 +13,19 @@ const Header = () => {
    const auth = getAuth();
 
    const isLoggedIn = auth.currentUser || localStorage.getItem("email"); //check if there is a login session
+    const handleDashboardLink = async () => {
+
+      const cRole = localStorage.getItem("role");
+      if(cRole == "owner"){
+        navigate("/owner/dashboard");
+      }
+      else if(cRole == "seeker"){
+        navigate("/seeker/dashboard");
+      }
+      else{
+        navigate("/")
+      }
+    };
 
    const handleLogout = async () => {
     try {
@@ -26,12 +39,10 @@ const Header = () => {
   return (
     <header className="site-header">
       {/* BRAND/LOGO section on the left */}
-       <Link to="/">
-      <div className="brand">
+      <div className="brand" onClick={handleDashboardLink} style={{ cursor: "pointer" }}>
         <Logo size={22}/>
         <span className="brand-name">My Pet, Your Pet</span>
       </div>
-      </Link>
 
       {/* NAVIGATION section on the right */}
       <nav className="nav">
