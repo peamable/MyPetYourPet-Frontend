@@ -57,6 +57,19 @@ export default function Register() {
       location: address,
       bio:bio,
       };
+    } else {
+      payload = {
+        firebaseUID,
+        fullName,
+        email,
+        phone,
+        age: parseInt(age),
+        gender,
+        governmentId: idNumber,
+        location: address,
+        bio,
+      };
+    }
 
      // this should be sent to a specific function "createAccount"
       let apiURL = "";
@@ -71,6 +84,10 @@ export default function Register() {
       else if (role == "Seeker")
       {
         apiURL = "/api/registration/petSeeker";
+      }
+      else if (role === "admin") 
+      {
+        apiURL = "/api/registration/admin";
       }
        else
        {
@@ -106,9 +123,9 @@ export default function Register() {
       //   }
       // }
       //...............................................................................
-
+    //Send to backend
       await axiosClient.post(apiURL, formDataToSend);
-      alert("Account created successfully! 🎉");
+      alert("Account created successfully!");
       navigate("/login")
 
       // setError("");

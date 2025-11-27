@@ -58,8 +58,15 @@ export default function Login() {
       alert("Login successful! 🐾");
       
       if (cRole === "owner") 
-      { navigate("/owner/dashboard"); } 
-     else { navigate("/seeker/dashboard"); }
+      { 
+        navigate("/owner/dashboard"); 
+
+      } 
+      else if (cRole === "seeker") { 
+      navigate("/seeker/dashboard"); 
+      }else{
+        navigate("/admin/dashboard"); 
+      }
 
     } catch (err) {
       // alert(err);
