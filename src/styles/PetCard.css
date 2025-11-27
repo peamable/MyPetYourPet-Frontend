@@ -9,6 +9,7 @@
   flex-direction: column;
   gap: 14px;
   box-sizing: border-box;
+  margin: 10px;
 }
 
 /* Top image */

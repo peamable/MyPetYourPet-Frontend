@@ -11,119 +11,51 @@ import UserForm from "../components/UserForm";
 
 
 export default function Register() {
-  // const [formData, setFormData] = useState({
-  //   // uid: "",
-  //   fullName: "",
-  //   email: "",
-  //   phone: "",
-  //   age:"", 
-  //   gender:"", 
-  //   // idType: "", // we should save id file and background check instead of numbers
-  //   governmentId: "", //placeholder to later save the file
-  //   location: "",
-  //   // password: "", //Not for backend and DB
-  //   // confirmPassword: "",//Not for backend and DB
-  //   // role: "", //----------------------------------------------------------
-  //   //profilePic:"", //--------------- will be pass as file
-
-  // });
-
-  // const [image, setImage] = useState(null);
-  // const [error, setError] = useState("");
-
-  // const handleChange = (e) => {  // what to do the form fields change
-  //   setFormData({ ...formData, [e.target.name]: e.target.value });
-  // };
-
-  // const handleImage = (e) => {
-  //   const file = e.target.files[0];
-  //   setImage(file);
-
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => setPreview(reader.result);
-  //   reader.readAsDataURL(file);
-  // };
-
-  // const handleReset = () => {
-  //   setFormData({
-  //     fullName: "",
-  //     email: "",
-  //     phone: "",
-  //     age: "",
-  //     gender: "",
-  //     governmentId: "",
-  //     address: "",
-  //   });
-  //   setImage(null)
-  // };
-
-  // const handleSubmit = async (e) => {  // what to do when the user clicks submit
-  //   e.preventDefault();
-  //    if (
-  //     !formData.fullName ||
-  //     !formData.email ||
-  //     !formData.phone ||
-  //     !formData.age ||
-  //     !formData.gender ||
-  //     !formData.idNumber ||
-  //     !formData.address ||
-  //     !image
-  //   ) {
-  //     alert("Please fill out all required fields and select an image.");
-  //     return;
-  //   }
-  //   const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
-  //   if (!allowedTypes.includes(image.type)) {
-  //     setError("Only JPG, PNG, or WEBP images are allowed.");
-  //     return;
-  //   }
-  //   const maxSize = 5 * 1024 * 1024;
-  //   if (image.size > maxSize) {
-  //     setError("Image must be smaller than 5MB.");
-  //     return;
-  //   }
-  //   if (formData.password !== formData.confirmPassword) {
-  //     setError("Passwords do not match");
-  //     return;
-  //   }
-
+  
   const navigate = useNavigate();
+  // let usercredential;
 
-  const handleRegister = async (data) => {
-    // data is what UserForm passes: {...formData, image}
-    const {
+  const handleRegister = async (formData) => {
+        const {
       fullName,
       email,
       phone,
       age,
       gender,
-      idNumber,
       address,
       role,
       password,
       bio,
       image,
-    } = data;
+      govIdFile,
+      backCheckFile,
+    } = formData;
+    // alert("Received formData: " + JSON.stringify(formData));
     let usercredential = null;
-
     try{
+            // const { email, password } = formData;
+      //-------------------------------------------------------------------------------
+       if(age<18){
+         alert("Sorry, only users over 18 years old can use My Pet, Your Pet services");
+       }
+       else{
+
+      // alert("Register Step 0 good");
       usercredential = await createUserWithEmailAndPassword(auth, email, password);
+      // alert("Register Step 1 good");
       const user = usercredential.user
       const firebaseUID = user.uid;
       //const firebaseToken = user
     
-      // setFormData(prev => ({ ...prev, uid: firebaseUID }));
-      //we are setting the form data in userform
-
-     
-      //payload will hold the data we want to send
-      let payload;
-       if (role === "admin") {
-      payload = {
-        firebaseUID,
-        fullName,
-        email,
-        userType: "Administrator",
+      const payload = {
+      firebaseUID: firebaseUID,             // from Firebase
+      fullName: fullName,
+      email: email,        // could also use user.email
+      phone: phone,
+      age: parseInt(age),
+      gender: gender,
+      location: address,
+      bio:bio,
       };
     } else {
       payload = {
@@ -143,13 +75,13 @@ export default function Register() {
       let apiURL = "";
       // alert(apiURL)
       // alert(formData.role)
-
-      if (role == "owner")
+      // alert(role);
+      if (role == "Owner")
       {
         //apiURL = "/api/PetOwnerUser/createAccount"
          apiURL = "/api/registration/petOwner";
       }
-      else if (role == "seeker")
+      else if (role == "Seeker")
       {
         apiURL = "/api/registration/petSeeker";
       }
@@ -162,12 +94,22 @@ export default function Register() {
          throw new Error("Please select a role")
        }
       // alert(apiURL) //this was for debugging
-    
+
  
       const formDataToSend = new FormData();
       formDataToSend.append("RegistrationRequest", new Blob([JSON.stringify(payload)], { type: "application/json" }));
-      if (image) formDataToSend.append("file", image);
+      // formDataToSend.append("file", image);
+      if (image) {
+        formDataToSend.append("Picture", image);
+      }
+      if (govIdFile) {
+        formDataToSend.append("GovId", govIdFile);
+      }
+      if (backCheckFile) {
+        formDataToSend.append("BackCheck", backCheckFile);
+      }
 
+    
       //for debugging............................................................
       // for (let [key, value] of formDataToSend.entries()) {
       //   if (value instanceof Blob) {
@@ -189,25 +131,30 @@ export default function Register() {
       // setError("");
         // redirect if needed
         // window.location.href = "/login";
-    } 
+    } }
     catch (err) {
      //delete the firebase record if there was an error saving into the database
+      // alert("CATCH ERROR: ---> " + err.message);
+      
       if (usercredential) {
-      try {
-        await usercredential.user.delete();
-        // optionally: await auth.signOut();
-      } catch (delErr) {
-        console.log("Failed to rollback Firebase user:", delErr);
+        try {
+          await usercredential.user.delete();
+          // optionally: await auth.signOut();
+        } catch (delErr) {
+          console.log("Failed to rollback Firebase user:", delErr);
+        }
       }
-       }
-     if (err.response && err.response.data) {
+
+      if (err.response && err.response.data) {
        const backendError = err.response.data.error || err.response.data.message || "Unknown error";
           JSON.stringify(err.response.data);
           throw new Error(backendError||"Something went Wrong");
-        } else {
-          setError(err.message || "Something went wrong");
-        }
+      } else {
+        setError(err.message || "Something went wrong");
       }
+      
+      // alert("CATCH ERROR2: ---> " +err.message);
+    }
 };
 
 

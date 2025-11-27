@@ -60,10 +60,17 @@ export default function OwnerDashboard() {
           console.error("Owner fetch error:", err);
         }
     };
-
     fetchOwner();
 
   }, []);
+
+    const handleWrongUser = async () => {
+      const cRole = userData.customerType ==="PetOwner"? "Owner":"Seeker";
+      if(cRole == "Seeker"){
+        navigate("/");
+      }
+    };
+    handleWrongUser();
 
   const handleDelete = async () => {
     const ok = window.confirm(
@@ -138,7 +145,7 @@ export default function OwnerDashboard() {
             {userData ? (
                   <OwnerProfileCard
                     name={userData.fullName}
-                    role="Owner" // dYNAMIC WIRTH IT?
+                    role={userData.customerType ==="PetOwner"? "Owner":"Seeker"}
                     location={userData.customerInfo?.location || "Location not set"}
                     email={userData.email}
                     phone={userData.customerInfo?.phone}
@@ -195,7 +202,13 @@ export default function OwnerDashboard() {
 
 
           {activeTab === "create" && (
-            <CreateAPet embedded={true} accountId={accountId} />
+            <CreateAPet 
+            embedded={true} 
+            accountId={accountId} 
+            onClose={() => {
+                setSelectedPet(null);
+                setActiveTab("listings");
+            }}/>
           )}
 
           {activeTab === "messages" && (
