@@ -40,24 +40,24 @@ export default function Register() {
        }
        else{
 
-      // alert("Register Step 0 good");
-      usercredential = await createUserWithEmailAndPassword(auth, email, password);
-      // alert("Register Step 1 good");
-      const user = usercredential.user
-      const firebaseUID = user.uid;
-      //const firebaseToken = user
-    
-      const payload = {
-      firebaseUID: firebaseUID,             // from Firebase
-      fullName: fullName,
-      email: email,        // could also use user.email
-      phone: phone,
-      age: parseInt(age),
-      gender: gender,
-      location: address,
-      bio:bio,
-      };
-    } else {
+            // alert("Register Step 0 good");
+            usercredential = await createUserWithEmailAndPassword(auth, email, password);
+            // alert("Register Step 1 good");
+            const user = usercredential.user
+            const firebaseUID = user.uid;
+            //const firebaseToken = user
+          
+            const payload = {
+            firebaseUID: firebaseUID,             // from Firebase
+            fullName: fullName,
+            email: email,        // could also use user.email
+            phone: phone,
+            age: parseInt(age),
+            gender: gender,
+            location: address,
+            bio:bio,
+            };
+    } 
       payload = {
         firebaseUID,
         fullName,
@@ -69,7 +69,7 @@ export default function Register() {
         location: address,
         bio,
       };
-    }
+    
 
      // this should be sent to a specific function "createAccount"
       let apiURL = "";
@@ -131,7 +131,7 @@ export default function Register() {
       // setError("");
         // redirect if needed
         // window.location.href = "/login";
-    } }
+    } 
     catch (err) {
      //delete the firebase record if there was an error saving into the database
       // alert("CATCH ERROR: ---> " + err.message);
