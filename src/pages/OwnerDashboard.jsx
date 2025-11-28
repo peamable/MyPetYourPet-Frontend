@@ -12,7 +12,7 @@ import { auth } from "../firebaseConfig";
 import { deleteUser } from "firebase/auth";
 import { reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 import UpdatePet from "../components/UpdatePet";   
-// import UpdatePet from "./UpdatePet";
+import MessagingView from "./MessagingView";
 
 
 export default function OwnerDashboard() {
@@ -25,6 +25,8 @@ export default function OwnerDashboard() {
   }
   const [activeTab, setActiveTab] = useState("listings");
   const [userData, setUserData] = useState(null);
+
+  const status = localStorage.getItem("status");
 
   useEffect(() => {
 //     const firebaseUid = localStorage.getItem("uid");
@@ -56,6 +58,7 @@ export default function OwnerDashboard() {
           const res = await axiosClient.get(`/api/customerAccount/getOwnerDetails/${accountId}`);
           const ownerData = await res.data;   
           setUserData(ownerData); // Correct state setter
+          localStorage.setItem("status",ownerData.customerInfo?.profileStatus)
         } catch (err) {
           console.error("Owner fetch error:", err);
         }
@@ -127,12 +130,32 @@ export default function OwnerDashboard() {
           setSelectedPet(null);}}>
           My Listings
         </button>
+        {/* ..................................................................*/}
         <button className={activeTab === "create" ? "active" : ""} onClick={() => setActiveTab("create")}>
           + Create Pet Listing
         </button>
+        {/* comment here if you uncomment below*/}
+        {/* ..................................................................*/}
         <button className={activeTab === "messages" ? "active" : ""} onClick={() => setActiveTab("messages")}>
           Messages
         </button>
+
+        {/* ..................................................................*/}
+        {/* <button
+          className={activeTab === "create" ? "active" : ""}
+          onClick={() => {
+            if (status?.toLowerCase().includes("pending")) {
+              alert("Your account must be verified before creating a pet listing.");
+              return;
+            }
+            setActiveTab("create");
+          }}
+        >
+          + Create Pet Listing
+        </button> */}
+          {/* uncomment her to add cannot create constraint*/}
+          {/* ..................................................................*/}
+        
         <button className={activeTab === "reservations" ? "active" : ""} onClick={() => setActiveTab("reservations")}>
           Reservations
         </button>
@@ -212,10 +235,11 @@ export default function OwnerDashboard() {
           )}
 
           {activeTab === "messages" && (
-            <div className="simple-tab-panel">
-              <h2>Messages</h2>
-              <p>Chat UI coming soon</p>
-            </div>
+            <MessagingView embedded/>
+            // <div className="simple-tab-panel">
+            //   <h2>Messages</h2>
+            //   <p>Chat UI coming soon</p>
+            // </div>
           )}
 
           {activeTab === "reservations" && (

@@ -5,6 +5,7 @@ import "../styles/ReservationsView.css";
 import Footer from "../components/Footer";
 import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import PetDetailCard from "../components/petDetailCard"
 
 export default function ReservationsView({ embedded }) {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ export default function ReservationsView({ embedded }) {
   const userRole = localStorage.getItem("role");
   const { pathname } = useLocation();
   const hideButton = pathname.startsWith("/owner/dashboard");
+  const [selectedPet, setSelectedPet] = useState(null);
 
   // State to store reservation data
   const [reservations, setReservations] = useState([]);
@@ -149,7 +151,7 @@ const filteredReservations = reservations.filter((res) => {
             {/* SEARCH FILTER */}
             <input
               type="text"
-              placeholder="Search pets, people, IDs"
+              placeholder="Search pet Name"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -164,158 +166,111 @@ const filteredReservations = reservations.filter((res) => {
         {/* Loading indicator */}
         {loading && <p className="placeholder">Loading reservations...</p>}
 
-<div className="section-card">
-  <h3>All Reservations</h3>
+          <div className="section-card">
+            <h3>All Reservations</h3>
 
-  {filteredReservations.length === 0 ? (
-    <p className="placeholder">No matching reservations.</p>
-  ) : (
-    filteredReservations.map((res) => (
-      <div key={res.petResId} className="reservation-row">
+            {filteredReservations.length === 0 ? (
+              <p className="placeholder">No matching reservations.</p>
+            ) : (
+              filteredReservations.map((res) => (
+                <div key={res.petResId} className="reservation-row">
 
-        {/* Pet image + name */}
-        <div className="reservation-pet">
-          <img
-            src={res.petImageUrl || "/default_pro_pic.jpg"}
-            alt={res.petName}
-            className="reservation-pet-img"
-          />
-          <span className="reservation-pet-name">{res.petName}</span>
-        </div>
 
-        {/* Dates */}
-        <span>
-          {new Date(res.startDate).toLocaleDateString()} →{" "}
-          {new Date(res.endDate).toLocaleDateString()}
-        </span>
+                  {/* Pet image + name */}
+                  <div className="reservation-pet clickable" 
+                  onClick={async () => {
+                  try {
+                    // 1️⃣ Fetch the pet (we need this to get the pet owner)
+                    const petRes = await axiosClient.get(`/api/v1/pets/${res.petId}/getPet`);
+                    const petData = petRes.data;
 
-        {/* OWNER VIEW */}
-        {userRole === "owner" ? (
-          <div className="owner-controls">
-            <span className={`status-badge ${res.petResStatus.toLowerCase()}`}>
-              {res.petResStatus}
-            </span>
-            {res.petResStatus === "Pending" &&(
-            <select
-              defaultValue=""
-              onChange={(e) => handleStatusChange(res.petResId, e.target.value)}
-              className="status-action-dropdown"
-            >
-              <option value="" disabled>Choose Action</option>
-              <option value="Confirmed - Pending Payment">Accept</option>
-              <option value="Rejected">Decline</option>
-            </select>
+                    // 2️⃣ Decide which user to load based on ROLE
+                    let personIdToFetch;
+
+                    if (userRole === "seeker") {
+                      // seeker → show the pet owner
+                      personIdToFetch = petData.customerId;
+                    } else {
+                      // owner → show the seeker who made the reservation
+                      personIdToFetch = res.customerId; 
+                    }
+
+                    // 3️⃣ Fetch that person’s info
+                    const personRes = await axiosClient.get(
+                      `/api/customerAccount/getOwnerDetails/${personIdToFetch}`
+                    );
+
+                    // 4️⃣ Build final object for PetDetailCard
+                    const petObj = {
+                      ...petData,
+                      profilePicture: petData.profilePicture || res.petImageUrl,
+                      petFee: petData.petFee ?? res.serviceAmount ?? 0,
+
+                      // OwnerInfoCard expects "owner"
+                      owner: personRes.data,
+                    };
+
+                    // 5️⃣ Open card
+                    setSelectedPet(petObj);
+
+                  } catch (err) {
+                    console.error("Failed to load pet or customer:", err);
+                  }
+                }}>
+                    <img
+                      src={res.petImageUrl || "/default_pro_pic.jpg"}
+                      alt={res.petName}
+                      className="reservation-pet-img"
+                    />
+                    <span className="reservation-pet-name">{res.petName}</span>
+
+                  
+                  </div>
+
+                  {/* Dates */}
+                  <span>
+                    {new Date(res.startDate).toLocaleDateString()} →{" "}
+                    {new Date(res.endDate).toLocaleDateString()}
+                  </span>
+
+                  {/* OWNER VIEW */}
+                  {userRole === "owner" ? (
+                    <div className="owner-controls">
+                      <span className={`status-badge ${res.petResStatus.toLowerCase()}`}>
+                        {res.petResStatus}
+                      </span>
+                      {res.petResStatus === "Pending" &&(
+                      <select
+                        defaultValue=""
+                        onChange={(e) => handleStatusChange(res.petResId, e.target.value)}
+                        className="status-action-dropdown"
+                      >
+                        <option value="" disabled>Choose Action</option>
+                        <option value="Confirmed - Pending Payment">Accept</option>
+                        <option value="Rejected">Decline</option>
+                      </select>
+                      )}
+                    </div>
+                  ) : (
+                    <button className={`status-badge ${res.petResStatus.toLowerCase()}`} disabled>
+                      {res.petResStatus}
+                    </button>
+                  )}
+
+                  {/* SEEKER PAY BUTTON */}
+                  {userRole === "seeker" && res.petResStatus === "Confirmed - Pending Payment" && (
+                    <button
+                      className="pay-btn"
+                      onClick={() => handlePay(res.petResId, res.serviceAmount)}
+                    >
+                      Pay Now
+                    </button>
+                  )}
+
+                </div>
+              ))
             )}
           </div>
-        ) : (
-          <button className={`status-badge ${res.petResStatus.toLowerCase()}`} disabled>
-            {res.petResStatus}
-          </button>
-        )}
-
-        {/* SEEKER PAY BUTTON */}
-        {userRole === "seeker" && res.petResStatus === "Confirmed - Pending Payment" && (
-          <button
-            className="pay-btn"
-            onClick={() => handlePay(res.petResId, res.serviceAmount)}
-          >
-            Pay Now
-          </button>
-        )}
-
-      </div>
-    ))
-  )}
-</div>
-
-        {/* Upcoming Section */}
-        
- {/*.............................................................................*/}       
-        {/* <div className="section-card">
-  <h3>Upcoming</h3>
-
-  {upcomingReservations.length === 0 ? (
-    <p className="placeholder">No upcoming reservations yet.</p>
-  ) : (
-    upcomingReservations.map((res) => (
-      <div key={res.petResId} className="reservation-row"> */}
-
-        {/* Pet image + name */}
-        {/* <div className="reservation-pet">
-          <img
-            src={res.petImageUrl || "/default_pro_pic.jpg"}
-            alt={res.petName}
-            className="reservation-pet-img"
-          />
-          <span className="reservation-pet-name">{res.petName}</span>
-        </div> */}
-
-        {/* Dates */}
-        {/* <span>
-          {new Date(res.startDate).toLocaleDateString()} →{" "}
-          {new Date(res.endDate).toLocaleDateString()}
-        </span> */}
-
-        {/* OWNER DROPDOWN OR SEEKER STATUS BADGE */}
-        {/* {userRole === "owner" ? (
-          <select
-            value={res.petResStatus}
-            onChange={(e) => handleStatusChange(res.petResId, e.target.value)}
-            className={`status-dropdown enhanced-dropdown status-${res.petResStatus.toLowerCase()}`}
-          >
-            <option value="Pending">Pending</option>
-            <option value="Rejected">Rejected</option>
-            <option value="Confirmed - Pending Payment">Confirmed - Pending Payment</option>
-            <option value="Confirmed - Paid">Confirmed - Paid</option>
-          </select>
-        ) : (
-          <button className={`status-badge ${res.petResStatus.toLowerCase()}`} disabled>
-            {res.petResStatus}
-          </button>
-        )} */}
-
-        {/* OWNER VIEW: STATUS + ACTION DROPDOWN */}
-          {/* {userRole === "owner" ? (
-            <div className="owner-controls"> */}
-
-              {/* Show CURRENT STATUS */}
-              {/* <span className={`status-badge ${res.petResStatus.toLowerCase()}`}>
-                {res.petResStatus}
-              </span> */}
-
-              {/* Action dropdown */}
-              {/* <select
-                defaultValue=""
-                onChange={(e) => handleStatusChange(res.petResId, e.target.value)}
-                className="status-action-dropdown"
-              >
-                <option value="" disabled>Choose Action</option>
-                <option value="Confirmed - Pending Payment">Accept</option>
-                <option value="Rejected">Decline</option>
-              </select>
-
-            </div> */}
-          {/* ) : (
-            <button className={`status-badge ${res.petResStatus.toLowerCase()}`} disabled>
-              {res.petResStatus}
-            </button>
-          )} */}
-
-        {/* SEEKER ONLY: PAY BUTTON  && res.petResStatus === "Confirmed - Pending Payment"*/}
-        {/* {userRole === "seeker"  && (
-          <button
-            className="pay-btn"
-            onClick={() => handlePay(res.petResId, res.serviceAmount)}
-          >
-            Pay Now
-          </button>
-        )}
-
-      </div>
-    ))
-  )}
-</div> */}
-{/*.............................................................................*/}
         {/* Stats Summary */}
         <div className="glance-card">
           <h3>At a glance</h3>
@@ -341,6 +296,12 @@ const filteredReservations = reservations.filter((res) => {
       </div>
 
       {!embedded && <Footer />}
+        {selectedPet && (
+                    <PetDetailCard
+                      pet={selectedPet}
+                      onClose={() => setSelectedPet(null)}
+                    />
+                  )}
     </div>
   );
 }

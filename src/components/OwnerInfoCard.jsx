@@ -1,11 +1,16 @@
 import React from "react";
 import "../styles/OwnerInfoCard.css";
+import { useState } from "react";
+import ChatBox from "./ChatBox";
 
 // //placeholder
 // let imageUrl = "https://shotkit.com/wp-content/uploads/bb-plugin/cache/cool-profile-pic-matheus-ferrero-landscape-6cbeea07ce870fc53bedd94909941a4b-zybravgx2q47.jpeg"
 
 //owner comes from the PetList.jsx Wee need to retrieve their details as well
 function OwnerInfoCard({ owner }) {
+
+  // const [showPopup, setShowPopup] = useState(false);
+  const [showChat, setShowChat] = useState(false);
   if (!owner) return null;
   // const { name, location, rating, listingsCount, about } = owner;
   const {
@@ -18,6 +23,17 @@ function OwnerInfoCard({ owner }) {
   } = {}
 } = owner;
 
+ //for messaging
+
+  const loggedInUser = localStorage.getItem("accountId")
+  const ownerId = owner.id;  
+  const seekerId = loggedInUser; 
+
+  console.log("OWNER OBJECT:", owner);
+  console.log("ownerId:", ownerId);
+  console.log("seekerId:", seekerId);
+  console.log("chatId PREVIEW:", [ownerId, seekerId]);
+  const chatId = [ownerId, seekerId].sort().join("_");
 
   return (
     <div className="owner-card">
@@ -38,11 +54,28 @@ function OwnerInfoCard({ owner }) {
          </div>
               </div>
       <div className="owner-buttons">
-        <button className="btn outline">View Profile</button> {/*DEFINE THIS ONCLICK*/}
-        <button className="btn ghost">Message</button>
+        {/* <button className="btn outline">View Profile</button> DEFINE THIS ONCLICK */}
+        <button className="btn ghost"
+        onClick={() => setShowChat(true)}>Message</button>
       </div>
-    </div>
-  );
-}
+
+      {/* {showPopup && (
+        <div className = "message-popup">
+          <p>We would love for you to be able to communicate with the owner.<br/>This feature will be available soon.</p>
+          <button onClick={() => setShowPopup(false)}>OK</button>
+        </div>
+
+      )} */}
+
+      {showChat && (
+      <ChatBox
+        chatId={chatId}
+        senderId={seekerId}
+        onClose={() => setShowChat(false)}
+      />
+    )}
+        </div>
+      );
+    }
 
 export default OwnerInfoCard;

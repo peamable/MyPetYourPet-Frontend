@@ -1,0 +1,28 @@
+.embedded-messages {
+  width: 100%;
+  background: transparent;
+}
+
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message-list-item {
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+}
+
+.message-user {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.message-preview {
+  color: #666;
+  font-size: 0.9rem;
+}

@@ -9,6 +9,7 @@ import SeekerProfileCard from "../components/UserProfileCard";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../firebaseConfig";
 import { deleteUser } from "firebase/auth";
+import MessagingView from "./MessagingView";
 import { reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 
 export default function PetSeekerDashboard() {
@@ -29,6 +30,7 @@ export default function PetSeekerDashboard() {
           const res = await axiosClient.get(`/api/customerAccount/getSeekerDetails/${accountId}`);
           const seekerData = await res.data;   
           setUserData(seekerData); //  Correct state setter
+          localStorage.setItem("status",seekerData.customerInfo?.profileStatus)
         } catch (err) {
           console.error("Seeker fetch error:", err);
         }
@@ -188,10 +190,11 @@ export default function PetSeekerDashboard() {
 
                 {/* ---------------- MESSAGES ---------------- */}
                 {activeTab === "messages" && (
-                  <section className="messages-section wrap">
-                    <h2>Messages</h2>
-                    <p>Select a conversation to start.</p>
-                  </section>
+                  <MessagingView embedded/>
+                  // <section className="messages-section wrap">
+                  //   <h2>Messages</h2>
+                  //   <p>Select a conversation to start.</p>
+                  // </section>
                 )}
 
                 {/* ---------------- REVIEWS ---------------- */}

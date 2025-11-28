@@ -12,6 +12,8 @@ const Header = () => {
    const navigate = useNavigate();
    const auth = getAuth();
 
+
+
    const isLoggedIn = auth.currentUser || localStorage.getItem("email"); //check if there is a login session
     const handleDashboardLink = async () => {
 
@@ -39,14 +41,18 @@ const Header = () => {
   return (
     <header className="site-header">
       {/* BRAND/LOGO section on the left */}
-      <div className="brand" onClick={handleDashboardLink} style={{ cursor: "pointer" }}>
+      <div className="brand" onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
         <Logo size={22}/>
         <span className="brand-name">My Pet, Your Pet</span>
       </div>
 
       {/* NAVIGATION section on the right */}
       <nav className="nav">
-        <Link to="/">Home</Link>
+        <Link to="#"
+        onClick={(e) => {
+        e.preventDefault();
+        handleDashboardLink();}}
+        >Home</Link>
         <Link to="/about">About</Link>
         <Link to="/howItWorks">How it works</Link>
 

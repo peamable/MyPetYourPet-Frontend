@@ -47,7 +47,7 @@ export default function AboutUs() {
             
             <div className="team-member">
               <img
-                src="src\assets\SandaliAvatar.jpeg"
+                src="src\assets\Sandali.jpeg"
                 alt="Team Member "
                 className="team-photo"
               />
@@ -61,7 +61,7 @@ export default function AboutUs() {
           
             <div className="team-member">
               <img
-                src="src\assets\ManeeshaAvatar.jpeg"
+                src="src\assets\Maneesha.jpeg"
                 alt="Team Member"
                 className="team-photo"
               />
@@ -106,67 +106,3 @@ export default function AboutUs() {
     </div>
   );
 }
-
-// export default function AboutUs() {
-//   const [error, setError] = useState("");
-
-//   const test = async (e) => {
-//     e.preventDefault();
-//     setError("");
-
-//     // try {
-//     //   const response = await axiosClient.get("/api/v1/testing");
-//     //   //for now we need to update the password in axiosClient.js
-
-//     //   console.log(response.data); // should be { status: "OK", version: "v1" }
-//     //   alert("Test created successfully! 🎉");
-//     // } catch (err) {
-//     //   console.error(err);
-//     //   setError(
-//     //     err.response?.data?.message ||
-//     //     err.message ||
-//     //     "Something went wrong"
-//     //   );
-//     // }
-
-//     let postObject = {
-//   "fullName": "Phoebe Amable",
-//   "email": "phoebe2569@example.com",
-//   "address": "Vancouver",
-//   "customerInfo": {
-//     "governmentID": "ABC123",
-//     "age": 25,
-//     "gender": "Female",
-//     "location": "Canada",
-//     "profileStatus": "Pending Verification"
-//   }
-// }
-//     try {
-//       const response = await axiosClient.post("/api/registration/petOwner", postObject);
-//       //for now we need to update the password in axiosClient.js
-
-      
-//       alert("Test created successfully! 🎉");
-//     } catch (err) {
-//       console.error(err);
-//       setError(
-//         err.response?.data?.message ||
-//         err.message ||
-//         "Something went wrong"
-//       );
-//     }
-//   };
-
-//   return (
-//     <div className="page">
-//       <Header />
-//       <h1>About Us</h1>
-//       <p>Coming soon 🐾</p>
-//       <p>A short paragraph about who we are and the team</p>
-
-//       <button onClick={test}>Test API</button>
-
-//       {error && <p style={{ color: "red" }}>{error}</p>}
-//     </div>
-//   );
-// }

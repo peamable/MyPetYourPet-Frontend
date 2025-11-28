@@ -57,7 +57,7 @@ export default function Register() {
             location: address,
             bio:bio,
             };
-    } 
+    }  // Im not sure if something changed here but payload seems duplicated. It seems to be working though
       payload = {
         firebaseUID,
         fullName,

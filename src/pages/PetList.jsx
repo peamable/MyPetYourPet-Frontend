@@ -14,6 +14,19 @@ export default function PetListPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+
+  //for date picker
+  const getMinDateTime = () => {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); 
+  return now.toISOString().slice(0, 16);
+};
+  const [startDate, setStartDate] = useState("");
+const [endDate, setEndDate] = useState("");
+
+
+
+
   //with some modifications but this is where we request for all the pets
   // the response can look like the dummy data below. If it does, nothing much needs to change
   //   // Fetch pets from backend once when page loads
@@ -73,7 +86,7 @@ export default function PetListPage() {
     };
 
     fetchOwner();
-}, [selectedPet]);
+  }, [selectedPet]);
 
 
 
@@ -103,19 +116,77 @@ export default function PetListPage() {
     console.log("Clicked pet id:", petId);
   };
 
-  //reservation handler
- const handleRequestReservation = async (pet) => {
-  if (!pet) return;
-  const accountId = localStorage.getItem("accountId"); // Logged-in user (seeker)
+  const checkAvailability = async (petId, startDate, endDate) => {
+  try {
+    const res = await axiosClient.get("/api/reservations/check-availability", {
+      params: {
+        petId,
+        startDate,  // must match your backend param names
+        endDate
+      }
+    });
 
+    return res.data.available;  // true or false
+  } catch (error) {
+    console.error("Availability check error:", error);
+    return false; // safest fallback
+  }
+};
+
+  //reservation handler
+//  const handleRequestReservation = async (pet) => {
+//   if (!pet) return;
+//   const accountId = localStorage.getItem("accountId"); // Logged-in user (seeker)
+
+//   if (!accountId) {
+//     alert("Please login to request!");
+//     return;
+//   }
+
+const handleRequestReservation = async (pet) => {
+  if (!pet) return;
+
+  const accountId = localStorage.getItem("accountId");
   if (!accountId) {
     alert("Please login to request!");
     return;
   }
+  const status = localStorage.getItem("status");
 
+    if (status?.toLowerCase().includes("pending verification")) {
+      alert("Your account must be verified before making requests.");
+      return;
+    }
+
+  if (!startDate || !endDate) {
+    alert("Please choose your reservation dates.");
+    return;
+  }
+
+  // Format to "YYYY-MM-DD HH:mm:ss" for backend
+  const formatDateForBackend = (value) => value.replace("T", " ") + ":00";
+
+  const formattedStart = formatDateForBackend(startDate);
+  const formattedEnd = formatDateForBackend(endDate);
+
+  // ⭐ Step 1: check availability
+  const available = await checkAvailability(
+    pet.petId,
+    formattedStart,
+    formattedEnd
+  );
+
+  if (!available) {
+    alert("❌ Pet is NOT available for that date & time.");
+    return;
+  }
+  if (new Date(endDate) <= new Date(startDate)) {
+  alert("End date & time must be AFTER the start date & time.");
+  return;
+  }
     // TODO: Replace with user-chosen dates (temporary hardcoded)
-    const startDate = new Date("2025-02-01T10:00:00");
-    const endDate = new Date("2025-02-01T18:00:00");
+    // const startDate = new Date("2025-02-01T10:00:00");
+    // const endDate = new Date("2025-02-01T18:00:00");
 
      try {
     const res = await axiosClient.post("/api/reservations/seeker/create", {
@@ -129,7 +200,7 @@ export default function PetListPage() {
       petResStatus: "Pending"
     });
 
-    localStorage.setItem("petFeeForReservation", pet.petFee)
+    localStorage.setItem("petFeeForReservation", pet.petFee) 
 
     console.log("Reservation saved:", res.data);
     alert("Reservation requested successfully!");
@@ -139,6 +210,7 @@ export default function PetListPage() {
     alert("Failed to request reservation");
   }
   };
+ 
 
 
   return (
@@ -213,11 +285,31 @@ export default function PetListPage() {
             pet={selectedPet}
             onClose={() => setSelectedPet(null)}
             onRequest={handleRequestReservation}
-            //onRequest={() =>{handleRequestReservation}
+            >
+              
+              <div className="date-picker-container">
+                  <label>Start Date & Time:</label>
+                  <input
+                  type="datetime-local"
+                  min={getMinDateTime()}
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+
+                  <label>End Date & Time:</label>
+                  <input
+                    type="datetime-local"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                  />
+                </div>
+            </PetDetailCard>
+            {/* //onRequest={() =>{handleRequestReservation} */}
             //console.log("Request reservation for:", selectedPet?.petName) //we can have a record added to the reservation table here
-            //}
-            //I though i had the owner detail popup here
-      />
+            {/* } */}
+            
+     
     </div>
   );
 }
+

@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/PetDetailCard.css";
 import OwnerInfoCard from "./OwnerInfoCard";
 
-function PetDetailCard({ pet, onClose, onRequest }) {
+function PetDetailCard({ pet, onClose, onRequest, children }) {
   if (!pet) return null;
 
   const {
@@ -23,6 +23,8 @@ function PetDetailCard({ pet, onClose, onRequest }) {
 
   const genderLabel = petGender === 1 ? "Female" : "Male";
   const statusLabel = petProfileStatus ? "Active" : "Hidden";
+
+ 
 
   return (
     <div className="pet-detail-backdrop">
@@ -61,8 +63,10 @@ function PetDetailCard({ pet, onClose, onRequest }) {
 
               <section className="section">
                 <h3>Fee</h3>
-                <p className="fee">${petFee.toFixed(2)} per hour</p>
+                {/* <p className="fee">${petFee.toFixed(2)} per hour</p> */}
+                ${petFee ? petFee.toFixed(2) : "will fix"} per hour
               </section>
+              {children}
 
               <div className="detail-actions">
                 <button className="btn outline" onClick={onClose}>Back to list</button>

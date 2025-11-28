@@ -8,11 +8,29 @@ import calendar from "../assets/calendar.png";
 import "../styles/Home.css";
 import Footer from "../components/Footer";
 import { useNavigate } from 'react-router-dom';
+import { auth } from '../firebaseConfig';
 
 
 
 
 const Home = () => {
+
+  const isLoggedIn = auth.currentUser || localStorage.getItem("email"); //check if there is a login session
+    const role = localStorage.getItem("role");
+    const handleButtonView = async () => {
+
+      const role = localStorage.getItem("role");
+      if(cRole == "owner"){
+        navigate("/owner/dashboard");
+      }
+      else if(cRole == "seeker"){
+        navigate("/seeker/dashboard");
+      }
+      else{
+        navigate("/")
+      }
+    };
+
 
   const navigate = useNavigate();
   const handleFind = () => {
@@ -76,14 +94,43 @@ const Home = () => {
         </div>
       </section>
       <section className="cta-section">
-      <p>***DEMO NAVIGATION**</p>
+        {/* DEMO MODE - show all buttons when NOT logged in - This will not show in production*/}
+          {!isLoggedIn && (
+            <>
+            <p>***DEMO NAVIGATION**</p>
+              <Link to="/owner/dashboard" className="btn-primary">Pet Owner</Link>
+              <Link to="/seeker/dashboard" className="btn-primary">Pet Seeker</Link>
+              {/* <Link to="/admin/reservation" className="btn-primary">Admin Reservation View</Link> */}
+              <Link to="/admin/dashboard" className="btn-primary">Admin Dashboard</Link>
+            </>
+          )}
+
+          {/* OWNER */}
+          {isLoggedIn && role === "owner" && (
+            <Link to="/owner/dashboard" className="btn-primary">My Dashboard</Link>
+          )}
+
+          {/* SEEKER */}
+          {isLoggedIn && role === "seeker" && (
+            <Link to="/seeker/dashboard" className="btn-primary">My Dashboard</Link>
+          )}
+
+          {/* ADMIN */}
+          {isLoggedIn && role === "administrator" && (
+            <>
+              {/* <Link to="/admin/reservation" className="btn-primary">Reservation View</Link> */}
+              <Link to="/admin/dashboard" className="btn-primary">My Dashboard</Link>
+            </>
+          )}
+
+      {/* <p>***DEMO NAVIGATION**</p>
         <div className="cta-buttons">
           <Link to="/owner/dashboard" className="btn-primary">Pet Owner</Link>
           <Link to="/seeker/dashboard" className="btn-primary">Pet Seeker</Link>
           <Link to="/admin/reservation" className="btn-primary">Admin reservation View</Link>
           <Link to="/admin/dashboard" className="btn-primary">Admin Dashboard</Link>
           <Link to="/admin/dashboard" className="btn-primary">Admin reservation View</Link>
-        </div>
+        </div> */}
       </section>
       <Footer />
     </div>

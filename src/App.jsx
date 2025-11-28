@@ -20,9 +20,25 @@ import AdminDashboard from "./pages/AdminSupportView";
 import UpdatePet from "./components/UpdatePet"
 import Admin from "./pages/AdminSupportView"
 import PaymentSuccess from "./pages/PaymentSuccess"
+import React, { useEffect } from "react";
+import { attachAuthListener } from "./AuthListener.js";
+import toast from "react-hot-toast";
 
 
 export default function App() {
+
+useEffect(() => {
+    // Prevent infinite loop:
+    // Only attach listener if user actually logged in through your backend
+    const email = localStorage.getItem("email");  
+    if (!email) return;   // <-- Stop here if no local session
+
+    attachAuthListener(() => {
+      toast.error("Session expired. Please log in again.");
+      localStorage.clear();
+      window.location.href = "/login"; 
+    });
+  }, []);
   return(
   
       <Routes>
