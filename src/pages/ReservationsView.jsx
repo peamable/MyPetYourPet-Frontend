@@ -139,7 +139,7 @@ const filteredReservations = reservations.filter((res) => {
             >
               <option value="Any">All</option>
               <option value="Pending">Pending</option>
-              <option value="Confirmed">Confirmed</option>
+              <option value="Cancelled">Cancelled</option>
               <option value="Completed">Completed</option>
               <option value="Rejected">Rejected</option>
               <option value="Confirmed - Pending Payment">Confirmed - Pending Payment</option>

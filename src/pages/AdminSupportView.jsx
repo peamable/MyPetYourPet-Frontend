@@ -110,7 +110,7 @@ const documents = selectedUser
   }, []);
   const loadAdminDetails = async () => {
   try {
-    const res = await axiosClient.get("/api/adminAccount/details");
+    const res = await axiosClient.get("/api/admin/details");
     setAdmin(res.data);
   } catch (error) {
     console.error("Failed to fetch admin details:", error);
@@ -138,7 +138,7 @@ const documents = selectedUser
           <div className="admin-meta">
             <p><strong>Email:</strong> {admin?.email || "N/A"}</p>
             <p><strong>Signed in:</strong> Today</p>
-            <p><strong>Shift time:</strong> 00h 00m</p>
+            {/* <p><strong>Shift time:</strong> 00h 00m</p> */}
           </div>
         </div>
 
