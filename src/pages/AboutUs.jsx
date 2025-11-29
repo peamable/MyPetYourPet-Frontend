@@ -2,7 +2,7 @@ import { useState } from "react";
 import '../styles/Header.css';
 import '../styles/AboutUs.css';
 import Header from "../components/Header";
-
+import Footer from "../components/Footer";
 
 export default function AboutUs() {
   return (
@@ -103,6 +103,7 @@ export default function AboutUs() {
 
 
       </div>
+      <Footer />
     </div>
   );
 }

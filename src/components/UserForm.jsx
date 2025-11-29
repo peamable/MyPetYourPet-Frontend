@@ -264,30 +264,9 @@ export default function UserForm({
           <label>Location *</label>
           <input name="address" onChange={handleChange} value= {formData.address}/>
 
-          <label>Year of Birth *</label>
-            <input
-              type="number"
-              name="yearOfBirth"
-              min="1970"
-              max={new Date().getFullYear()}
-              onChange={(e) => {
-                const year = e.target.value;
-                const age = new Date().getFullYear() - year;
-
-                setFormData((prev) => ({
-                  ...prev,
-                  yearOfBirth: year,
-                  age: age >= 0 ? age : ""
-                }));
-              }}
-              value={formData.yearOfBirth || ""}
-            />
-
-
           <label>Age *</label>
           <input type="number" name="age" onChange={handleChange}
-          value= {formData.age || ""} style={{ backgroundColor: "#f5f5f5", cursor: "not-allowed" }} 
-          readOnly/>
+          value= {formData.age}/>
 
           {/* <label>Gender</label>
           <select name="gender" onChange={handleChange}>

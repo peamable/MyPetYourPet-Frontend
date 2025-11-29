@@ -40,36 +40,23 @@ export default function Register() {
        }
        else{
 
-            // alert("Register Step 0 good");
-            usercredential = await createUserWithEmailAndPassword(auth, email, password);
-            // alert("Register Step 1 good");
-            const user = usercredential.user
-            const firebaseUID = user.uid;
-            //const firebaseToken = user
-          
-            const payload = {
-            firebaseUID: firebaseUID,             // from Firebase
-            fullName: fullName,
-            email: email,        // could also use user.email
-            phone: phone,
-            age: parseInt(age),
-            gender: gender,
-            location: address,
-            bio:bio,
-            };
-    }  // Im not sure if something changed here but payload seems duplicated. It seems to be working though
-      payload = {
-        firebaseUID,
-        fullName,
-        email,
-        phone,
-        age: parseInt(age),
-        gender,
-        governmentId: idNumber,
-        location: address,
-        bio,
-      };
+      // alert("Register Step 0 good");
+      usercredential = await createUserWithEmailAndPassword(auth, email, password);
+      // alert("Register Step 1 good");
+      const user = usercredential.user
+      const firebaseUID = user.uid;
+      //const firebaseToken = user
     
+      const payload = {
+      firebaseUID: firebaseUID,             // from Firebase
+      fullName: fullName,
+      email: email,        // could also use user.email
+      phone: phone,
+      age: parseInt(age),
+      gender: gender,
+      location: address,
+      bio:bio,
+      };
 
      // this should be sent to a specific function "createAccount"
       let apiURL = "";
@@ -84,10 +71,6 @@ export default function Register() {
       else if (role == "Seeker")
       {
         apiURL = "/api/registration/petSeeker";
-      }
-      else if (role === "admin") 
-      {
-        apiURL = "/api/registration/admin";
       }
        else
        {
@@ -123,15 +106,15 @@ export default function Register() {
       //   }
       // }
       //...............................................................................
-    //Send to backend
+
       await axiosClient.post(apiURL, formDataToSend);
-      alert("Account created successfully!");
+      alert("Account created successfully! 🎉");
       navigate("/login")
 
       // setError("");
         // redirect if needed
         // window.location.href = "/login";
-    } 
+    } }
     catch (err) {
      //delete the firebase record if there was an error saving into the database
       // alert("CATCH ERROR: ---> " + err.message);
