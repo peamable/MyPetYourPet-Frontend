@@ -305,7 +305,7 @@ const handleRequestReservation = async (pet) => {
                 </div>
             </PetDetailCard>
             {/* //onRequest={() =>{handleRequestReservation} */}
-            //console.log("Request reservation for:", selectedPet?.petName) //we can have a record added to the reservation table here
+            {/* //console.log("Request reservation for:", selectedPet?.petName) //we can have a record added to the reservation table here */}
             {/* } */}
             
      

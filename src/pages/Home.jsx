@@ -87,10 +87,14 @@ const Home = () => {
 
       {/* CTA */}
       <section className="cta-section">
-        <p>Ready to meet a new furry friend?</p>
         <div className="cta-buttons">
-          <Link to="/register" className="btn-primary">Sign Up</Link>
-          <Link to="/login" className="btn-primary">Login</Link>
+          {!isLoggedIn && (
+          <>
+            <p>Ready to meet a new furry friend?</p>
+            <Link to="/register" className="btn-primary">Sign Up</Link>
+            <Link to="/login" className="btn-primary">Login</Link>
+          </>
+          )}
         </div>
       </section>
       <section className="cta-section">
