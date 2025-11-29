@@ -18,7 +18,7 @@ const ChatBox = ({ chatId, senderId, onClose }) => {
     await sendMessage(chatId, senderId, text);
     setText("");
   };
-  console.log("DB in ChatBox:", db);
+  // console.log("DB in ChatBox:", db);
 
   return (
     <div className="chatbox">

@@ -14,11 +14,11 @@ import {
 export const sendMessage = async (chatId, senderId, text, receiverId = null) => {
   if (!text.trim()) return;
 
-  // 1️⃣ Reference to parent chat document
+  // Reference to parent chat document
   const chatRef = doc(db, "messages", chatId);
   const chatSnap = await getDoc(chatRef);
 
-  // 2️⃣ If parent doc doesn't exist, create it
+  // If parent doc doesn't exist, create it
   if (!chatSnap.exists()) {
     await setDoc(chatRef, {
       createdAt: serverTimestamp(),
@@ -26,7 +26,7 @@ export const sendMessage = async (chatId, senderId, text, receiverId = null) => 
     });
   }
 
-  // 3️⃣ Add the message to the threads subcollection
+  // Add the message to the threads subcollection
   await addDoc(collection(db, "messages", chatId, "threads"), {
     senderId,
     text,
