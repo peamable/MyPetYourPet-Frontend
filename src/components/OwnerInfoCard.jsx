@@ -29,10 +29,10 @@ function OwnerInfoCard({ owner }) {
   const ownerId = owner.id;  
   const seekerId = loggedInUser; 
 
-  console.log("OWNER OBJECT:", owner);
-  console.log("ownerId:", ownerId);
-  console.log("seekerId:", seekerId);
-  console.log("chatId PREVIEW:", [ownerId, seekerId]);
+  // console.log("OWNER OBJECT:", owner);
+  // console.log("ownerId:", ownerId);
+  // console.log("seekerId:", seekerId);
+  // console.log("chatId PREVIEW:", [ownerId, seekerId]);
   const chatId = [ownerId, seekerId].sort().join("_");
 
   return (

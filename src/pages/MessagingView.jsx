@@ -21,15 +21,17 @@ export default function MessagingView({ embedded }) {
       for (const docSnap of snapshot.docs) {
         const chatId = docSnap.id;
         // 🔍 DEBUG LOGS — PRINT VALUES
-  console.log("CHECKING CHAT:", chatId, "against accountId:", accountId);
-  console.log("INCLUDES RESULT:", chatId.includes(accountId));
-  console.log("accountId CHAR BY CHAR:", [...accountId]);
-  console.log("chatId CHAR BY CHAR:", [...chatId]);
+  // console.log("CHECKING CHAT:", chatId, "against accountId:", accountId);
+  // console.log("INCLUDES RESULT:", chatId.includes(accountId));
+  // console.log("accountId CHAR BY CHAR:", [...accountId]);
+  // console.log("chatId CHAR BY CHAR:", [...chatId]);
 
 
         // Only show chats that involve this user
-        if (chatId.includes(accountId)) {
-          const ids = chatId.split("_");
+        const ids = chatId.split("_");
+        // if (chatId.includes(accountId)) {
+        if(ids.includes(accountId)){
+          // const ids = chatId.split("_");
           const otherUser = ids[0] === accountId ? ids[1] : ids[0];
 
           const lastMsgQuery = query(
