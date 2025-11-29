@@ -108,6 +108,7 @@ export default function CreateAPet({ embedded, accountId, onClose }) {
       await axiosClient.post(apiURL, formDataToSend);
       alert("Pet created successfully! 🎉");
       setError("");
+      onClose();
     } 
     catch (err) {
         if (err.response && err.response.data) {

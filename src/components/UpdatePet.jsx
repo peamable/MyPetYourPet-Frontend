@@ -162,7 +162,6 @@ useEffect(() => {
         vaccinationUpToDate: vaccinated,
         petFee: parseFloat(formData.fee),
         petProfileStatus: formData.status === "Active"? true:false, 
-        // plus whatever your backend needs to identify the pet (id/uid)
       };
 
       const apiURL = "/api/v1/pets/updatePet";
@@ -179,7 +178,7 @@ useEffect(() => {
       await axiosClient.post(apiURL, formDataToSend);
       alert("Pet updated successfully! 🎉");
       setError("");
-      // maybe navigate back to listings here
+      onClose();
     } catch (err) {
       if (err.response && err.response.data) {
         const backendError =

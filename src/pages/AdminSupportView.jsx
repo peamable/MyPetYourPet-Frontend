@@ -92,9 +92,10 @@ const documents = selectedUser
   ? [
       { id: 1, title: "Profile Photo", image: selectedUser.profilePicture },
       // Add others when available
-      // { id: 2, title: "Background Check", image: selectedUser.backgroundCheck },
+      { id: 2, title: "Gov Id", image: selectedUser.governmentID},
+      { id: 3, title: "Background Check", image: selectedUser.backgroundCheck},
       // { id: 3, title: "Address Proof", image: selectedUser.addressProof },
-    ].filter(doc => doc.image) // Only include documents that exist
+    ].filter(doc => doc.image) 
   : []; // Return empty array if no user selected
 
   /*
@@ -146,12 +147,12 @@ const documents = selectedUser
         <div className="pending-card">
           <h3>Pending Account Verifications</h3>
 
-          <input
+          {/* <input
             type="text"
             className="search-box"
             placeholder="Search users..."
             // Implement search later if needed
-          />
+          /> */}
 
           <table className="pending-table">
             <thead>
@@ -206,7 +207,7 @@ const documents = selectedUser
       <p><strong>Location:</strong> {selectedUser.location}</p>
       <p><strong>Age:</strong> {selectedUser.age}</p>
       <p><strong>Gender:</strong> {selectedUser.gender}</p>
-      <p><strong>Government ID:</strong> {selectedUser.governmentID}</p>
+      {/* <p><strong>Government ID:</strong> {selectedUser.governmentID}</p> */}
       <hr style={{ margin: "15px 0" }} />
 
       

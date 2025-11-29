@@ -5,21 +5,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .pet-detail-container {
-  background: transparent;
+  /* background: transparent;
   max-width: 1000px;
-  width: 100%;
+  width: 100%; */
+  width: 70%;
+  height: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pet-detail-card {
   background: #f5e8da;
   border-radius: 20px;
-  padding: 20px 24px;
+  padding: 20px;
   position: relative;
   box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  max-width: 800px;
+  max-height: 90vh;  
+  overflow-y: auto; 
 }
 
 .detail-close {
@@ -33,17 +41,20 @@
 }
 
 .detail-grid {
-    border-radius: 20px;
+  border-radius: 12px;
   display: grid;
   background-color: white;
-  gap: 24px;
   grid-template-columns: 2fr 1.5fr;
-  gap: 24px;
+  gap: 20px;
+  overflow-y: auto;
+  max-height: 80vh;
+  padding-right: 10px;
 }
 
 .detail-left {
   display: flex;
   flex-direction: column;
+  padding: 16px;
 }
 
 .detail-top {
