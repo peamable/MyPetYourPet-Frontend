@@ -29,32 +29,8 @@ export default function OwnerDashboard() {
   const status = localStorage.getItem("status");
 
   useEffect(() => {
-//     const firebaseUid = localStorage.getItem("uid");
-//     if (!firebaseUid) return;
-
-//     axiosClient
-//       .get(`/api/users/by-uid/${firebaseUid}`)
-//       .then((res) => setUserData(res.data))
-//       .catch((err) => console.log(err));
-//   }, []);
-
-//   return (
-//     <div className="owner-dashboard">
-    // const firebaseUid = localStorage.getItem("uid"); // stored after login
-    // if (!firebaseUid) return;
-
- //   axiosClient.get(`http://localhost:8080/api/customerAccount/getPetOwnerdetails/${firebaseUid}`)
-    //   .then(res => setUserData(res.data))
-    //   .catch(err => console.log(err));
-
-
     const fetchOwner = async () => {
         try {
-          // const res = await fetch(`http://localhost:8080/api/customerAccount/getPetOwnerdetails/3`);
-          // if (!res.ok) throw new Error("Failed to load owner info");
-          // const ownerData = await res.json();
-
-          // const res = await axiosClient.get(`/api/customerAccount/getPetOwnerdetails/2`);
           const res = await axiosClient.get(`/api/customerAccount/getOwnerDetails/${accountId}`);
           const ownerData = await res.data;   
           setUserData(ownerData); // Correct state setter
@@ -139,23 +115,6 @@ export default function OwnerDashboard() {
         <button className={activeTab === "messages" ? "active" : ""} onClick={() => setActiveTab("messages")}>
           Messages
         </button>
-
-        {/* ..................................................................*/}
-        {/* <button
-          className={activeTab === "create" ? "active" : ""}
-          onClick={() => {
-            if (status?.toLowerCase().includes("pending")) {
-              alert("Your account must be verified before creating a pet listing.");
-              return;
-            }
-            setActiveTab("create");
-          }}
-        >
-          + Create Pet Listing
-        </button> */}
-          {/* uncomment her to add cannot create constraint*/}
-          {/* ..................................................................*/}
-        
         <button className={activeTab === "reservations" ? "active" : ""} onClick={() => setActiveTab("reservations")}>
           Reservations
         </button>

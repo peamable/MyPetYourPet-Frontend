@@ -2,11 +2,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../styles/OwnerListings.css";
 import PetCard from "../components/PetCard";
-// import EditAPet from "../pages/EditAPet";
-// import UpdatePet from "../components/UpdatePet";
-// import UpdatePet from "../pages/UpdatePet";
-import axiosClient from '../axiosClient';//----------------------------------------
-// import SeekerProfileCard from "../components/UserProfileCard";
+
+import axiosClient from '../axiosClient';
 import { useState, useEffect } from "react";
 
 export default function OwnerListings({ embedded, accountId, onEditPet }) {
@@ -80,4 +77,3 @@ export default function OwnerListings({ embedded, accountId, onEditPet }) {
   );
 };
 
-// export default OwnerListings;

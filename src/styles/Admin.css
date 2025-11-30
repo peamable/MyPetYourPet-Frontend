@@ -1,4 +1,4 @@
-/* === PAGE LAYOUT === */
+/*  PAGE LAYOUT  */
 .admin-container {
   max-width: 1200px;
   margin: 30px auto;
@@ -9,7 +9,7 @@
   grid-gap: 25px;
 }
 
-/* === MAIN ADMIN CARD === */
+/*  MAIN ADMIN CARD  */
 .admin-card {
   background: #ffffff;
   border-radius: 14px;
@@ -51,7 +51,7 @@
   color: #444;
 }
 
-/* === PENDING VERIFICATION LIST === */
+/*  PENDING VERIFICATION LIST  */
 .pending-card {
   background: #ffffff;
   border-radius: 14px;
@@ -107,7 +107,7 @@
   background: #005fa3;
 }
 
-/* === SNAPSHOT CARD === */
+/*  SNAPSHOT CARD  */
 .snapshot-card {
   background: #ffffff;
   border-radius: 14px;
@@ -127,7 +127,7 @@
   color: #777;
 }
 
-/* === MODAL POPUP === */
+/*  MODAL POPUP  */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -270,7 +270,7 @@
 }
 
 
-/* === MOBILE RESPONSIVE === */
+/* MOBILE RESPONSIVE  */
 @media (max-width: 900px) {
   .admin-container {
     grid-template-columns: 1fr;

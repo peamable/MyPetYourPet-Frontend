@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 export default function UserForm({
 
     mode = "create",
-    initialValues = {},  // for edit mode
+    initialValues = {}, 
     onSubmit,
     
 }) 
 {
-    const user = initialValues.role; //dynamically change this
+    const user = initialValues.role;
     const isEdit = mode === "edit"
     const navigate = useNavigate()
     const handleExit = ()=> {
@@ -29,8 +29,6 @@ export default function UserForm({
         phone: initialValues.phone || "",
         age: initialValues.age || "",
         gender: initialValues.gender || "",
-        // idType: initialValues.idType || "",
-        // idNumber: initialValues.idNumber || "",//NOT WORKING
         address: initialValues.address|| "",
         password: "",
         bio:"",
@@ -57,8 +55,6 @@ export default function UserForm({
             phone: initialValues.phone || "",
             age: initialValues.age || "",
             gender: initialValues.gender || "",
-            // idType: initialValues.idType || "",
-            // idNumber: initialValues.idNumber || "",
             address: initialValues.address || "",
             bio:initialValues.bio || "You have no bio, Write something about yourself here",
             }));
@@ -67,9 +63,7 @@ export default function UserForm({
             }
         }, [isEdit, initialValues]);
             
-        // const handleChange = (e) => {  // what to do the form fields change
-        //   setFormData({ ...formData, [e.target.name]: e.target.value });
-        // };
+
         const handleChange = (e) => {
          const { name, value } = e.target;
 
@@ -77,26 +71,6 @@ export default function UserForm({
             ...prev,
          [name]: value,
             }));   };
-       
-      
-        // const handleImage = (e) => {
-        //   const file = e.target.files[0];
-        //   setImage(file);
-      
-        //   const reader = new FileReader();
-        //   reader.onloadend = () => setPreview(reader.result);
-        //   reader.readAsDataURL(file);
-        // };
-
-      //   const handleImage = (e) => {
-      //   const file = e.target.files?.[0];
-      //   if (!file) return;
-      //   setImage(file);
-
-      //   const reader = new FileReader();
-      //   reader.onloadend = () => setPreview(reader.result);
-      //   reader.readAsDataURL(file);
-      //  };
 
       const handleImage = (e) => {
         const file = e.target.files?.[0];
@@ -132,7 +106,7 @@ export default function UserForm({
       };
 
 
-        const handleSubmit = async (e) => {  // what to do when the user clicks submit
+        const handleSubmit = async (e) => { 
         e.preventDefault();
         setError("");
             if (
@@ -149,21 +123,8 @@ export default function UserForm({
             alert("Please fill out all required fields and select an image.");
             return;
             }
-            // if(image){
-            //   const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
-            // if (!allowedTypes.includes(image.type)) {
-            // setError("Only JPG, PNG, or WEBP images are allowed.");
-            // return;
-            // }
-            // const maxSize = 5 * 1024 * 1024;
-            // if (image.size > maxSize) {
-            // setError("Image must be smaller than 5MB.");
-            // return;
-            // }
-            // }
             
             if (!isEdit) {
-            // create mode: must match
             if (formData.password !== formData.confirmPassword) {
                 setError("Passwords do not match.");
                 return;
@@ -183,20 +144,10 @@ export default function UserForm({
                 }
             }
             }
-          // try {
-          //   await onSubmit({ ...formData, image });
-          //   } catch (err) {
-          //     setError(err.message || "Something went wrong");
-          //   }
             try {
-                // alert("User Form before await")
-                // console.log("FORMDATA:", formData);
-                // console.log("IMAGE:", image);
-                // console.log("GOVID:", govIdFile);
-                // console.log("BACKCHECK:", backCheckFile);
               await onSubmit({ ...formData, image, govIdFile, backCheckFile, });
             } catch (err) {
-              alert("userform "+err.message);//------------------------------------
+              alert("userform "+err.message);
               setError(err.message || "Something went wrong");
             }
         };
@@ -245,17 +196,7 @@ export default function UserForm({
             <label>Background Check Picture *
             <input type="file" accept="image/*" name="BackCheck" onChange={handleImage} />
             </label>
-            {/* <p className="gov-label">Government ID</p> */}
-            {/* <label>ID Type</label>
-            <select name="idType" onChange={handleChange} value= {formData.idType} disabled={isEdit} required>
-            <option value="">Select</option>
-            <option value="Driver's License">Driver's License</option>
-            <option value="Passport">Passport</option>
-            <option value="State/Provincial Id">State/Provincial Id</option>
-            </select>
 
-            <label>ID Number</label> 
-            <input name="idNumber" onChange={handleChange} value={formData.idNumber} disabled={isEdit} required/> */}
             <p className="gov-note">
               We only use this for verification. It will be encrypted and never shared publicly.
             </p>
@@ -268,12 +209,6 @@ export default function UserForm({
           <input type="number" name="age" onChange={handleChange}
           value= {formData.age}/>
 
-          {/* <label>Gender</label>
-          <select name="gender" onChange={handleChange}>
-            <option value="">Select</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select> */}
           <label>Gender *</label>
           <input name="gender" onChange={handleChange} 
          value= {formData.gender}/>

@@ -52,7 +52,7 @@ export default function Login() {
 
       localStorage.setItem("accountId", accountId);
       localStorage.setItem("role", cRole);
-      localStorage.setItem("email", email)
+      localStorage.setItem("email", email);
       
 
       alert("Login successful! 🐾");

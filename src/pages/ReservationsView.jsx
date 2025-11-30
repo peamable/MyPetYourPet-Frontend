@@ -46,9 +46,7 @@ export default function ReservationsView({ embedded }) {
 
   const handlePay = async (reservationId, petFee) => {
     try {
-    //const petFee = localStorage.getItem("petFeeForReservation")
-    //reservationId = reservationId; // or however you store it
-    const amountCents = Math.round(petFee * 100); // e.g. 20.00 CAD → 2000
+    const amountCents = Math.round(petFee * 100); // 20.00 CAD → 2000
     
 
     const res = await axiosClient.post(
@@ -102,14 +100,6 @@ const filteredReservations = reservations.filter((res) => {
 
   return true;
 });
-
-  // Categorization logic
-  // const upcomingReservations = reservations.filter((res) =>
-  //   ["Pending", "Confirmed"].includes(res.petResStatus)
-  // );
-  // const pastReservations = reservations.filter((res) =>
-  //   ["Completed"].includes(res.petResStatus)
-  // );
 
   // Stats
   const total = reservations.length;

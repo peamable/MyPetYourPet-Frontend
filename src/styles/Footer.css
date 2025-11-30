@@ -1,4 +1,4 @@
-/* ===== Footer Layout ===== */
+/* Footer Layout */
 
 .footer {
   padding: 30px 20px;
@@ -57,7 +57,7 @@
   margin-top: 10px;
 }
 
-/* ===== Modal Overlay ===== */
+/*  Modal Overlay  */
 
 .footer-modal-overlay {
   position: fixed;
@@ -74,7 +74,7 @@
   animation: fadeIn 0.25s ease-out;
 }
 
-/* ===== Modal Box ===== */
+/* Modal Box */
 
 .footer-modal-box {
   width: 500px;
@@ -88,7 +88,7 @@
   text-align: center;
 }
 
-/* ===== Scrollable Content ===== */
+/* Scrollable Content */
 
 .footer-modal-content {
   text-align: left;
@@ -110,7 +110,7 @@
   border-radius: 4px;
 }
 
-/* ===== Close Button ===== */
+/*  Close Button  */
 
 .footer-modal-close {
   background: #0077cc;
@@ -126,7 +126,7 @@
   background: #005fa1;
 }
 
-/* ===== Animations ===== */
+/* Animations */
 
 @keyframes fadeIn {
   from { opacity: 0; }

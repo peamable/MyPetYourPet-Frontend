@@ -165,26 +165,6 @@ export default function PetSeekerDashboard() {
                 
                 {/* ---------------- RESERVATIONS ---------------- */}
                 {activeTab === "reservations" && (
-                  // <section className="reservations-section wrap">
-                  //   <h2>Your Reservations</h2>
-
-                  //   <div className="reservation-block">
-                  //     <h3>Upcoming</h3>
-                  //     <p>No upcoming bookings yet.</p>
-                  //   </div>
-
-                  //   <div className="reservation-block">
-                  //     <h3>Past</h3>
-                  //     <p>No past bookings yet.</p>
-                  //   </div>
-
-                  //   <div className="stats">
-                  //     <div><strong>0</strong> Total</div>
-                  //     <div><strong>0</strong> Pending</div>
-                  //     <div><strong>0</strong> Confirmed</div>
-                  //     <div><strong>0</strong> Completed</div>
-                  //   </div>
-                  // </section>
                   <SeekerReservations embedded={true} />
                 )}
 

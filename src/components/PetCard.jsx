@@ -1,4 +1,3 @@
-// src/components/PetCard.jsx
 import React from "react";
 import "../styles/PetCard.css";
 
@@ -8,7 +7,7 @@ function PetCard({
   behavior,
   fee,
   image,
-  status,       // Active/Hidden
+  status,       
   tags = [],
   onPreview,
   onEdit,     

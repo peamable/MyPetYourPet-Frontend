@@ -1,15 +1,3 @@
-// export function Logo({ className = "w-6 h-6" }) {
-//   return (
-//     <svg className={className} viewBox="0 0 64 64" aria-hidden="true">
-//       <path d="M32 14c4-8 18-3 16 6-2 7-12 14-16 18-4-4-14-11-16-18-2-9 12-14 16-6z" fill="#f1741e"/>
-//       <ellipse cx="20" cy="42" rx="5" ry="6" fill="#f1741e"/>
-//       <ellipse cx="32" cy="46" rx="5" ry="6" fill="#f1741e"/>
-//       <ellipse cx="44" cy="42" rx="5" ry="6" fill="#f1741e"/>
-//     </svg>
-//   );
-// }
-
-
 export function Logo({ size = 22, color = "#f1741e", className = "" }) {
   return (
     <svg

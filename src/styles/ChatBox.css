@@ -39,7 +39,7 @@
 /* MY MESSAGE (RIGHT SIDE) */
 .my-message {
   align-self: flex-end;
-  background: #4f46e5;     /* purple */
+  background: #4f46e5;     
   color: #fff;
   padding: 8px 12px;
   max-width: 70%;
