@@ -15,7 +15,7 @@ import { auth } from '../firebaseConfig';
 
 const Home = () => {
 
-  const isLoggedIn = auth.currentUser || localStorage.getItem("email"); //check if there is a login session
+  const isLoggedIn = auth.currentUser && localStorage.getItem("accountId"); 
     const role = localStorage.getItem("role");
     const handleButtonView = async () => {
 

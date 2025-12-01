@@ -12,10 +12,9 @@ const Header = () => {
    const navigate = useNavigate();
    const auth = getAuth();
 
-
-
-   const isLoggedIn = auth.currentUser || localStorage.getItem("email"); //check if there is a login session
-    const handleDashboardLink = async () => {
+   const isLoggedIn = auth.currentUser && localStorage.getItem("accountId"); 
+   
+   const handleDashboardLink = async () => {
 
       const cRole = localStorage.getItem("role");
       if(cRole == "owner"){
@@ -55,7 +54,7 @@ const Header = () => {
         >Home</Link>
         <Link to="/about">About</Link>
         <Link to="/howItWorks">How it works</Link>
-
+            
         {
           isLoggedIn&& (<button className="logout-btn" onClick={handleLogout}>
         Logout
