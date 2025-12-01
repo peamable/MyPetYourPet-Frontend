@@ -71,13 +71,13 @@ git clone https://github.com/XolSM/MyPetYourPet.git
 #### ⚠️ Firebase configuration file
 - Please find the following file in the submission package: `firebase-service-account.json` and make sure to save it in the following route: myPetYourPet\src\main\resources. As this pacakage contains sensitive information, even github flags it and provides warnings not to include it in the repository.
 
-![Add Firebase Configuration File](firebase_configuration.png)
+![Add Firebase Configuration File](./README/firebase_configuration.png)
 
 After adding the `firebase-service-account.json` file, open the project in Intellij Idea.
 
 Ensure to Reload Maven dependencies
 
-![Reload Maven dependencies](maven_dependencies.png)
+![Reload Maven dependencies](./README/maven_dependencies.png)
 
 Open `Docker desktop app` and run the following command:
 ```
@@ -87,7 +87,7 @@ Docker configuration should create all containers and tables when you run the ap
 
 Make sure the containers are running after the command finishes.
 
-![Running Containers](running_containers.png)
+![Running Containers](./README/running_containers.png)
 
 ### Opening Adminer
 In any web browser 🔗 [open adminer](http://localhost:8081/)
@@ -105,22 +105,22 @@ Enter the following credentials and log in.
 | Password | `root` |
 | Database | `mypetyourpet`|
 
-![Credentials](credentials.png)
+![Credentials](./README/credentials.png)
 
 #### Importing the database.
 Select the `Import` option and load the `mypetyourpetDBConfiguration.sql` file using the `File upload` section.
 
-![Import Database](import_MySQL_file.png)
+![Import Database](./README/import_MySQL_file.png)
 
 ### Run the backend
 Once the database is imported successfully, return to Intellij Idea and RUN ▶️ the backend.
 
 **NOTE** If project can't run, verify OpenJDK is installed, the Intellij Idea will suggest and handle its installation.
 
-![Project JDK](<project_JDK.jpg>)
+![Project JDK](<./README/project_JDK.jpg>)
 
 *Suggested installation*
-![Download JDK](<download_JDK.jpg>)
+![Download JDK](<./README/download_JDK.jpg>)
 
 ## Configure Frontend
 
