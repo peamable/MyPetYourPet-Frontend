@@ -13,7 +13,7 @@ export default function UpdatePet({ embedded, pet, onClose, onSubmit}) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const fileInputRef = useRef(null);
-  // ✅ formData keys match your input `name`s and preview usage
+  
   const [formData, setFormData] = useState({
     petName: "",
     age: "",
@@ -27,7 +27,6 @@ export default function UpdatePet({ embedded, pet, onClose, onSubmit}) {
   
  const loadPetData = () => {
   
-    // TODO: replace this with real API call using petId
     const petToUpdate = {
       petName: pet.petName,
       petAge: pet.petAge,
@@ -37,8 +36,8 @@ export default function UpdatePet({ embedded, pet, onClose, onSubmit}) {
       dewormingUpToDate: pet.dewormingUpToDate,
       vaccinationUpToDate: pet.vaccinationUpToDate,
       petFee: pet.petFee,
-      petProfileStatus: pet.petProfileStatus, // or "DRAFT"
-      imageUrl: pet.profilePicture, // could be a URL later
+      petProfileStatus: pet.petProfileStatus, 
+      imageUrl: pet.profilePicture, 
     };
 
     setFormData({
@@ -100,7 +99,7 @@ useEffect(() => {
     setDeworm(pet.dewormingUpToDate);
     setVaccinated(pet.vaccinationUpToDate);
     setPreview(pet.profilePicture);
-    setImage(null);//-------------------------------------------check if is working on save
+    setImage(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -127,7 +126,6 @@ useEffect(() => {
 
   
     if (
-      // !formData.petName ||
       !formData.age ||
       !formData.breed ||
       !formData.behavior ||

@@ -12,48 +12,6 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(false);
   const [admin, setAdmin] = useState(null);
 
-  //.................................................
-  // // Fetch data on mount
-  // useEffect(() => {
-  //   loadDashboardData();
-  // }, []);
-  //................................................. when backend is ready
-/*
-  useEffect(() => {
-  // MOCK DATA — remove when backend is ready
-  const mockPendingUsers = [
-    {
-      id: 101,
-      fullName: "Samantha Ruiz",
-      email: "samantha@example.com",
-      createdAt: "2025-11-24",
-      customerInfo: {
-        age: 28,
-        gender: "Female",
-        location: "Vancouver",
-        governmentID: "ID-98234",
-      }
-    },
-    {
-      id: 102,
-      fullName: "Michael Chen",
-      email: "michaelc@example.com",
-      createdAt: "2025-11-22",
-      customerInfo: {
-        age: 32,
-        gender: "Male",
-        location: "Burnaby",
-        governmentID: "ID-55123",
-      }
-    }
-  ];
-
-  const mockVerifiedCount = 42; // to be removed when backend is ready
-
-  setPendingUsers(mockPendingUsers);
-  setVerifiedCount(mockVerifiedCount);
-}, []);
-*/
 
 useEffect(() => {
   loadDashboardData();
@@ -98,12 +56,6 @@ const documents = selectedUser
     ].filter(doc => doc.image) 
   : []; // Return empty array if no user selected
 
-  /*
-  const documents = [
-    { id: 1, title: "ID Front", image: "/documents/idphoto.jpg" },
-    { id: 2, title: "Background Check", image: "/documents/backgroundcheck.jpg" },
-     { id: 3, title: "Address Proof", image: selectedUser.addressProof }
-  ].filter(doc => doc.image);*/
 
   useEffect(() => {
     loadDashboardData();
@@ -146,13 +98,6 @@ const documents = selectedUser
         {/* Pending Verification List */}
         <div className="pending-card">
           <h3>Pending Account Verifications</h3>
-
-          {/* <input
-            type="text"
-            className="search-box"
-            placeholder="Search users..."
-            // Implement search later if needed
-          /> */}
 
           <table className="pending-table">
             <thead>

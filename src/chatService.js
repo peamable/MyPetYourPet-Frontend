@@ -34,16 +34,6 @@ export const sendMessage = async (chatId, senderId, text, receiverId = null) => 
   });
 };
 
-// export const sendMessage = async (chatId, senderId, text) => {
-//   if (!text.trim()) return;
-
-//   await addDoc(collection(db, "messages", chatId, "threads"), {
-//     senderId,
-//     text,
-//     timestamp: serverTimestamp(),
-//   });
-// };
-
 export const listenToMessages = (chatId, callback) => {
   const q = query(
     collection(db, "messages", chatId, "threads"),

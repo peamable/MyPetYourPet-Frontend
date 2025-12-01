@@ -61,15 +61,11 @@ export default function UpdateProfilePage() {
     //  alert("Received formData: " + JSON.stringify(formData));
    // let usercredential = null;//-----------
 
-    try{
-      //PENDING TO UPDATE THE PASSWORD
-
-      
+    try{      
       const payload = {
       id:accountId,//-----------
       fullName: fullName,
       customerInfo:{
-        // email: email,        // could also use user.email
         phone: phone,
         age: parseInt(age),
         gender: gender,
@@ -92,10 +88,8 @@ export default function UpdateProfilePage() {
           await updatePassword(auth.currentUser, formData.password);
       }
       let apiURL = "";
-      // alert(apiURL)
       // alert(formData.role)
       // alert("FormData role " + formData.role)
-      // alert("role " + role);
       if (formData.role == "Owner")
       {
         apiURL = "/api/registration/updatePetOwner"; 
@@ -122,10 +116,6 @@ export default function UpdateProfilePage() {
       if (formData.role=== "Owner") 
       { navigate("/owner/dashboard"); } 
       else { navigate("/seeker/dashboard"); }
-
-      // setError("");
-        // redirect if needed
-        // window.location.href = "/login";
     } 
     catch (err) {
             alert("CATCH ERROR: ---> " + err.message);

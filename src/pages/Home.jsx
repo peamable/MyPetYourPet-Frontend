@@ -127,14 +127,6 @@ const Home = () => {
             </>
           )}
 
-      {/* <p>***DEMO NAVIGATION**</p>
-        <div className="cta-buttons">
-          <Link to="/owner/dashboard" className="btn-primary">Pet Owner</Link>
-          <Link to="/seeker/dashboard" className="btn-primary">Pet Seeker</Link>
-          <Link to="/admin/reservation" className="btn-primary">Admin reservation View</Link>
-          <Link to="/admin/dashboard" className="btn-primary">Admin Dashboard</Link>
-          <Link to="/admin/dashboard" className="btn-primary">Admin reservation View</Link>
-        </div> */}
       </section>
       <Footer />
     </div>

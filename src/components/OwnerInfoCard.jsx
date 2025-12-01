@@ -3,16 +3,13 @@ import "../styles/OwnerInfoCard.css";
 import { useState } from "react";
 import ChatBox from "./ChatBox";
 
-// //placeholder
-// let imageUrl = "https://shotkit.com/wp-content/uploads/bb-plugin/cache/cool-profile-pic-matheus-ferrero-landscape-6cbeea07ce870fc53bedd94909941a4b-zybravgx2q47.jpeg"
-
 //owner comes from the PetList.jsx Wee need to retrieve their details as well
 function OwnerInfoCard({ owner }) {
 
   // const [showPopup, setShowPopup] = useState(false);
   const [showChat, setShowChat] = useState(false);
   if (!owner) return null;
-  // const { name, location, rating, listingsCount, about } = owner;
+
   const {
   fullName,
   profilePicture,
@@ -28,7 +25,7 @@ function OwnerInfoCard({ owner }) {
   const loggedInUser = localStorage.getItem("accountId")
   const ownerId = owner.id;  
   const seekerId = loggedInUser; 
-
+  // For debugging
   // console.log("OWNER OBJECT:", owner);
   // console.log("ownerId:", ownerId);
   // console.log("seekerId:", seekerId);

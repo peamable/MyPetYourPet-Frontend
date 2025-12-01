@@ -72,9 +72,9 @@ export default function PaymentSuccess() {
   );
 }
 
-// -------------------------
+// ------------------------------------------
 // Minimal inline styles
-// -------------------------
+// -----------------------------------------
 const styles = {
   container: {
     height: "100vh",

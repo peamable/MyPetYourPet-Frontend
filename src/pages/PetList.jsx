@@ -14,8 +14,6 @@ export default function PetListPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-
-  //for date picker
   const getMinDateTime = () => {
   const now = new Date();
   now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); 
@@ -24,35 +22,14 @@ export default function PetListPage() {
   const [startDate, setStartDate] = useState("");
 const [endDate, setEndDate] = useState("");
 
-
-
-
-  //with some modifications but this is where we request for all the pets
-  // the response can look like the dummy data below. If it does, nothing much needs to change
-  //   // Fetch pets from backend once when page loads
   useEffect(() => {
     const fetchPets = async () => {
       try {
         setLoading(true);
         setError("");
 
-        //.........................................................................
-
-        // const res = await fetch("http://localhost:8080/api/v1/pets/getAllPets");
-        // if (!res.ok) {
-        //   throw new Error("Failed to load pets");
-        // }
-        // const data = await res.json();
-
-        //......................................................................
-        //  const res = axiosClient.get("/api/v1/pets/getAllPets")
-        // .then(res => {
-        //   setPets(res.data)});
-
         const res = await axiosClient.get("/api/v1/pets/getAllPets");
         const data = res.data;   
-          
-        
         
         setPets(data);
       }
@@ -103,11 +80,7 @@ const [endDate, setEndDate] = useState("");
       pet.petBreed?.toLowerCase().includes(q) ||
       pet.petBehavior?.toLowerCase().includes(q);
 
-    // const matchesSpecies =
-    //   speciesFilter === "all" ||
-    //   pet.species?.toLowerCase() === speciesFilter.toLowerCase();
     return matchesSearch;
-    // return matchesSearch && matchesSpecies;
   });
 
   // When a card is clicked (placeholder for now)
@@ -132,16 +105,6 @@ const [endDate, setEndDate] = useState("");
     return false; // safest fallback
   }
 };
-
-  //reservation handler
-//  const handleRequestReservation = async (pet) => {
-//   if (!pet) return;
-//   const accountId = localStorage.getItem("accountId"); // Logged-in user (seeker)
-
-//   if (!accountId) {
-//     alert("Please login to request!");
-//     return;
-//   }
 
 const handleRequestReservation = async (pet) => {
   if (!pet) return;
@@ -184,15 +147,12 @@ const handleRequestReservation = async (pet) => {
   alert("End date & time must be AFTER the start date & time.");
   return;
   }
-    // TODO: Replace with user-chosen dates (temporary hardcoded)
-    // const startDate = new Date("2025-02-01T10:00:00");
-    // const endDate = new Date("2025-02-01T18:00:00");
 
      try {
     const res = await axiosClient.post("/api/reservations/seeker/create", {
       petId: pet.petId,
       customerId: accountId,  // seeker (logged in user)
-      ownerId: pet.owner?.ownerId, // If backend supports owner reference
+      ownerId: pet.owner?.ownerId, 
       startDate: "2025-02-01 10:00:00", 
       endDate: "2025-02-01 18:00:00",
       serviceFee: pet.petFee, // dynamic fee from DB
@@ -236,18 +196,6 @@ const handleRequestReservation = async (pet) => {
                 onChange={(e) => setSearch(e.target.value)}
                 />
 
-               {/* this for "future installations with different pets" */}
-                {/* <select
-                className="pet-filter-select"
-                value={speciesFilter}
-                onChange={(e) => setSpeciesFilter(e.target.value)}
-                >
-                <option value="all">All types</option>
-                <option value="dog">Dogs</option>
-                <option value="cat">Cats</option>
-                <option value="bird">Birds</option>
-                <option value="other">Other</option>
-                </select> */}
             </div>
             </div>
 
@@ -303,11 +251,7 @@ const handleRequestReservation = async (pet) => {
                     onChange={(e) => setEndDate(e.target.value)}
                   />
                 </div>
-            </PetDetailCard>
-            {/* //onRequest={() =>{handleRequestReservation} */}
-            {/* //console.log("Request reservation for:", selectedPet?.petName) //we can have a record added to the reservation table here */}
-            {/* } */}
-            
+            </PetDetailCard>         
      
     </div>
   );
